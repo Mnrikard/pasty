@@ -1,25 +1,39 @@
 #!/usr/bin/env node
 
+var args = process.argv;
+args.shift();
+args.shift();
+
 if(process.stdin.isTTY){
 	var clipboard = require("copy-paste");
 	var content = clipboard.paste();
-	handleInput(content);
+	clipboard.copy(handleInput(content, args));
 } else {
 	var pipedInput = '';
-	var piper = process.stdin;
-	piper.on('readable', function() {
+	process.stdin.on('readable', function() {
 		var chunk = this.read();
 		if(chunk !== null){
 			pipedInput += chunk;
 		}
 	});
-	piper.on('end', function() {
-	   handleInput(pipedInput);
+	process.stdin.on('end', function() {
+	   console.log(handleInput(pipedInput, args));
 	});
 }
 
-function handleInput(str) {
-	console.log(str);
+function handleInput(str, args) {
+	var editor = getEditor(args);
+	return str;
+}
+
+function getEditor(args){
+	if(args.length === 0 || args[0].toLower() === "help") {
+		return new Help(args);
+	}
+}
+
+function Help(args){
+	
 }
 
 
