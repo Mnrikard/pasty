@@ -1,9 +1,9 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony
 
 var chalk = require("chalk");
-var editors = [
-	require("rep")
-];
+var co = require('co');
+var prompt = require('co-prompt');
+
 var interactive = true;
 
 var args = process.argv;
@@ -11,12 +11,10 @@ args.shift();
 args.shift();
 
 if(process.stdin.isTTY){
-	console.log("is tty");
 	var clipboard = require("copy-paste");
 	var content = clipboard.paste();
 	clipboard.copy(handleInput(content, args));
 } else {
-	console.log("is tty...not");
 	interactive = false;
 	var pipedInput = '';
 	process.stdin.on('readable', function() {
@@ -44,7 +42,9 @@ function getParameters(args, parms) {
 			continue;
 		}
 		if(interactive){
-			parms[i].value = yield prompt(parms[i].name);
+			co(function *() {
+				parms[i].value = yield prompt(parms[i].name);
+			});
 			continue;
 		}
 		throw "Parameter:"+parms[i].name+" is not valued";
@@ -52,38 +52,43 @@ function getParameters(args, parms) {
 	return parms;
 }
 
+function getSwitches(args){
+	var output = "";
+	for(var i=0;i<args.length;i++){
+		if(args[i].match(/^\-/)){
+			output+=args[i].replace(/\-/g,"");
+		}
+	}
+	return output;
+}
+
 function handleInput(str, args) {
 	var editor = getEditor(args);
+	args.shift();
 	editor.parms = getParameters(args, editor.parms);
-	str = editor.edit(str);
+	var switches = getSwitches(args);
+	str = editor.edit(str, switches);
 	return str;
 }
 
 function getEditor(args){
-	if(args.length === 0 || args[0].toLower() === "help") {
-		return new Help(args);
+	if(args.length === 0 || args[0].toLowerCase() === "help") {
+		return require("./help.js");
 	}
 
-	var searchTerm = new RegExp(args[1],"gi");
+	var editorName = args[0];
+	var searchTerm = new RegExp(editorName,"gi");
+	var editors = require("./editorlist.js").editors;
 	for(var ed=0;ed < editors.length;ed++){
 		for(var n=0;n<editors[ed].names.length;n++){
+			//console.log("does '"+editorName+"' match '"+editors[ed].names[n]+"'?");
 			if(editors[ed].names[n].match(searchTerm)){
 				return editors[ed];
 			}
 		}
 	}
-	throw "No editor found matching: "+args[0];
+	throw "No editor found matching: "+editorName;
 }
 
-function Help(args){
-	var searchTerm = new RegExp(args[1],"gi");
-	for(var ed=0;ed < editors.length;ed++){
-		for(var n=0;n<editors[ed].names.length;n++){
-			if(editors[ed].names[n].match(searchTerm)){
-				console.log(editors[ed].helpText);
-			}
-		}
-	}
-}
 
 
