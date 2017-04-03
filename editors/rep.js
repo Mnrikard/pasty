@@ -15,6 +15,7 @@ exports.helpText = "rep - Replaces with a regular expression"+os.EOL+
 	"Syntax: pasty rep \"pattern\" \"replacement\""+os.EOL+os.EOL+
 	"Example: echo \"sw33t\" | pasty rep \"\\d\" \"e\""+os.EOL+
 	">> sweet";
+exports.oneLiner = "replaces with a RegExp";
 
 exports.edit=function(input, switches){
 	var pattern = exports.parms[0].value;
