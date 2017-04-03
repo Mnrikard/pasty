@@ -72,22 +72,9 @@ function handleInput(str, args) {
 }
 
 function getEditor(args){
-	if(args.length === 0 || args[0].toLowerCase() === "help") {
-		return require("./help.js");
-	}
-
 	var editorName = args[0];
-	var searchTerm = new RegExp(editorName,"gi");
-	var editors = require("./editorlist.js").editors;
-	for(var ed=0;ed < editors.length;ed++){
-		for(var n=0;n<editors[ed].names.length;n++){
-			//console.log("does '"+editorName+"' match '"+editors[ed].names[n]+"'?");
-			if(editors[ed].names[n].match(searchTerm)){
-				return editors[ed];
-			}
-		}
-	}
-	throw "No editor found matching: "+editorName;
+	var ed = require("./editors");
+	return ed.getEditor(editorName);
 }
 
 

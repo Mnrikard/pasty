@@ -8,25 +8,20 @@ exports.helpText = "xml - Pretty Prints xml inside the string"+os.EOL+
 	"Syntax: pasty xml"+os.EOL+os.EOL+
 	"Example: echo <root><child/></root> | pasty xml"+os.EOL+
 	">> <root>\n\t<child/>\n</root>";
+exports.oneLiner = "Pretty prints xml inside the string";
 
 exports.edit=function(input, switches){
 	input = initializeSpaces(input);
 
-	var lines = text.split(/\n/);
+	var lines = input.split(/\n/g);
 	var tabcount = 0;
 	var inCommentOrCdata = false;
 
-	//todo: process pasty.json settings file
-	var tabstr = "\t";//obt.TabString;
-
-	for (var line = 0; line < lines.Length; line++)
+	for (var line = 0; line < lines.length; line++)
 	{
 		if(inCommentOrCdata)
 		{
-			if (endOfCommentOrCdata(lines[line]))
-			{
-				inCommentOrCdata = false;
-			}
+			inCommentOrCdata = !endOfCommentOrCdata(lines[line]);
 		}
 		else
 		{
@@ -51,6 +46,16 @@ exports.edit=function(input, switches){
 	return lines.join(os.EOL);
 };
 
+function makeTabs(tabcount){
+	//todo: process pasty.json settings file
+	var tabstr = "\t";//obt.TabString;
+	var output = "";
+	for(var i=0;i<tabcount;i++){
+		output += tabstr;
+	}
+	return output;
+}
+
 
 function endOfCommentOrCdata(line)
 {
@@ -66,24 +71,25 @@ function startsCommentOrCdata(line)
 
 function shouldIncrementTabCount(lines, inComment, line)
 {
-	return !inComment &&
-		!lines [line].match(/<\//) &&
-		!lines [line].match(/\/>/) &&
-		!lines [line].match(/^<\//) &&
-		!lines [line].match(/^<\?xml/) &&
-		!lines [line].match(/-->$/) &&
-		(lines [line].match(/</) || lines [line].match(/>/));
+	var output = !inComment &&
+		!lines[line].match(/<\//) &&
+		!lines[line].match(/\/>/) &&
+		!lines[line].match(/^<\//) &&
+		!lines[line].match(/^<\?xml/) &&
+		!lines[line].match(/-->$/) &&
+		(lines[line].match(/</) || lines[line].match(/>/));
+	return output;
 }
 
 
 function initializeSpaces(text){
-	var spaceBetweenTags = new RegExp(/>\s+</);
-	var endTags = new RegExp(/([^>\n])</);
-	var textAfterClosedTag = new RegExp(/\/>([^\n<])/);
-	var emptyTag = new RegExp(/(<([^\s>]+).+)\n(<\/\2[\s>])/);
+	var spaceBetweenTags = new RegExp(/>\s+</g);
+	var endTags = new RegExp(/([^>\n])</g);
+	var textAfterClosedTag = new RegExp(/\/>([^\n<])/g);
+	var emptyTag = new RegExp(/(<([^\s>]+).+)\n(<\/\2[\s>])/g);
 
 	var text = text.replace(spaceBetweenTags, "><")
-		.replace(/></,">\n<")
+		.replace(/></g,">\n<")
 		.replace(endTags,"$1\n<")
 		.replace(textAfterClosedTag, "/>\n$1")
 		.replace(emptyTag, "$1$3");
