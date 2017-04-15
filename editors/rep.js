@@ -1,3 +1,4 @@
+exports.calledName = "";
 exports.names=["rep","replace"];
 var os = require("os");
 
@@ -17,13 +18,6 @@ exports.helpText = "rep - Replaces with a regular expression"+os.EOL+
 	">> sweet";
 exports.oneLiner = "replaces with a RegExp";
 
-exports.edit=function(input, switches){
-	var pattern = exports.parms[0].value;
-	var repl = exports.parms[1].value;
-	var regxSwitches = getRegexSwitches(switches);
-	var rx = new RegExp(pattern, regxSwitches);
-	return input.replace(rx, repl);
-};
 
 function getRegexSwitches(switches){
 	var output = "";
@@ -38,3 +32,16 @@ function getRegexSwitches(switches){
 	}
 	return output;
 }
+
+function enhancedReplacementPattern(){
+	
+}
+
+exports.edit=function(input, switches){
+	var pattern = exports.parms[0].value;
+	var repl = exports.parms[1].value;
+	var regxSwitches = getRegexSwitches(switches);
+	var rx = new RegExp(pattern, regxSwitches);
+	return input.replace(rx, repl);
+};
+

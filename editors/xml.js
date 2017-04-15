@@ -1,3 +1,4 @@
+exports.calledName = "";
 exports.names=["xml"];
 var os = require("os");
 
@@ -47,8 +48,8 @@ exports.edit=function(input, switches){
 };
 
 function makeTabs(tabcount){
-	//todo: process pasty.json settings file
-	var tabstr = "\t";//obt.TabString;
+	var settings = require("../settings.js").settings;
+	var tabstr = settings.tabString;
 	var output = "";
 	for(var i=0;i<tabcount;i++){
 		output += tabstr;
