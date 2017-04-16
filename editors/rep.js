@@ -18,20 +18,7 @@ exports.helpText = "rep - Replaces with a regular expression"+os.EOL+
 	">> sweet";
 exports.oneLiner = "replaces with a RegExp";
 
-
-function getRegexSwitches(switches){
-	var output = "";
-	if(switches.indexOf("m")>-1){
-		output += "m";
-	}
-	if(switches.indexOf("I") === -1){
-		output += "i";
-	}
-	if(switches.indexOf("G") === -1){
-		output += "g";
-	}
-	return output;
-}
+var str = require("../stringHelpers.js");
 
 function enhancedReplacementPattern(){
 	
@@ -40,7 +27,7 @@ function enhancedReplacementPattern(){
 exports.edit=function(input, switches){
 	var pattern = exports.parms[0].value;
 	var repl = exports.parms[1].value;
-	var regxSwitches = getRegexSwitches(switches);
+	var regxSwitches = str.getRegexSwitches(switches);
 	var rx = new RegExp(pattern, regxSwitches);
 	return input.replace(rx, repl);
 };
