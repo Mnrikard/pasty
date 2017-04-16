@@ -1,0 +1,8 @@
+{
+	"tabString":"        ",
+	"savedCommands":[
+		{"name":"numlist","commands":[
+			{"name":"rep","args":["\\d+",",$&"]}
+		]}
+	]
+}
