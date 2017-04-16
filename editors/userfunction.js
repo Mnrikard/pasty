@@ -39,6 +39,7 @@ exports.edit=function(input, switches){
 
 	var runr = require("../editorRunner.js");
 	for(var i=0;i<savedCmd.commands.length;i++){
+		debugger;
 		input = runr.runNamedEditor(input, savedCmd.commands[i].name, savedCmd.commands[i].args);
 	}
 	return input;
