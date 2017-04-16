@@ -1,4 +1,5 @@
 var co = require('co');
+var os = require("os");
 var prompt = require('co-prompt');
 exports.interactive = true;
 
@@ -36,15 +37,23 @@ function getSwitches(args){
 	return output;
 }
 
+function clearParams(editor){
+	for(var i=0;i<editor.parms.length;i++){
+		editor.parms[i].value = null;
+	}
+}
+
 function getEditor(editorName){
 	var ed = require("./editors");
-	return ed.getEditor(editorName);
+	var output = ed.getEditor(editorName);
+	clearParams(output);
+	return output;
 }
 
 exports.handleInput = function(str, args) {
 	var editor = args[0];
 	args.shift();
-	return exports.runNamedEditor(str, editor, args);
+	return exports.runNamedEditor(str, editor, args).replace(/\r?\n/g,os.EOL);
 };
 
 exports.runNamedEditor = function(input, name, args){
