@@ -15,29 +15,7 @@ exports.helpText = "dedup - Deduplicates a list"+os.EOL+
 	">> 1,2,3";
 exports.oneLiner = "dedup - Deduplicates a list";
 
-
-function getRegexSwitches(switches){
-	var output = "";
-	if(switches.indexOf("m")>-1){
-		output += "m";
-	}
-	if(switches.indexOf("I") === -1){
-		output += "i";
-	}
-	if(switches.indexOf("G") === -1){
-		output += "g";
-	}
-	return output;
-}
-
-function escapeRegex(actualText){
-	return actualText.replace(/\(/g,"\\(")
-		.replace(/\)/g,"\\)")
-		.replace(/\+/g,"\\+")
-		.replace(/\*/g,"\\*")
-		.replace(/\-/g,"\\-")
-		.replace(/\./g,"\\.");
-}
+var str = require("../stringHelpers.js");
 
 function contains(arr, itm){
 	for(var i=0;i<arr.length;i++){
@@ -50,8 +28,8 @@ function contains(arr, itm){
 
 exports.edit=function(input, switches){
 	var sep = exports.parms[0].value;
-	var regxSwitches = getRegexSwitches(switches);
-	var rx = new RegExp(escapeRegex(sep), regxSwitches);
+	var regxSwitches = str.getRegexSwitches(switches);
+	var rx = new RegExp(str.escapeRegex(sep), regxSwitches);
 	var matches = input.split(rx);
 	var output = [];
 	matches.forEach(function(el){

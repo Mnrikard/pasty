@@ -1,20 +1,45 @@
 {
-	"tabString":"        ",
+	"tabString":"\t",
 	"savedCommands":[
-		{"name":"numlist","commands":[
+		{"name":"numlist","description":"List of numbers with parenthesis around it","commands":[
 			{"name":"rep","args":["[^\\d\\.\\-]+", ","],"description":"replace all non-digits with commas"},
 			{"name":"rep","args":["[,]+", ","],"description":"replace multiple commas with single ones"},
 			{"name":"rep","args":["^,", ""],"description":"remove leading commas"},
 			{"name":"rep","args":[",$", ""],"description":"remove trailing commas"},
 			{"name":"rep","args":["(.|\n)+", "($&)"],"description":"put parenthesis around everything"},
-			{"name":"rep","args":["([\\d\\.\\-,]{80,90},)", "$1\n"],"description":"keep the line length sensible"}
+			{"name":"rep","args":["(.{80,90},)", "$1\n"],"description":"keep the line length sensible"}
 		]},
-		{"name":"smash","commands":[
+		{"name":"smash","description":"smashes empty lines","commands":[
 			{"name":"rep","args":["\n\\s*", "\n"]}
 		]},
-		{"name":"hulksmash","commands":[
+		{"name":"hulksmash","description":"smash it down to one line","commands":[
 			{"name":"smash","args":[]},
 			{"name":"rep","args":["\\s*\n\\s*", ""]}
+		]},
+		{"name":"entab","description":"converts spaces to tabs","commands":[
+			{"name":"rep","args":["    ", "\t"]}
+		]},
+		{"name":"detab","description":"converts tabs to spaces","commands":[
+			{"name":"rep","args":["\t", "    "]}
+		]},
+		{"name":"sqlsafe","description":"replaces apostrophes with two apostrophes","commands":[
+			{"name":"rep","args":["'","''"]}
+		]},
+		{"name":"sqlunsafe","description":"replaces two apostrophes with one apostrophe","commands":[
+			{"name":"rep","args":["''","'"]}
+		]},
+		{"name":"list","description":"replaces new lines with commas","commands":[
+			{"name":"rep","args":["\n+", ","]}
+		]},
+		{"name":"strlist","description":"Same as \"list\" but adds apostrophes around the list items","commands":[
+			{"name":"smash","args":[]},
+			{"name":"rep","args":[ "'","''"],"description":"convert singe apos to escaped"},
+			{"name":"rep","args":["\n","','"],"description":"each line is a string"},
+			{"name":"rep","args":["[\\d\\D]+","('$&')"],"description":"put parens around everything"},
+			{"name":"rep","args":[".{80,140},","$&\n"],"description":"keep the line length sensible"}
+		]},
+		{"name":"trimlines","description":"Removes whitespace at the end of the line","commands":[
+			{"name":"rep","args":["[ \t]+$","","-mig"]}
 		]}
 	]
 }
