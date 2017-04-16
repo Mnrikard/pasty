@@ -2,19 +2,19 @@
 	"tabString":"        ",
 	"savedCommands":[
 		{"name":"numlist","commands":[
-			{"name":"rep","args":["[^\\d\\.\\-]+",","],"description":"replace all non-digits with commas"},
-			{"name":"rep","args":["[,]+",","],"description":"replace multiple commas with single ones"},
-			{"name":"rep","args":["^,",""],"description":"remove leading commas"},
-			{"name":"rep","args":[",$",""],"description":"remove trailing commas"},
-			{"name":"rep","args":["(.|\n)+","($&)"],"description":"put parenthesis around everything"},
-			{"name":"rep","args":["([\\d\\.\\-,]{80,90},)","$1\n"],"description":"keep the line length sensible"}
+			{"name":"rep","args":["[^\\d\\.\\-]+", ","],"description":"replace all non-digits with commas"},
+			{"name":"rep","args":["[,]+", ","],"description":"replace multiple commas with single ones"},
+			{"name":"rep","args":["^,", ""],"description":"remove leading commas"},
+			{"name":"rep","args":[",$", ""],"description":"remove trailing commas"},
+			{"name":"rep","args":["(.|\n)+", "($&)"],"description":"put parenthesis around everything"},
+			{"name":"rep","args":["([\\d\\.\\-,]{80,90},)", "$1\n"],"description":"keep the line length sensible"}
 		]},
 		{"name":"smash","commands":[
-			{"name":"rep","args":["\n\\s*","\n"]}
+			{"name":"rep","args":["\n\\s*", "\n"]}
 		]},
 		{"name":"hulksmash","commands":[
 			{"name":"smash","args":[]},
-			{"name":"rep","args":["\\s*\n\\s*",""]}
+			{"name":"rep","args":["\\s*\n\\s*", ""]}
 		]}
 	]
 }
