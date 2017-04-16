@@ -20,20 +20,7 @@ exports.helpText = "grep - Gets a regex and prints"+os.EOL+
 	"3";
 exports.oneLiner = "grep - you know, GREP...";
 
-
-function getRegexSwitches(switches){
-	var output = "";
-	if(switches.indexOf("m")>-1){
-		output += "m";
-	}
-	if(switches.indexOf("I") === -1){
-		output += "i";
-	}
-	if(switches.indexOf("G") === -1){
-		output += "g";
-	}
-	return output;
-}
+var str = require("../stringHelpers.js");
 
 function enhancedReplacementPattern(){
 	
@@ -42,7 +29,7 @@ function enhancedReplacementPattern(){
 exports.edit=function(input, switches){
 	var pattern = exports.parms[0].value;
 	var sep = exports.parms[1].value;
-	var regxSwitches = getRegexSwitches(switches);
+	var regxSwitches = str.getRegexSwitches(switches);
 	var rx = new RegExp(pattern, regxSwitches);
 	var matches = input.match(rx);
 	return matches.join(sep);

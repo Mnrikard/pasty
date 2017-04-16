@@ -16,16 +16,8 @@ exports.helpText = "sort - Sorts a list"+os.EOL+
 
 exports.oneLiner = "sort - Sorts a list";
 
+var str = require("../stringHelpers.js");
 
-function escapeRegex(actualText){
-	return actualText.replace(/\(/g,"\\(")
-		.replace(/\)/g,"\\)")
-		.replace(/\+/g,"\\+")
-		.replace(/\*/g,"\\*")
-		.replace(/\-/g,"\\-")
-		.replace(/\./g,"\\.")
-		.replace(/\|/g,"\\|");
-}
 
 function dateSorter(a,b){
 	if(a > b) { return 1; }
@@ -46,10 +38,17 @@ function genericSorter(a,b){
 	return 0;
 }
 
+function genericReverseSorter(a, b){
+	return genericSorter(b, a);
+}
+
 exports.edit=function(input, switches){
 	var sep = exports.parms[0].value;
-	var rx = new RegExp(escapeRegex(sep), "g");
+	var rx = new RegExp(str.escapeRegex(sep), "g");
 	var matches = input.split(rx);
+	if(str.isReverse(switches)){
+		return matches.sort(genericReverseSorter).join(sep);
+	}
 	return matches.sort(genericSorter).join(sep);
 };
 
