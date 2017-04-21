@@ -4,6 +4,10 @@ var os = require("os");
 
 exports.parms=[];
 
+exports.getParms = function(){
+	return exports.parms;
+};
+
 exports.helpText = "xml - Pretty Prints xml inside the string"+os.EOL+
 	"Needs not be parseable xml, it will do it's best"+os.EOL+
 	"Syntax: pasty xml"+os.EOL+os.EOL+

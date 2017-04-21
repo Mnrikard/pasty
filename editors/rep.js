@@ -12,6 +12,10 @@ exports.parms=[{
 	defaultValue:null
 }];
 
+exports.getParms = function(){
+	return exports.parms;
+};
+
 exports.helpText = "rep - Replaces with a regular expression"+os.EOL+
 	"Syntax: pasty rep \"pattern\" \"replacement\""+os.EOL+os.EOL+
 	"Example: echo \"sw33t\" | pasty rep \"\\d\" \"e\""+os.EOL+

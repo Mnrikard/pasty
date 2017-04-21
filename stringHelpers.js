@@ -45,6 +45,10 @@ exports.max = function(a, b){
 	return b;
 };
 
+exports.same = function(text1, text2){
+	return text1.toLowerCase().trim() == text2.toLowerCase().trim();
+};
+
 exports.padRight = function(text, withstr, count){
 	var whatsleft = count - text.length;
 	if(whatsleft > 0){

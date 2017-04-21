@@ -13,6 +13,10 @@ exports.parms=[{
 	defaultValue:"\t"
 }];
 
+exports.getParms = function(){
+	return exports.parms;
+};
+
 exports.helpText = "columnAlign - Aligns delimited data by column"+os.EOL+
 	"Syntax: pasty columnAlign [\"number\"] [\"delimiter\"]"+os.EOL+os.EOL+
 	"Example: cat tabDelimited.file | pasty align"+os.EOL+

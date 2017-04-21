@@ -1,4 +1,5 @@
 var settings = require("../settings.js").settings;
+var str = require("../stringHelpers.js");
 
 function getNames(){
 	var output = [];
@@ -10,24 +11,43 @@ function getNames(){
 	return output;
 }
 
+function getSavedCommand(name){
+	if(settings && settings.savedCommands){
+		for(var i=0;i<settings.savedCommands.length;i++){
+			if(str.same(settings.savedCommands[i].name, name)){
+				return settings.savedCommands[i];
+			}
+		}
+	}
+}
+
+exports.getParms = function(){
+	//{ name:"pattern", value:null, defaultValue:null }
+	debugger;
+	var cmd = getSavedCommand(exports.calledName);
+	var output = cmd.parameters;
+	if(output === null){
+		return [];
+	}
+	return output;
+};
+
 exports.calledName = "";
 exports.names=getNames();
 exports.parms=[];
 exports.helpText = "executes user defined functions from ~/pasty.json";
 exports.oneLiner = exports.helpText;
 
-function same(text1, text2){
-	return text1.toLowerCase().trim() == text2.toLowerCase().trim();
-}
-
-function getSavedCommand(name){
-	if(settings && settings.savedCommands){
-		for(var i=0;i<settings.savedCommands.length;i++){
-			if(same(settings.savedCommands[i].name, name)){
-				return settings.savedCommands[i];
-			}
-		}
-	}
+function getReplacedArgs(args){
+	var output = [];
+	args.forEach(function(el){
+		exports.parms.forEach(function(replacement){
+			var replaceRx = new RegExp(str.escapeRegex("{{"+replacement.name+"}}"),"g");
+			el = el.replace(replaceRx, replacement.value);
+		});
+		output.push(el);
+	});
+	return output;
 }
 
 exports.edit=function(input, switches){
@@ -40,7 +60,8 @@ exports.edit=function(input, switches){
 	var runr = require("../editorRunner.js");
 	for(var i=0;i<savedCmd.commands.length;i++){
 		debugger;
-		input = runr.runNamedEditor(input, savedCmd.commands[i].name, savedCmd.commands[i].args);
+		var replacedArgs = getReplacedArgs(savedCmd.commands[i].args);
+		input = runr.runNamedEditor(input, savedCmd.commands[i].name, replacedArgs);
 	}
 	return input;
 };
