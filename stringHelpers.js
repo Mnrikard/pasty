@@ -56,3 +56,11 @@ exports.padRight = function(text, withstr, count){
 	}
 	return text;
 };
+
+exports.isNullOrNumber = function(text){
+	if(text.match(/^0\d/)){
+		return false;
+	}
+
+	return (text === "NULL" || !isNaN(text));
+}
