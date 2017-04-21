@@ -2,15 +2,10 @@ exports.calledName = "";
 exports.names=["rep","replace"];
 var os = require("os");
 
-exports.parms=[{
-	name:"pattern",
-	value:null,
-	defaultValue:null
-},{
-	name:"replacement",
-	value:null,
-	defaultValue:null
-}];
+exports.parms=[
+	{name:"pattern", value:null, defaultValue:null },
+	{name:"replacement", value:null, defaultValue:null}
+];
 
 exports.getParms = function(){
 	return exports.parms;
