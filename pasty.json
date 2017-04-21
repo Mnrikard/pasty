@@ -46,6 +46,21 @@
 		]},
 		{"name":"trimlines","description":"Removes whitespace at the end of the line","commands":[
 			{"name":"rep","args":["[ \t]+$","","-mig"]}
+		]},
+		{"name":"doublequote","description":"quotation mark to double quotation mark","commands":[
+			{"name":"rep","args":["\"","\"\""]}
+		]},
+		{"name":"GuidList","description":"Gets a list of Guid's separated by commas, enclosed in apostrophes","commands":[
+			{"name":"grep","args":["[\\da-f]{8}-[\\da-f]{4}-[\\da-f]{4}-[\\da-f]{4}-[\\da-f]{12}","','"]},
+			{"name":"dedup","args":["','"]},
+			{"name":"rep","args":["^((.|\n)+)$","('$1')"]},
+			{"name":"rep","args":["[\\da-f\\-',]{194},","$0\n"]}
+		]},
+		{"name":"mdtable","description":"tables into markdown tables","commands":[
+			{"name":"rep","args":["([ ]{2,}|\t+)","\t|\t"]},
+			{"name":"rep","args":["^.+$","| $&\t|","-m"]},
+			{"name":"rep","args":["^.+","$&\n|------|"]},
+			{"name":"columnAlign","args":["1"]}
 		]}
 	]
 }
