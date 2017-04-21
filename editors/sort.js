@@ -9,6 +9,10 @@ exports.parms=[{
 	defaultValue:"\n"
 }];
 
+exports.getParms = function(){
+	return exports.parms;
+};
+
 exports.helpText = "sort - Sorts a list"+os.EOL+
 	"Syntax: pasty sort [\"separator\"]"+os.EOL+os.EOL+
 	"Example: echo \"1,3,2,4,6,5\" | pasty sort \",\""+os.EOL+

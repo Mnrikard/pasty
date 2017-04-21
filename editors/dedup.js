@@ -9,6 +9,10 @@ exports.parms=[{
 	defaultValue:"\n"
 }];
 
+exports.getParms = function(){
+	return exports.parms;
+};
+
 exports.helpText = "dedup - Deduplicates a list"+os.EOL+
 	"Syntax: pasty dedup [\"separator\"]"+os.EOL+os.EOL+
 	"Example: echo '1,1,2,2,3,3' | pasty dedup ','"+os.EOL+

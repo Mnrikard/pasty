@@ -6,6 +6,9 @@ exports.parms = [{
 	defaultValue:"."
 }];
 
+exports.getParms = function(){
+	return exports.parms;
+};
 
 exports.helpText = "help [functionName]";
 exports.oneLiner = "gets help on functions";

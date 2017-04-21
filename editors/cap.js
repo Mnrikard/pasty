@@ -3,6 +3,9 @@ exports.names=["cap","lower","upper"];
 var os = require("os");
 
 exports.parms=[];
+exports.getParms = function(){
+	return exports.parms;
+};
 
 exports.helpText = "cap - capitalizes or lower cases"+os.EOL+
 	"Syntax: pasty <cap|lower|upper>"+os.EOL+os.EOL+
