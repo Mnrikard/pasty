@@ -13,6 +13,10 @@ exports.parms=[{
 	defaultValue:"\n"
 }];
 
+exports.getParms = function(){
+	return exports.parms;
+};
+
 exports.helpText = "grep - Gets a regex and prints"+os.EOL+
 	"Syntax: pasty grep \"pattern\""+os.EOL+os.EOL+
 	"Example: echo \"sw33t\" | pasty grep \"\\d\""+os.EOL+

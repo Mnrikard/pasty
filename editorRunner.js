@@ -1,11 +1,15 @@
-var co = require('co');
 var os = require("os");
-var prompt = require('co-prompt');
 exports.interactive = true;
 
-function getParameters(args, parms) {
+function getUserInput(parmName){
+	var readlineSync = require('readline-sync');
+	var output = readlineSync.question(parmName+": ");
+	return output;
+}
+
+function setParameters(args, parms) {
 	for(var i=0;i<parms.length;i++){
-		if(parms[i].value !== null){
+		if(parms[i].value && parms[i].value !== null){
 			continue;
 		}
 		if(args && args.length > i){
@@ -17,15 +21,14 @@ function getParameters(args, parms) {
 			continue;
 		}
 		if(exports.interactive){
-			co(function *() {
-				parms[i].value = yield prompt(parms[i].name);
-			});
+			parms[i].value = getUserInput(parms[i].name);
 			continue;
 		}
 		throw "Parameter:"+parms[i].name+" is not valued";
 	}
 	return parms;
 }
+
 
 function getSwitches(args){
 	var output = "";
@@ -59,10 +62,11 @@ exports.handleInput = function(str, args) {
 exports.runNamedEditor = function(input, name, args){
 	var editor = getEditor(name);
 	editor.calledName = name;
-	editor.parms = getParameters(args, editor.parms);
+	var parms = editor.getParms();
+	editor.parms = setParameters(args, parms);
 	var switches = getSwitches(args);
-	input = editor.edit(input, switches);
-	return input;
+	var output = editor.edit(input, switches);
+	return output;
 }
 
 

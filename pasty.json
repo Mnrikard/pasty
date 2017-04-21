@@ -1,6 +1,12 @@
 {
 	"tabString":"\t",
 	"savedCommands":[
+	{"name":"letterb","commands":[
+		{"name":"rep","args":["{{replaceWhat}}","b"]}
+		],"parameters":[
+		{"name":"replaceWhat","defaultValue":null}
+			]
+	},
 		{"name":"numlist","description":"List of numbers with parenthesis around it","commands":[
 			{"name":"rep","args":["[^\\d\\.\\-]+", ","],"description":"replace all non-digits with commas"},
 			{"name":"rep","args":["[,]+", ","],"description":"replace multiple commas with single ones"},

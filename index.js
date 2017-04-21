@@ -14,10 +14,10 @@ if(process.stdin.isTTY){
 		content = clipboard.paste();
 	} catch(e) {
 		clipboard.copy(content);
-		//console.log("error in getting clipboard content:"+e);
 	}
-	clipboard.copy(editorRunner.handleInput(content, args));
-	debugger;
+	var newContent = editorRunner.handleInput(content, args);
+	clipboard.copy(newContent);
+	process.exit();
 } else {
 	editorRunner.interactive = false;
 	var pipedInput = '';
