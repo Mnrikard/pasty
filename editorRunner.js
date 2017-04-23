@@ -8,6 +8,7 @@ function getUserInput(parmName){
 }
 
 function setParameters(args, parms) {
+	if(!parms) { parms = []; }
 	for(var i=0;i<parms.length;i++){
 		if(parms[i].value && parms[i].value !== null){
 			continue;
@@ -63,6 +64,10 @@ exports.runNamedEditor = function(input, name, args){
 	var editor = getEditor(name);
 	editor.calledName = name;
 	var parms = editor.getParms();
+	if(parms === null){
+		parms = [];
+	}
+	debugger;
 	editor.parms = setParameters(args, parms);
 	var switches = getSwitches(args);
 	var output = editor.edit(input, switches);

@@ -9,14 +9,14 @@ var editorRunner = require("./editorRunner.js");
 debugger;
 if(process.stdin.isTTY){
 	var content = "";
-	var clipboard = require("copy-paste");
+	var clipboard = require("clipboardy");
 	try{
-		content = clipboard.paste();
+		content = clipboard.readSync();
 	} catch(e) {
-		clipboard.copy(content);
+		clipboard.writeSync(content);
 	}
 	var newContent = editorRunner.handleInput(content, args);
-	clipboard.copy(newContent);
+	clipboard.writeSync(newContent);
 	process.exit();
 } else {
 	editorRunner.interactive = false;
