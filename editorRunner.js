@@ -14,6 +14,11 @@ function getParameters(editor){
 	return editor.parms;
 }
 
+function getArg(arg){
+	return arg.replace(/\\t/g, "\t")
+		.replace(/\\q/g, "\"");
+}
+
 function setParameters(args, parms) {
 	if(!parms) { parms = []; }
 	for(var i=0;i<parms.length;i++){
@@ -21,15 +26,15 @@ function setParameters(args, parms) {
 			continue;
 		}
 		if(args && args.length > i){
-			parms[i].value = args[i];
+			parms[i].value = getArg(args[i]);
 			continue;
 		}
 		if(parms[i].defaultValue !== null){
-			parms[i].value = parms[i].defaultValue;
+			parms[i].value = getArg(parms[i].defaultValue);
 			continue;
 		}
 		if(exports.interactive){
-			parms[i].value = getUserInput(parms[i].name);
+			parms[i].value = getArg(getUserInput(parms[i].name));
 			continue;
 		}
 		throw "Parameter:"+parms[i].name+" is not valued";
@@ -70,7 +75,8 @@ exports.handleInput = function(str, args) {
 exports.runNamedEditor = function(input, name, args){
 	var editor = getEditor(name);
 	editor.calledName = name;
-	var parms = getParms(editor);
+	debugger;
+	var parms = getParameters(editor);
 	if(parms === null){
 		parms = [];
 	}
