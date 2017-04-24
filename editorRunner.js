@@ -7,6 +7,13 @@ function getUserInput(parmName){
 	return output;
 }
 
+function getParameters(editor){
+	if(editor.getParms){
+		return editor.getParms();
+	}
+	return editor.parms;
+}
+
 function setParameters(args, parms) {
 	if(!parms) { parms = []; }
 	for(var i=0;i<parms.length;i++){
@@ -63,7 +70,7 @@ exports.handleInput = function(str, args) {
 exports.runNamedEditor = function(input, name, args){
 	var editor = getEditor(name);
 	editor.calledName = name;
-	var parms = editor.getParms();
+	var parms = getParms(editor);
 	if(parms === null){
 		parms = [];
 	}
