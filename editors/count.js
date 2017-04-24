@@ -12,7 +12,7 @@ exports.helpText = "count - counts characters or lines"+os.EOL+
 	"Syntax: pasty <count|len> [lines]"+os.EOL+os.EOL+
 	"Example: echo abcd | pasty len"+os.EOL+
 	">> 4 characters";
-exports.oneLiner = "count - counts characters or lines";
+exports.oneLiner = "counts characters or lines";
 
 var str = require("../stringHelpers.js");
 
