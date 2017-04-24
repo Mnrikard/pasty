@@ -17,7 +17,7 @@ exports.helpText = "dedup - Deduplicates a list"+os.EOL+
 	"Syntax: pasty dedup [\"separator\"]"+os.EOL+os.EOL+
 	"Example: echo '1,1,2,2,3,3' | pasty dedup ','"+os.EOL+
 	">> 1,2,3";
-exports.oneLiner = "dedup - Deduplicates a list";
+exports.oneLiner = "Deduplicates a list";
 
 var str = require("../stringHelpers.js");
 

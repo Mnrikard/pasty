@@ -11,7 +11,7 @@ exports.helpText = "insert - converts a delimited text to SQL insert statement"+
 	"Syntax: pasty insert mydb.dbo.mytable [delimiter = \\t]"+os.EOL+os.EOL+
 	"Example: pasty insert mydb.dbo.mytable"+os.EOL+
 	">> insert into [mydb].[dbo].[mytable] (col1, col2) values ('val1','val2');";
-exports.oneLiner = "insert - converts a delimited text to SQL insert statement";
+exports.oneLiner = "converts a delimited text to SQL insert statement";
 
 var str = require("../stringHelpers.js");
 

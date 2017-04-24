@@ -2,7 +2,7 @@ var settings = require("../settings.js").settings;
 var str = require("../stringHelpers.js");
 
 function getNames(){
-	var output = [];
+	var output = ["userfunc"];
 	if(settings && settings.savedCommands){
 		for(var i=0;i<settings.savedCommands.length;i++){
 			output.push(settings.savedCommands[i].name);

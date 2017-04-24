@@ -11,7 +11,7 @@ exports.helpText = "cap - capitalizes or lower cases"+os.EOL+
 	"Syntax: pasty <cap|lower|upper>"+os.EOL+os.EOL+
 	"Example: echo abcd | pasty cap"+os.EOL+
 	">> ABCD";
-exports.oneLiner = "cap - capitalizes or lower cases";
+exports.oneLiner = "capitalizes or lower cases";
 
 var str = require("../stringHelpers.js");
 
