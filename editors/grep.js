@@ -22,7 +22,7 @@ exports.helpText = "grep - Gets a regex and prints"+os.EOL+
 	"Example: echo \"sw33t\" | pasty grep \"\\d\""+os.EOL+
 	">> 3"+os.EOL+
 	"3";
-exports.oneLiner = "grep - you know, GREP...";
+exports.oneLiner = "you know, GREP...";
 
 var str = require("../stringHelpers.js");
 

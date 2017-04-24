@@ -14,7 +14,7 @@ exports.helpText = "setText - sets the content to the passed in string"+os.EOL+
 	"Syntax: pasty setText <anyValue>"+os.EOL+os.EOL+
 	"Example: echo abcd | pasty setText \"something else\""+os.EOL+
 	">> something else";
-exports.oneLiner = "setText - sets the content to the passed in string";
+exports.oneLiner = "sets the content to the passed in string";
 
 var _columnLengths = [];
 

@@ -22,7 +22,7 @@ exports.helpText = "columnAlign - Aligns delimited data by column"+os.EOL+
 	"Example: cat tabDelimited.file | pasty align"+os.EOL+
 	">> col1   col2             col3"+os.EOL+
 	"   names  some other data  1234";
-exports.oneLiner = "columnAlign - Aligns delimited data by column";
+exports.oneLiner = "Aligns delimited data by column";
 
 var str = require("../stringHelpers.js");
 

@@ -14,7 +14,7 @@ exports.helpText = "newid - generates a new UUID"+os.EOL+
 	"Syntax: pasty newid [v1|v4]"+os.EOL+os.EOL+
 	"Example: echo abcd | pasty newid v4"+os.EOL+
 	">> f00a5cee-3cef-4707-af2f-1fdd08d0cc4b";
-exports.oneLiner = "newid - generates a new UUID";
+exports.oneLiner = "generates a new UUID";
 
 var _columnLengths = [];
 

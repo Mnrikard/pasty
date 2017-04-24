@@ -18,7 +18,7 @@ exports.helpText = "sort - Sorts a list"+os.EOL+
 	"Example: echo \"1,3,2,4,6,5\" | pasty sort \",\""+os.EOL+
 	">> 1,2,3,4,5,6";
 
-exports.oneLiner = "sort - Sorts a list";
+exports.oneLiner = "Sorts a list";
 
 var str = require("../stringHelpers.js");
 

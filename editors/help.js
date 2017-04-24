@@ -1,5 +1,6 @@
 exports.names = ["help"];
 const chalk = require("chalk");
+const os = require("os");
 exports.parms = [{
 	name:"function",
 	value:null,
@@ -13,6 +14,29 @@ exports.getParms = function(){
 exports.helpText = "help [functionName]";
 exports.oneLiner = "gets help on functions";
 
+function prettyWriteHelp(helpText){
+	var output = "";
+	var lines = helpText.split(/\r?\n/g);
+	for(var i=0;i<lines.length;i++){
+		if(i==0){
+			var edname = lines[i].match(/[\w]+ - /);
+			debugger;
+			output += chalk.blue.bold(edname)+lines[i].replace(edname,"") + os.EOL;
+		} else {
+			if(lines[i].match(/syntax:/i)){
+				output += chalk.red("Syntax:") + chalk.green(lines[i].replace(/syntax:/i,"")) + os.EOL;
+			} else if(lines[i].match(/example:/i)){
+				output += chalk.red("Example:") + chalk.green(lines[i].replace(/example:/i,"")) + os.EOL;
+			} else if (lines[i].match(/^>>/)){
+				output += chalk.yellow(lines[i])+os.EOL;
+			} else{
+				output += lines[i]+os.EOL;
+			}
+		}
+	}
+	console.log(output);
+}
+
 exports.edit = function(input, switches){
 	var ed = require("./");
 	var searchEd = exports.parms[0].value;
@@ -22,7 +46,7 @@ exports.edit = function(input, switches){
 		listEditors();
 		return input;
 	}
-	console.log(editor.helpText);
+	prettyWriteHelp(editor.helpText);
 	return input;
 };
 
