@@ -65,5 +65,21 @@
 			{"name":"rep","args":["^.+","$&\n|------|"]},
 			{"name":"columnAlign","args":["1"]}
 		]}
+		,{"name":"sprocme","description":"turn query into stored procedure","commands":[
+			{"name":"rep","args":["(.|\n)+", "USE [{{Database}}]\nGO\n\nIF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[{{Stored Procedure Name}}]') AND type in (N'P', N'PC'))\nDROP PROCEDURE [dbo].[{{Stored Procedure Name}}]\nGO\n\nUSE [{{Database}}]\nGO\n\nSET QUOTED_IDENTIFIER ON\nGO\n\nCREATE PROCEDURE [dbo].[{{Stored Procedure Name}}]\n@VARS\nAS\nBEGIN\n\n$1\n\nEND\nGO\n\nGRANT EXECUTE ON [dbo].[{{Stored Procedure Name}}] TO [DBRole_GISWEBUsers] AS [dbo]\nGO\n"]}
+		], "parameters":[
+			{"name":"Database", "defaultValue":null},
+			{"name":"Stored Procedure Name", "defaultValue":null}
+		]}
+		,{"name":"messagelog", "description":"formats a log I normally see","commands":[
+			{"name":"rep", "args":["(\\w+\\[)([^\\]]{20,})", "$1\n$2"]},
+			{"name":"rep", "args":["([^\\[]{20,})(\\])", "$1\n$2"]},
+			{"name":"rep", "args":["(\\])\\s*", "$1\n"]},
+			{"name":"xml", "args":[]}
+		]}
+		,{"name":"unregion", "description":"I hate regions in code","commands":[
+			{"name":"rep", "args":["#region(.*)" "//$1"]},
+			{"name":"rep", "args":["#endregion.*\n" ""]}
+		]}
 	]
 }
