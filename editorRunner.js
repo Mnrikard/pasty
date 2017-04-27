@@ -17,7 +17,8 @@ function getParameters(editor){
 function getArg(arg){
 	return arg.replace(/\\t/g, "\t")
 		.replace(/\\q/g, "\"")
-		.replace(/\\n/g, "\n");
+		.replace(/\\n/g, "\n")
+		.replace(/\\p/g, "|");
 }
 
 function setParameters(args, parms) {
@@ -81,7 +82,6 @@ exports.runNamedEditor = function(input, name, args){
 	if(parms === null){
 		parms = [];
 	}
-	debugger;
 	var switches = getSwitches(args);
 	for(var i=0;i<args.length;i++){
 		if(args[i].match(/^\-/)){
