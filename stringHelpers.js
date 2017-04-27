@@ -62,5 +62,5 @@ exports.isNullOrNumber = function(text){
 		return false;
 	}
 
-	return (text === "NULL" || !isNaN(text));
+	return (text.toUpperCase() === "NULL" || !isNaN(text));
 }
