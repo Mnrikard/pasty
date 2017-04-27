@@ -43,9 +43,9 @@ function genericSorter(a,b){
 }
 
 exports.edit=function(input, switches){
-	var sep = str.escapeRegex(exports.parms[0].value);
-	var rx = new RegExp(sep, "g");
-	var matches = input.split(rx);
+	var sep = exports.parms[0].value;
+	var rx = new RegExp(str.escapeRegex(sep), "g");
+	var matches = input.trim().split(rx);
 	var outlist = matches.sort(genericSorter);
 
 	if(str.isReverse(switches)){
