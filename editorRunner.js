@@ -44,11 +44,14 @@ function setParameters(args, parms) {
 	return parms;
 }
 
+function isASwitch(arg){
+	return arg.match(/^\-[grim]{1,4}$/);
+}
 
 function getSwitches(args){
 	var output = "";
 	for(var i=0;i<args.length;i++){
-		if(args[i].match(/^\-/)){
+		if(isASwitch(args[i])){
 			output+=args[i].replace(/\-/g,"");
 		}
 	}
@@ -84,7 +87,7 @@ exports.runNamedEditor = function(input, name, args){
 	}
 	var switches = getSwitches(args);
 	for(var i=0;i<args.length;i++){
-		if(args[i].match(/^\-/)){
+		if(isASwitch(args[i])){
 			args.splice(i,1);
 		}
 	}
