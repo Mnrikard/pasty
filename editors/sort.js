@@ -42,17 +42,15 @@ function genericSorter(a,b){
 	return 0;
 }
 
-function genericReverseSorter(a, b){
-	return genericSorter(b, a);
-}
-
 exports.edit=function(input, switches){
-	var sep = exports.parms[0].value;
-	var rx = new RegExp(str.escapeRegex(sep), "g");
+	var sep = str.escapeRegex(exports.parms[0].value);
+	var rx = new RegExp(sep, "g");
 	var matches = input.split(rx);
+	var outlist = matches.sort(genericSorter);
+
 	if(str.isReverse(switches)){
-		return matches.sort(genericReverseSorter).join(sep);
+		outlist.reverse();
 	}
-	return matches.sort(genericSorter).join(sep);
+	return outlist.join(sep);
 };
 
