@@ -3,11 +3,9 @@ exports.calledName = "";
 exports.names=["sort"];
 var os = require("os");
 
-exports.parms=[{
-	name:"separator",
-	value:null,
-	defaultValue:"\n"
-}];
+exports.parms=[
+	{ name:"separator", value:null, defaultValue:"\n" }
+];
 
 exports.getParms = function(){
 	return exports.parms;

@@ -78,6 +78,7 @@ exports.handleInput = function(str, args) {
 };
 
 exports.runNamedEditor = function(input, name, args){
+	input = input.replace(/\r/g,"");
 	var editor = getEditor(name);
 	editor.calledName = name;
 	debugger;
@@ -93,7 +94,7 @@ exports.runNamedEditor = function(input, name, args){
 	}
 	editor.parms = setParameters(args, parms);
 	var output = editor.edit(input, switches);
-	return output;
+	return output.replace(/\n/g, os.EOL);
 }
 
 
