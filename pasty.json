@@ -78,8 +78,30 @@
 			{"name":"xml", "args":[]}
 		]}
 		,{"name":"unregion", "description":"I hate regions in code","commands":[
-			{"name":"rep", "args":["#region(.*)" "//$1"]},
-			{"name":"rep", "args":["#endregion.*\n" ""]}
+			{"name":"rep", "args":["#region(.*)","//$1"]},
+			{"name":"rep", "args":["#endregion.*\n",""]}
+		]}
+		,{"name":"crver", "description":"CR Verification","commands":[
+			{"name":"settext","args":["## Verification Plan Details:\n * What should be tested and who will do the testing\n\n## Monitoring Plan Details;\n  * Details on monitoring the change for any negative effects\n\n## Risk and Impact of the code move:\n  * Systems Impacted\n  * Customers Impacted\n  * Operations Impact\n  * Security Risk or Impact\n  * Other\n"]}
+		]}
+		,{"name":"xslt", "description":"boilerplate xslt 1.0", "commands":[
+			{"name":"settext", "args":["<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">\n\t<xsl:output indent=\"yes\" method=\"xml\" version=\"1.0\" encoding=\"UTF-8\"/>\n\t<xsl:template match=\"@* | node()\">\n\t\t<xsl:copy>\n\t\t\t<xsl:apply-templates select=\"@* | node()\"/>\n\t\txsl:copy>\n\tsl:template>\n</xsl:stylesheet>\n"]}
+		]}
+		,{"name":"addcolumn", "description":"Add column to table","commands":[
+			{"name":"settext","args":["if exists(select 1 from syscolumns where id=object_id('{{Table Name}}_base') and name='{{Column Name}}')\nbegin\nAlter table {{Table Name}}_base drop {{Column Name}}\nend\nif exists(select 1 from syscolumns where id=object_id('{{Table Name}}_base_audit') and name='{{Column Name}}')\nbegin\nAlter table {{Table Name}}_base_audit drop {{Column Name}}\nend\n\nAlter table {{Table Name}}_base Add {{Column Name}} varchar(50) NULL\nAlter table {{Table Name}}_base_audit Add {{Column Name}} varchar(50) NULL"]}
+		],"parameters":[
+			{"name":"Table Name", "defaultValue":null},
+			{"name":"Column Name", "defaultValue":null}
+		]}
+		,{"name":"connString", "description":"Generates a SQL Server connection string", "commands":[
+			{"name":"settext","args":["Data Source={{Server}};Initial Catalog={{Database}};Integrated Security=True;Application Name={{Application Name}};"]}
+		],"parameters":[
+			{"name":"Server", "defaultValue":null},
+			{"name":"Database", "defaultValue":null},
+			{"name":"Application Name", "defaultValue":null}
+		]}
+		,{"name":"deadcode", "description":"The dead code GUID", "commands":[
+			{"name":"settext", "args":["00000000-DEAD-C0DE-0000-000000000000"]}
 		]}
 	]
 }
