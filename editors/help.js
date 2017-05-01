@@ -11,7 +11,7 @@ exports.getParms = function(){
 	return exports.parms;
 };
 
-exports.helpText = "help [functionName]";
+exports.helpText = "why are you looking for help on help?  What did you expect to find?";
 exports.oneLiner = "gets help on functions";
 
 function prettyWriteHelp(helpText){

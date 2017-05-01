@@ -1,4 +1,3 @@
-
 exports.calledName = "";
 exports.names=["columnAlign","align"];
 var os = require("os");
@@ -18,10 +17,13 @@ exports.getParms = function(){
 };
 
 exports.helpText = "columnAlign - Aligns delimited data by column"+os.EOL+
+	"Parameters: "+os.EOL+
+	"    [number of spaces]=2, how many spaces between columns"+os.EOL+
+	"    [delimiter]=\"\\t\", original column delimiter"+os.EOL+
 	"Syntax: pasty columnAlign [\"number\"] [\"delimiter\"]"+os.EOL+os.EOL+
 	"Example: cat tabDelimited.file | pasty align"+os.EOL+
 	">> col1   col2             col3"+os.EOL+
-	"   names  some other data  1234";
+	">> names  some other data  1234";
 exports.oneLiner = "Aligns delimited data by column";
 
 var str = require("../stringHelpers.js");

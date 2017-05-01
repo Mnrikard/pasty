@@ -8,6 +8,7 @@ exports.getParms = function(){
 };
 
 exports.helpText = "cap - capitalizes or lower cases"+os.EOL+
+	"Parameters: one of cap/upper/lower to define how to \"cap\""+os.EOL+
 	"Syntax: pasty <cap|lower|upper>"+os.EOL+os.EOL+
 	"Example: echo abcd | pasty cap"+os.EOL+
 	">> ABCD";

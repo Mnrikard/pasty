@@ -10,6 +10,7 @@ exports.getParms = function(){
 };
 
 exports.helpText = "encode - encode/decode a url/xml/base64"+os.EOL+
+	"Parameters: different names define different encodings and whether to encode or decode"+os.EOL+
 	"Syntax: pasty <url|xml|base64<encode|decode>> [-r]"+os.EOL+os.EOL+
 	"Example: echo \"this&that\" | pasty urlencode | pasty xmlencode | pasty base64"+os.EOL+
 	">> this%26that";

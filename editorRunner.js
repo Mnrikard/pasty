@@ -67,7 +67,9 @@ function clearParams(editor){
 function getEditor(editorName){
 	var ed = require("./editors");
 	var output = ed.getEditor(editorName);
-	clearParams(output);
+	if(output != null){
+		clearParams(output);
+	}
 	return output;
 }
 
@@ -80,6 +82,10 @@ exports.handleInput = function(str, args) {
 exports.runNamedEditor = function(input, name, args){
 	input = input.replace(/\r/g,"");
 	var editor = getEditor(name);
+	if(editor == null){
+		console.log("No editor named:"+name+" found, exiting");
+		return input;
+	}
 	editor.calledName = name;
 	debugger;
 	var parms = getParameters(editor);
@@ -94,7 +100,7 @@ exports.runNamedEditor = function(input, name, args){
 	}
 	editor.parms = setParameters(args, parms);
 	var output = editor.edit(input, switches);
-	return output.replace(/\n/g, os.EOL);
+	return output.replace(/\r*\n/g, os.EOL);
 }
 
 

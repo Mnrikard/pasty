@@ -11,6 +11,7 @@ exports.getParms = function(){
 };
 
 exports.helpText = "setText - sets the content to the passed in string"+os.EOL+
+	"Parameters: \"text\": the text to set"+os.EOL+
 	"Syntax: pasty setText <anyValue>"+os.EOL+os.EOL+
 	"Example: echo abcd | pasty setText \"something else\""+os.EOL+
 	">> something else";

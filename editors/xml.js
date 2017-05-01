@@ -12,7 +12,9 @@ exports.helpText = "xml - Pretty Prints xml inside the string"+os.EOL+
 	"Needs not be parseable xml, it will do it's best"+os.EOL+
 	"Syntax: pasty xml"+os.EOL+os.EOL+
 	"Example: echo <root><child/></root> | pasty xml"+os.EOL+
-	">> <root>\n\t<child/>\n</root>";
+	">> <root>"+os.EOL+
+	">> \t<child/>"+os.EOL+
+	">> </root>";
 exports.oneLiner = "Pretty prints xml inside the string";
 
 exports.edit=function(input, switches){
