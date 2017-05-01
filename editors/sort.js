@@ -12,6 +12,8 @@ exports.getParms = function(){
 };
 
 exports.helpText = "sort - Sorts a list"+os.EOL+
+	"Parameters: [separator], defaults to new-line."+os.EOL+
+	"  accepts the -r flag to reverse the sort"+os.EOL+
 	"Syntax: pasty sort [\"separator\"]"+os.EOL+os.EOL+
 	"Example: echo \"1,3,2,4,6,5\" | pasty sort \",\""+os.EOL+
 	">> 1,2,3,4,5,6";
@@ -30,9 +32,18 @@ function dateSorter(a,b){
 function genericSorter(a,b){
 	var dateA = new Date(a);
 	var dateB = new Date(b);
-
 	if(dateA != "Invalid Date" && dateB != "Invalid Date"){
-		return dateSorter(dateA, dateB);
+		if(dateA > dateB) { return 1; }
+		if(dateA < dateB) { return -1; }
+		return 0;
+	}
+
+	var floatA = parseFloat(a);
+	var floatB = parseFloat(b);
+	if(!isNaN(floatA) && !isNaN(floatB)){
+		if(floatA > floatB){ return 1; }
+		if(floatA < floatB){ return -1; }
+		return 0;
 	}
 	
 	if(a > b) { return 1; }

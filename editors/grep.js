@@ -18,10 +18,13 @@ exports.getParms = function(){
 };
 
 exports.helpText = "grep - Gets a regex and prints"+os.EOL+
+	"Parameters: "+os.EOL+
+	"    Pattern: a regex pattern to GREP"+os.EOL+
+	"    [separator]=new-line - how to separate the matches when printing"+os.EOL+
 	"Syntax: pasty grep \"pattern\""+os.EOL+os.EOL+
 	"Example: echo \"sw33t\" | pasty grep \"\\d\""+os.EOL+
 	">> 3"+os.EOL+
-	"3";
+	">> 3";
 exports.oneLiner = "you know, GREP...";
 
 var str = require("../stringHelpers.js");

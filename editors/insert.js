@@ -8,6 +8,9 @@ exports.parms=[
 ];
 
 exports.helpText = "insert - converts a delimited text to SQL insert statement"+os.EOL+
+	"Parameters: "+os.EOL+
+	"    TableName: the name of the table to insert into"+os.EOL+
+	"    [delimiter]=\"\\t\": the original column delimiter"+os.EOL+
 	"Syntax: pasty insert mydb.dbo.mytable [delimiter = \\t]"+os.EOL+os.EOL+
 	"Example: pasty insert mydb.dbo.mytable"+os.EOL+
 	">> insert into [mydb].[dbo].[mytable] (col1, col2) values ('val1','val2');";

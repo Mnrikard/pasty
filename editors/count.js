@@ -2,13 +2,14 @@ exports.calledName = "";
 exports.names=["count","len"];
 var os = require("os");
 
-exports.parms=[{"name":"chars or lines","value":null,"defaultValue":"chars"}];
+exports.parms=[{name:"chars or lines",value:null,defaultValue:"chars"}];
 
 exports.getParms = function(){
 	return exports.parms;
 };
 
 exports.helpText = "count - counts characters or lines"+os.EOL+
+	"Parameters: [char/line]=\"char\" - whether to count characters or lines"+os.EOL+
 	"Syntax: pasty <count|len> [lines]"+os.EOL+os.EOL+
 	"Example: echo abcd | pasty len"+os.EOL+
 	">> 4 characters";
