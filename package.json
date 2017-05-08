@@ -1,6 +1,6 @@
 {
   "name": "pasty-clipboard-editor",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Edits the text on your clipboard",
   "main": "index.js",
   "scripts": {
