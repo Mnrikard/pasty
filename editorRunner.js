@@ -18,7 +18,8 @@ function getArg(arg){
 	return arg.replace(/\\t/g, "\t")
 		.replace(/\\q/g, "\"")
 		.replace(/\\n/g, "\n")
-		.replace(/\\p/g, "|");
+		.replace(/\\p/g, "|")
+		.replace(/\\\n/g, "\\n");
 }
 
 function setParameters(args, parms) {
