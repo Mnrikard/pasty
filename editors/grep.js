@@ -54,12 +54,9 @@ exports.edit=function(input, switches){
 	var output = [];
 
 	var ln;
-	var ismatch;
 	for(ln=0;ln<lines.length;ln++){
-		debugger;
-		ismatch=Boolean(lines[ln].match(rx));
-		if(ismatch !== reverse){
-			console.log(`pushing ${lines[ln]}`);
+		rx.lastIndex = 0;
+		if(rx.test(lines[ln]) !== reverse){
 			output.push(lines[ln]);
 		}
 	}
