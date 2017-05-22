@@ -46,7 +46,7 @@ function setParameters(args, parms) {
 }
 
 function isASwitch(arg){
-	return arg.match(/^\-[grim]{1,4}$/);
+	return arg.match(/^\-[grimL]{1,5}$/);
 }
 
 function getSwitches(args){
