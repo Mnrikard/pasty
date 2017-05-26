@@ -8,6 +8,20 @@ require('fs').readdirSync(path).forEach(function(file){
 	}
 });
 
+var settings = require("../settings.js").settings;
+
+if(settings["pluginsDirectory"]){
+	var pluginPath = settings["pluginsDirectory"];
+	if(!/\/$/.test(pluginPath)){
+		pluginPath += "/";
+	}
+	require('fs').readdirSync(pluginPath).forEach(function(file){
+		if(file.match(/\.js$/i)){
+			eds.push(require(pluginPath+file));
+		}
+	});
+}
+
 exports.editors = eds;
 
 exports.getEditor = function(name, returnHelp){
