@@ -64,3 +64,11 @@ exports.isNullOrNumber = function(text){
 
 	return (text === null || text.toUpperCase() === "NULL" || !isNaN(text));
 }
+
+
+exports.keepWindowOpen = function(){
+	var readlineSync = require('readline-sync');
+	var output = readlineSync.question("\n\nPress Enter to continue...");
+	return output;
+};
+
