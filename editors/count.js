@@ -23,6 +23,7 @@ exports.edit=function(input, switches){
 	} else {
 		console.log(input.length + " characters");
 	}
+	str.keepWindowOpen();
 	return input;
 };
 

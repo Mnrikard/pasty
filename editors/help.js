@@ -7,6 +7,8 @@ exports.parms = [{
 	defaultValue:"."
 }];
 
+var str = require("../stringHelpers.js");
+
 exports.getParms = function(){
 	return exports.parms;
 };
@@ -55,6 +57,7 @@ function listEditors(){
 	for(var i=0;i<names.length;i++){
 		console.log(chalk.blue.bold(names[i].name+getAliases(names[i].aliases))+" "+names[i].description);
 	}
+	str.keepWindowOpen();
 }
 
 function getAliases(names){
