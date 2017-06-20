@@ -14,6 +14,8 @@ if(process.stdin.isTTY){
 		content = clipboard.readSync();
 	} catch(e) {
 		clipboard.writeSync(content);
+		console.log(e);
+		require("./stringHelpers.js").keepWindowOpen();
 	}
 	var newContent = editorRunner.handleInput(content, args);
 	clipboard.writeSync(newContent);
