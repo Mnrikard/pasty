@@ -76,7 +76,7 @@ function getEditor(editorName){
 exports.handleInput = function(str, args) {
 	var editor = args[0];
 	args.shift();
-	return exports.runNamedEditor(str, editor, args).replace(/\r?\n/g,os.EOL);
+	return exports.runNamedEditor(str, editor, args);
 };
 
 exports.runNamedEditor = function(input, name, args){
@@ -100,7 +100,8 @@ exports.runNamedEditor = function(input, name, args){
 	}
 	editor.parms = setParameters(args, parms);
 	var output = editor.edit(input, switches);
-	return output.replace(/\r*\n/g, os.EOL);
+	debugger;
+	return output.replace(/\r*\n\r*/g, os.EOL);
 }
 
 
