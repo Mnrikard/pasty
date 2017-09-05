@@ -61,6 +61,7 @@ exports.isNullOrNumber = function(text){
 	if(text.match(/^0\d/)){
 		return false;
 	}
+	if(text.length===0) { return false;}
 
 	return (text === null || text.toUpperCase() === "NULL" || !isNaN(text));
 }
