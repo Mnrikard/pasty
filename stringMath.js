@@ -1,4 +1,4 @@
-var str = require("./stringHelpers.js");
+//var str = require("./stringHelpers.js");
 
 var decimalPattern = "(?!=\\d\\s*)\\-?\\d+(\\.\\d+)?";
 var insideParens = new RegExp("\\(([^\\(\\)]+)\\)");
@@ -17,6 +17,8 @@ function evaluatePattern(math, mathFunction)
 	while(mathArgs)
 	{
 		answer = mathFunction.evaluate(mathArgs);
+		//fix floating point errors (sort of)
+		answer = parseFloat(parseFloat(answer).toFixed(10));
 		math = math.replace(mathArgs.expression, answer);
 		mathArgs = getEquationArguments(mathFunction.equationPattern, math);
 	}
