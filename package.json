@@ -1,33 +1,34 @@
 {
-	"name": "pasty-clipboard-editor",
-	"version": "1.0.10",
-	"description": "Edits the text on your clipboard",
-	"main": "index.js",
-	"scripts": {
-		"test": "pasty pasty"
-	},
-	"keywords": [
-		"pasty",
-		"clipboard",
-		"pastebin",
-		"paste",
-		"cli"
-	],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/Mnrikard/pasty"
-	},
-	"author": "Matthew Rikard",
-	"license": "MIT",
-	"bin": {
-		"pasty": "./index.js"
-	},
-	"dependencies": {
-		"atob": "^2.0.3",
-		"btoa": "^1.1.2",
-		"chalk": "~1.1.3",
-		"clipboardy": "^1.1.0",
-		"readline-sync": "^1.4.7",
-		"uuid": "^3.0.1"
-	}
+  "name": "pasty-clipboard-editor",
+  "version": "1.0.10",
+  "description": "Edits the text on your clipboard",
+  "main": "index.js",
+  "scripts": {
+    "test": "pasty pasty"
+  },
+  "keywords": [
+    "pasty",
+    "clipboard",
+    "pastebin",
+    "paste",
+    "cli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mnrikard/pasty"
+  },
+  "author": "Matthew Rikard",
+  "license": "MIT",
+  "bin": {
+    "pasty": "./index.js"
+  },
+  "dependencies": {
+    "atob": "^2.0.3",
+    "btoa": "^1.1.2",
+    "chalk": "~1.1.3",
+    "clipboardy": "^1.1.0",
+    "complete": "^0.4.4",
+    "readline-sync": "^1.4.7",
+    "uuid": "^3.0.1"
+  }
 }
