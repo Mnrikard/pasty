@@ -46,9 +46,11 @@ exports.edit = function(input, switches){
 	if(editor === null){
 		console.log(chalk.red("No editor found matching: "+searchEd));
 		listEditors();
+		str.keepWindowOpen();
 		return input;
 	}
 	prettyWriteHelp(editor.helpText);
+	str.keepWindowOpen();
 	return input;
 };
 
@@ -57,7 +59,6 @@ function listEditors(){
 	for(var i=0;i<names.length;i++){
 		console.log(chalk.blue.bold(names[i].name+getAliases(names[i].aliases))+" "+names[i].description);
 	}
-	str.keepWindowOpen();
 }
 
 function getAliases(names){
