@@ -29,14 +29,14 @@ function enhancedReplacementPattern(){
 	var args = Array.prototype.slice.call(arguments);
 	var groups = args.splice(0,arguments.length-2);
 
-	thisRp = thisRp.replace(/\\u\$(\d)/i, function(a,b){ return groups[parseInt(b)].toUpperCase(); });
-	thisRp = thisRp.replace(/\\u\$\{(\d+)\}/i, function(a,b){ return groups[parseInt(b)].toUpperCase(); });
-	
-	thisRp = thisRp.replace(/\\l\$(\d)/, function(a,b){ return groups[parseInt(b)].toLowerCase(); });
-	thisRp = thisRp.replace(/\\l\$\{(\d+)\}/i, function(a,b){ return groups[parseInt(b)].toLowerCase(); });
+	thisRp = thisRp.replace(/\\u\$(\d)/i, function(a,b){ return groups[parseInt(b,10)].toUpperCase(); });
+	thisRp = thisRp.replace(/\\u\$\{(\d+)\}/i, function(a,b){ return groups[parseInt(b,10)].toUpperCase(); });
 
-	thisRp = thisRp.replace(/\$(\d)/, function(a,b){ return groups[parseInt(b)]; });
-	thisRp = thisRp.replace(/\$\{(\d+)\}/i, function(a,b){ return groups[parseInt(b)]; });
+	thisRp = thisRp.replace(/\\l\$(\d)/, function(a,b){ return groups[parseInt(b,10)].toLowerCase(); });
+	thisRp = thisRp.replace(/\\l\$\{(\d+)\}/i, function(a,b){ return groups[parseInt(b,10)].toLowerCase(); });
+
+	thisRp = thisRp.replace(/\$(\d)/, function(a,b){ return groups[parseInt(b,10)]; });
+	thisRp = thisRp.replace(/\$\{(\d+)\}/i, function(a,b){ return groups[parseInt(b,10)]; });
 
 	return thisRp;
 }

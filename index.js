@@ -6,8 +6,22 @@ args.shift();
 
 var editorRunner = require("./editorRunner.js");
 
-debugger;
-if(process.stdin.isTTY){
+exports.editPipedInput = function(args){
+	editorRunner.interactive = false;
+	require("./stringHelpers.js").keepWindowOpen = function(){};
+	var pipedInput = '';
+	process.stdin.on('readable', function() {
+		var chunk = this.read();
+		if(chunk !== null){
+			pipedInput += chunk;
+		}
+	});
+	process.stdin.on('end', function() {
+	   console.log(editorRunner.handleInput(pipedInput, args));
+	});
+};
+
+exports.editClipboard = function(args){
 	try{
 		var content = "";
 		var clipboard = require("clipboardy");
@@ -23,17 +37,12 @@ if(process.stdin.isTTY){
 		require("./stringHelpers.js").keepWindowOpen();
 	}
 	process.exit();
-} else {
-	editorRunner.interactive = false;
-	require("./stringHelpers.js").keepWindowOpen = function(){};
-	var pipedInput = '';
-	process.stdin.on('readable', function() {
-		var chunk = this.read();
-		if(chunk !== null){
-			pipedInput += chunk;
-		}
-	});
-	process.stdin.on('end', function() {
-	   console.log(editorRunner.handleInput(pipedInput, args));
-	});
 }
+
+debugger;
+if(process.stdin.isTTY){
+	exports.editClipboard(args);
+} else {
+	exports.editPipedInput(args);
+}
+
