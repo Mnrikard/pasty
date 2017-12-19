@@ -45,7 +45,7 @@ function setParameters(args, parms) {
 }
 
 function isASwitch(arg){
-	return arg.match(/^\-[grimL]{1,5}$/);
+	return arg.match(/^\-[grimGIL]{1,5}$/);
 }
 
 function getSwitches(args){
@@ -73,6 +73,24 @@ function getEditor(editorName){
 	return output;
 }
 
+Array.prototype.pluck = function(index){
+	return this.splice(index,1);
+}
+
+function removeSwitches(args){
+	var i;
+	for(i=0;i<args.length;i++){
+		if(isASwitch(args[i])){
+			debugger;
+			args.pluck(i);
+		}
+	}
+}
+
+function cleanCRLF(input){
+	return input.replace(/\r*\n\r*/g, os.EOL);
+}
+
 exports.handleInput = function(str, args) {
 	var editor = args[0];
 	args.shift();
@@ -80,28 +98,25 @@ exports.handleInput = function(str, args) {
 };
 
 exports.runNamedEditor = function(input, name, args){
+
 	input = input.replace(/\r/g,"");
+
 	var editor = getEditor(name);
 	if(editor == null){
-		console.log("No editor named:"+name+" found, exiting");
-		return input;
+		editor = getEditor("help");
 	}
+
 	editor.calledName = name;
-	debugger;
-	var parms = getParameters(editor);
-	if(parms === null){
-		parms = [];
-	}
+
+	var parms = getParameters(editor) || [];
+
 	var switches = getSwitches(args);
-	for(var i=0;i<args.length;i++){
-		if(isASwitch(args[i])){
-			args.splice(i,1);
-		}
-	}
+	debugger;
+	removeSwitches(args);
+
 	editor.parms = setParameters(args, parms);
 	var output = editor.edit(input, switches);
-	debugger;
-	return output.replace(/\r*\n\r*/g, os.EOL);
+	return cleanCRLF(output);
 }
 
 
