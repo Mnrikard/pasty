@@ -4,7 +4,7 @@
 	"description": "Edits the text on your clipboard",
 	"main": "index.js",
 	"scripts": {
-		"test": "pasty pasty"
+		"test": "node ./test.js"
 	},
 	"keywords": [
 		"pasty",
