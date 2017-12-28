@@ -103,6 +103,7 @@ exports.runNamedEditor = function(input, name, args){
 
 	var editor = getEditor(name);
 	if(editor == null){
+		args.unshift(name);
 		editor = getEditor("help");
 	}
 
