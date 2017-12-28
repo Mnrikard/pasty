@@ -46,6 +46,7 @@ exports.edit = function(input, switches){
 	if(editor === null){
 		console.log(chalk.red("No editor found matching: "+searchEd));
 		listEditors();
+		findSimilarEditors(searchEd);
 		str.keepWindowOpen();
 		return input;
 	}
@@ -58,6 +59,30 @@ function listEditors(){
 	var names = require("./index.js").getEditorNames();
 	for(var i=0;i<names.length;i++){
 		console.log(chalk.blue.bold(names[i].name+getAliases(names[i].aliases))+" "+names[i].description);
+	}
+}
+
+function findSimilarEditors(editorName){
+	var editors = require("./index.js").getEditorNames();
+	var matches = [];
+	var pattern = new RegExp(editorName,"i");
+	var i,j;
+	for(i=0;i<editors.length;i++){
+		if(editors[i].name.match(pattern)){
+			matches.push(editors[i].name);
+		}
+
+		for(j=0;j<editors[i].aliases.length;j++){
+			if(editors[i].aliases[j].match(pattern)){
+				matches.push(editors[i].aliases[j]);
+			}
+		}
+	}
+	if(matches.length > 0){
+		console.log(chalk.red("were you looking for any of the following?"));
+		for(i=0;i<matches.length;i++){
+			console.log(chalk.blue.bold(matches[i]));
+		}
 	}
 }
 
