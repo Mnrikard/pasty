@@ -13,7 +13,7 @@ exports.getParms = function(){
 	return exports.parms;
 };
 
-exports.helpText = "why are you looking for help on help?  What did you expect to find?";
+exports.helpText = "why are you looking for help on help? What did you expect to find?";
 exports.oneLiner = "gets help on functions";
 
 function prettyWriteHelp(helpText){
@@ -23,12 +23,12 @@ function prettyWriteHelp(helpText){
 		if(i==0){
 			var edname = lines[i].match(/[\w]+ - /);
 			debugger;
-			output += chalk.blue.bold(edname)+lines[i].replace(edname,"") + os.EOL;
+			output += chalk.cyan.bold(edname)+lines[i].replace(edname,"") + os.EOL;
 		} else {
 			if(lines[i].match(/syntax:/i)){
-				output += chalk.red("Syntax:") + chalk.green(lines[i].replace(/syntax:/i,"")) + os.EOL;
+				output += chalk.red.bold("Syntax:") + chalk.green(lines[i].replace(/syntax:/i,"")) + os.EOL;
 			} else if(lines[i].match(/example:/i)){
-				output += chalk.red("Example:") + chalk.green(lines[i].replace(/example:/i,"")) + os.EOL;
+				output += chalk.red.bold("Example:") + chalk.green(lines[i].replace(/example:/i,"")) + os.EOL;
 			} else if (lines[i].match(/^>>/)){
 				output += chalk.yellow(lines[i])+os.EOL;
 			} else{
@@ -44,7 +44,7 @@ exports.edit = function(input, switches){
 	var searchEd = exports.parms[0].value;
 	var editor = ed.getEditor(searchEd, false);
 	if(editor === null){
-		console.log(chalk.red("No editor found matching: "+searchEd));
+		console.log(chalk.red.bold("No editor found matching: "+searchEd));
 		listEditors();
 		findSimilarEditors(searchEd);
 		str.keepWindowOpen();
@@ -58,14 +58,34 @@ exports.edit = function(input, switches){
 function listEditors(){
 	var names = require("./index.js").getEditorNames();
 	for(var i=0;i<names.length;i++){
-		console.log(chalk.blue.bold(names[i].name+getAliases(names[i].aliases))+" "+names[i].description);
+		console.log(chalk.cyan.bold(names[i].name+getAliases(names[i].aliases))+" "+names[i].description);
 	}
+}
+
+function getCamelNames(editorName){
+	var output = [];
+
+	for(var c=0;c<editorName.length;c++){
+		var chr = editorName[c].charCodeAt(0);
+		if(c ===0 || chr >= 65 && chr <= 90){
+			output.push(editorName[c]);
+		} else {
+			output[output.length-1] += editorName[c];
+		}
+	}
+
+	return output;
 }
 
 function findSimilarEditors(editorName){
 	var editors = require("./index.js").getEditorNames();
 	var matches = [];
-	var pattern = new RegExp(editorName,"i");
+	var camelNames = getCamelNames(editorName);
+	var pattern = new RegExp("("+camelNames.join("|")+")","i");
+
+	console.log(chalk.red.bold("Attempting to find functions matching the words:"));
+	console.log(chalk.red.bold(camelNames.join(", ")));
+	console.log();
 	var i,j;
 	for(i=0;i<editors.length;i++){
 		if(editors[i].name.match(pattern)){
@@ -78,10 +98,11 @@ function findSimilarEditors(editorName){
 			}
 		}
 	}
-	if(matches.length > 0){
-		console.log(chalk.red("were you looking for any of the following?"));
+	if(matches.length === 0){
+		console.log(chalk.cyan("No functions found"));
+	} else {
 		for(i=0;i<matches.length;i++){
-			console.log(chalk.blue.bold(matches[i]));
+			console.log(chalk.cyan(matches[i]));
 		}
 	}
 }
