@@ -87,9 +87,6 @@ function removeSwitches(args){
 	}
 }
 
-function cleanCRLF(input){
-	return input.replace(/\r*\n\r*/g, os.EOL);
-}
 
 exports.handleInput = function(str, args) {
 	var editor = args[0];
@@ -117,7 +114,7 @@ exports.runNamedEditor = function(input, name, args){
 
 	editor.parms = setParameters(args, parms);
 	var output = editor.edit(input, switches);
-	return cleanCRLF(output);
+	return output;
 }
 
 
