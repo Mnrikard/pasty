@@ -137,7 +137,7 @@ function tabRightC(code) {
 		output.push(`${str.makeString(tabstr,tabcount+subtracttab)}${buildLine}`);
 	});
 
-	return output.join(os.EOL);
+	return output.join("\n");
 }
 
 RegExp.prototype.IsMatch = function(teststr){
@@ -220,7 +220,7 @@ function tabRightVb(code){
 		if (currTabc < 0) { currTabc = 0; }
 		rows[ii] = currentLine;
 	}
-	return rows.join(os.EOL).replace(/(\t|    )(Select\s+Case)/gi,"$2");
+	return rows.join("\n").replace(/(\t|    )(Select\s+Case)/gi,"$2");
 }
 
 exports.edit=function(input, switches){
