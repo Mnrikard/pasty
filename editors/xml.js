@@ -50,7 +50,7 @@ exports.edit=function(input, switches){
 
 	}
 
-	return lines.join(os.EOL);
+	return lines.join("\n");
 };
 
 function makeTabs(tabcount){

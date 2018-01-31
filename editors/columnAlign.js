@@ -66,6 +66,6 @@ exports.edit=function(input, switches){
 	var rows = input.split(/\r?\n/g);
 	defineColumnLengths(rows);
 	rebuildRows(rows);
-	return rows.join(os.EOL);
+	return rows.join("\n");
 };
 
