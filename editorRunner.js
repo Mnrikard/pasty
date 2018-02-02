@@ -114,7 +114,9 @@ exports.runNamedEditor = function(input, name, args){
 
 	editor.parms = setParameters(args, parms);
 	var output = editor.edit(input, switches);
-	return output;
+	output = output.replace(/\r/g,"");
+	debugger;
+	return output.replace(/\n/g, os.EOL);
 }
 
 

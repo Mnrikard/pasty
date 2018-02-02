@@ -17,7 +17,7 @@ exports.editPipedInput = function(args){
 		}
 	});
 	process.stdin.on('end', function() {
-	   console.log(editorRunner.handleInput(pipedInput, args));
+		process.stdout.write(editorRunner.handleInput(pipedInput, args));
 	});
 };
 
