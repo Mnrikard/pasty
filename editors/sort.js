@@ -22,20 +22,19 @@ exports.oneLiner = "Sorts a list";
 
 var str = require("../stringHelpers.js");
 
+var isDate = /^\d+(\-\/)\d+(\-\/)\d+/ig;
 
-function dateSorter(a,b){
-	if(a > b) { return 1; }
-	if(a < b) { return -1; }
-	return 0;
-}
 
 function genericSorter(a,b){
-	var dateA = new Date(a);
-	var dateB = new Date(b);
-	if(dateA != "Invalid Date" && dateB != "Invalid Date"){
-		if(dateA > dateB) { return 1; }
-		if(dateA < dateB) { return -1; }
-		return 0;
+	debugger;
+	if(a.match(isDate) && b.match(isDate)){
+		var dateA = new Date(a);
+		var dateB = new Date(b);
+		if(dateA !== "Invalid Date" && dateB !== "Invalid Date"){
+			if(dateA > dateB) { return 1; }
+			if(dateA < dateB) { return -1; }
+			return 0;
+		}
 	}
 
 	var floatA = parseFloat(a);
