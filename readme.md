@@ -39,3 +39,10 @@ An example file is given in the repository.
 
 Pasty will also work via a shell pipe, so `echo "test" | pasty rep s x ` will output `text`.  This
 is very useful in text editors that work with stdio like VIM.
+
+## Pasty in action
+
+Pasty will work on your clipboard, so its macros work for any text editor.
+
+![Pasty running in xed](https://github.com/Mnrikard/pasty/wiki/img/AnyEditor.gif)
+
