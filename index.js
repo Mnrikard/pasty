@@ -36,12 +36,12 @@ exports.editClipboard = function(args){
 		console.log(err);
 		require("./stringHelpers.js").keepWindowOpen();
 	}
-	process.exit();
 }
 
 debugger;
 if(process.stdin.isTTY){
 	exports.editClipboard(args);
+	process.exit();
 } else {
 	exports.editPipedInput(args);
 }
