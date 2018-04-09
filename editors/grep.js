@@ -17,6 +17,8 @@ exports.getParms = function(){
 	return exports.parms;
 };
 
+exports.allowedSwitches = "migIGL";
+
 exports.helpText = "grep - Gets a regex and prints"+os.EOL+
 	"Parameters: "+os.EOL+
 	"    Pattern: a regex pattern to GREP"+os.EOL+

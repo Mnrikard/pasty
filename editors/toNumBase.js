@@ -11,6 +11,8 @@ exports.getParms = function(){
 	return exports.parms;
 };
 
+exports.allowedSwitches = "r";
+
 exports.helpText = "toBase - converts a number to/from decimal from/to a base."+os.EOL+
 	"Parameters: [base], defaults to 16"+os.EOL+
 	"  accepts the -r flag to reverse the conversion"+os.EOL+
