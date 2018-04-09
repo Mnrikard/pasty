@@ -21,6 +21,8 @@ exports.helpText = "rep - Replaces with a regular expression"+os.EOL+
 	">> sweet";
 exports.oneLiner = "replaces with a RegExp";
 
+exports.allowedSwitches = "migIG";
+
 var str = require("../stringHelpers.js");
 
 function enhancedReplacementPattern(){

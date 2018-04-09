@@ -24,6 +24,7 @@ var str = require("../stringHelpers.js");
 
 var isDate = /^\d+(\-\/)\d+(\-\/)\d+/ig;
 
+exports.allowedSwitches = "r";
 
 function genericSorter(a,b){
 	debugger;

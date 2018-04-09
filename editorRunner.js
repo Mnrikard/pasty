@@ -22,24 +22,20 @@ function getArg(arg){
 }
 
 function setParameters(args, parms) {
+	var i;
 	if(!parms) { parms = []; }
-	for(var i=0;i<parms.length;i++){
+	for(i=0;i<parms.length;i++){
 		if(parms[i].value && parms[i].value !== null){
-			continue;
-		}
-		if(args && args.length > i){
+			// do nothing
+		} else if(args && args.length > i){
 			parms[i].value = getArg(args[i]);
-			continue;
-		}
-		if(parms[i].defaultValue !== null){
+		} else if(parms[i].defaultValue !== null){
 			parms[i].value = getArg(parms[i].defaultValue);
-			continue;
-		}
-		if(exports.interactive){
+		} else if(exports.interactive){
 			parms[i].value = getArg(getUserInput(parms[i].name));
-			continue;
+		} else {
+			throw "Parameter:"+parms[i].name+" is not valued";
 		}
-		throw "Parameter:"+parms[i].name+" is not valued";
 	}
 	return parms;
 }
@@ -49,8 +45,8 @@ function isASwitch(arg){
 }
 
 function getSwitches(args){
-	var output = "";
-	for(var i=0;i<args.length;i++){
+	var output = "",i;
+	for(i=0;i<args.length;i++){
 		if(isASwitch(args[i])){
 			output+=args[i].replace(/\-/g,"");
 		}
@@ -59,7 +55,8 @@ function getSwitches(args){
 }
 
 function clearParams(editor){
-	for(var i=0;i<editor.parms.length;i++){
+	var i;
+	for(i=0;i<editor.parms.length;i++){
 		editor.parms[i].value = null;
 	}
 }
@@ -67,7 +64,7 @@ function clearParams(editor){
 function getEditor(editorName){
 	var ed = require("./editors");
 	var output = ed.getEditor(editorName);
-	if(output != null){
+	if(output !== null){
 		clearParams(output);
 	}
 	return output;
@@ -75,7 +72,7 @@ function getEditor(editorName){
 
 Array.prototype.pluck = function(index){
 	return this.splice(index,1);
-}
+};
 
 function removeSwitches(args){
 	var i;
@@ -99,7 +96,7 @@ exports.runNamedEditor = function(input, name, args){
 	input = input.replace(/\r/g,"");
 
 	var editor = getEditor(name);
-	if(editor == null){
+	if(editor === null){
 		args.unshift(name);
 		editor = getEditor("help");
 	}
@@ -117,6 +114,6 @@ exports.runNamedEditor = function(input, name, args){
 	output = output.replace(/\r/g,"");
 	debugger;
 	return output.replace(/\n/g, os.EOL);
-}
+};
 
 

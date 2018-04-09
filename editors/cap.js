@@ -13,13 +13,14 @@ exports.helpText = "cap - capitalizes or lower cases"+os.EOL+
 	"Example: echo abcd | pasty cap"+os.EOL+
 	">> ABCD";
 exports.oneLiner = "capitalizes or lower cases";
+exports.allowedSwitches = "r";
 
 var str = require("../stringHelpers.js");
 
 var _columnLengths = [];
 
 exports.edit=function(input, switches){
-	if(exports.calledName.toLowerCase() == "cap" || exports.calledName.toLowerCase() == "upper"){
+	if(exports.calledName.toLowerCase() === "cap" || exports.calledName.toLowerCase() === "upper"){
 		if(str.isReverse(switches)){
 			return input.toLowerCase();
 		}

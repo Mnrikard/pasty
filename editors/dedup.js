@@ -13,6 +13,8 @@ exports.getParms = function(){
 	return exports.parms;
 };
 
+exports.allowedSwitches = "migIG";
+
 exports.helpText = "dedup - Deduplicates a list"+os.EOL+
 	"Parameters: [separator]=new-line - how to separate the list"+os.EOL+
 	"Syntax: pasty dedup [\"separator\"]"+os.EOL+os.EOL+
