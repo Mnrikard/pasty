@@ -9,6 +9,8 @@ exports.getParms = function(){
 	return exports.parms;
 };
 
+exports.allowedSwitches = "r";
+
 exports.helpText = "encode - encode/decode a url/xml/base64"+os.EOL+
 	"Parameters: different names define different encodings and whether to encode or decode"+os.EOL+
 	"Syntax: pasty <url|xml|base64<encode|decode>> [-r]"+os.EOL+os.EOL+
