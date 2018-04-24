@@ -16,13 +16,20 @@ exports.getParms = function(){
 exports.helpText = "why are you looking for help on help? What did you expect to find?";
 exports.oneLiner = "gets help on functions";
 
-function prettyWriteHelp(helpText){
+function prettyWriteHelp(searchedName, helpText){
 	var output = "";
+	if(!helpText || helpText === ""){
+		helpText = "No help available for this command";
+	}
+
 	var lines = helpText.split(/\r?\n/g);
 	for(var i=0;i<lines.length;i++){
 		if(i==0){
 			var edname = lines[i].match(/[\w]+ - /);
-			debugger;
+			if(!edname){
+				edname = searchedName + " - ";
+			}
+
 			output += chalk.cyan.bold(edname)+lines[i].replace(edname,"") + os.EOL;
 		} else {
 			if(lines[i].match(/syntax:/i)){
@@ -50,7 +57,11 @@ exports.edit = function(input, switches){
 		str.keepWindowOpen();
 		return input;
 	}
-	prettyWriteHelp(editor.helpText);
+	if(editor.updateHelpText){
+		editor.calledName = searchEd;
+		editor.updateHelpText();
+	}
+	prettyWriteHelp(searchEd, editor.helpText);
 	str.keepWindowOpen();
 	return input;
 };
