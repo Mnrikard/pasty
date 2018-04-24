@@ -23,13 +23,23 @@ function getSavedCommand(name){
 
 exports.getParms = function(){
 	//{ name:"pattern", value:null, defaultValue:null }
-	debugger;
 	var cmd = getSavedCommand(exports.calledName);
 	var output = cmd.parameters;
 	if(output === null){
 		return [];
 	}
+	exports.parms = output;
 	return output;
+};
+
+exports.updateHelpText = function(){
+	var savedCmd = getSavedCommand(exports.calledName);
+	if(!savedCmd){
+		return "no saved command with the name \""+exports.calledName+"\" exists: see ~/pasty.json";
+	}
+	exports.oneLiner = savedCmd.description;
+	exports.helpText = savedCmd.description;
+	exports.parms = savedCmd.parameters;
 };
 
 exports.calledName = "";
