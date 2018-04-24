@@ -24,10 +24,11 @@ var str = require("../stringHelpers.js");
 
 var isDate = /^\d+(\-\/)\d+(\-\/)\d+/ig;
 
-exports.allowedSwitches = "r";
+exports.allowedSwitches = "ri";
+
+var ignoreCase = false;
 
 function genericSorter(a,b){
-	debugger;
 	if(a.match(isDate) && b.match(isDate)){
 		var dateA = new Date(a);
 		var dateB = new Date(b);
@@ -45,13 +46,20 @@ function genericSorter(a,b){
 		if(floatA < floatB){ return -1; }
 		return 0;
 	}
-	
+
+	if(ignoreCase){
+		a = a.toLowerCase();
+		b = b.toLowerCase();
+	}
+
 	if(a > b) { return 1; }
 	if(a < b) { return -1; }
 	return 0;
 }
 
 exports.edit=function(input, switches){
+	ignoreCase = (switches.indexOf("i") > -1);
+
 	var sep = exports.parms[0].value;
 	var rx = new RegExp(str.escapeRegex(sep), "g");
 	var matches = input.trim().split(rx);
