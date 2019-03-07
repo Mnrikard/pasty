@@ -1,6 +1,6 @@
 {
   "name": "pasty-clipboard-editor",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "description": "Edits the text on your clipboard",
   "main": "index.js",
   "scripts": {
@@ -23,12 +23,11 @@
     "pasty": "./index.js"
   },
   "dependencies": {
-    "atob": "^2.0.3",
-    "btoa": "^1.1.2",
+    "btoa": "^1.2.1",
     "chalk": "~2.4.2",
-    "clipboardy": "^1.1.0",
+    "clipboardy": "^1.2.3",
     "complete": "^0.4.4",
-    "readline-sync": "^1.4.7",
+    "readline-sync": "^1.4.9",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
