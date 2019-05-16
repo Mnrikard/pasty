@@ -2,7 +2,7 @@ var os = require("os");
 var fs = require("fs");
 
 function getSettings(){
-	var settingsPath = os.homedir()+"/pasty.json";
+	var settingsPath = getSettingsFile();
 	if(fs.existsSync(settingsPath)){
 		var settings = fs.readFileSync(settingsPath);
 		return JSON.parse(settings);
@@ -13,4 +13,9 @@ function getSettings(){
 	//otherwise return the default object
 }
 
+function getSettingsFile(){
+	return os.homedir()+"/pasty.json";
+}
+
 exports.settings = getSettings();
+exports.settingsFile = getSettingsFile();
