@@ -28,10 +28,10 @@
     "clipboardy": "^1.2.3",
     "complete": "^0.4.4",
     "readline-sync": "^1.4.9",
-    "uuid": "^3.0.1"
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "atob": "^2.1.2",
-    "electron-builder": "^20.8.1"
+    "electron-builder": "^20.40.2"
   }
 }
