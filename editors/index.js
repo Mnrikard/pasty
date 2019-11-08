@@ -15,11 +15,14 @@ if(settings["pluginsDirectory"]){
 	if(!/\/$/.test(pluginPath)){
 		pluginPath += "/";
 	}
-	require('fs').readdirSync(pluginPath).forEach(function(file){
-		if(file.match(/\.js$/i)){
-			eds.push(require(pluginPath+file));
-		}
-	});
+	var fs = require('fs');
+	if(fs.existsSync(pluginPath)){
+		fs.readdirSync(pluginPath).forEach(function(file){
+			if(file.match(/\.js$/i)){
+				eds.push(require(pluginPath+file));
+			}
+		});
+	}
 }
 
 exports.editors = eds;
