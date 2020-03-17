@@ -1,6 +1,6 @@
 exports.calledName = "";
 exports.names=["insert"];
-var os = require("os");
+const os = require("os");
 
 exports.parms=[
 	{name:"table name",value:null,defaultValue:null},
@@ -16,10 +16,10 @@ exports.helpText = "insert - converts a delimited text to SQL insert statement"+
 	">> insert into [mydb].[dbo].[mytable] (col1, col2) values ('val1','val2');";
 exports.oneLiner = "converts a delimited text to SQL insert statement";
 
-var str = require("../stringHelpers.js");
+const str = require("../stringHelpers.js");
 
 function defineInsertStatement(columns){
-	var tableName = exports.parms[0].value.replace(/\./g,"].[").replace(/\[\[/g, "[").replace(/\]\]/g, "]").replace(/\[\]/g,"");
+	const tableName = exports.parms[0].value.replace(/\./g,"].[").replace(/\[\[/g, "[").replace(/\]\]/g, "]").replace(/\[\]/g,"");
 	return "insert into ["+tableName+"] ("+columns.join(", ")+")\nvalues\n ";
 }
 
@@ -30,13 +30,14 @@ function getColumns(line)
 
 function writeSingleRow (cols)
 {
-	var output = "(";
-	for (var j=0; j<cols.length;j++) {
+	let output = "(";
+	let j;
+	for (j=0; j<cols.length;j++) {
 		if (j > 0) {
 			output += ", ";
 		}
 
-		var apostropheOrNot = str.isNullOrNumber(cols[j]) ? "" : "'";
+		let apostropheOrNot = str.isNullOrNumber(cols[j]) ? "" : "'";
 		output += apostropheOrNot+cols[j].replace(/'/g,"''")+apostropheOrNot;
 	}
 	output+=")\n";
@@ -45,14 +46,15 @@ function writeSingleRow (cols)
 
 
 exports.edit=function(input, switches){
-	var rowOfInsert = 1000;
-	var lines = input.split(/\r?\n/g);
-	var columnNames = getColumns(lines[0]);
-	var insertStatement = defineInsertStatement(columnNames);
+	let rowOfInsert = 1000;
+	let lines = input.split(/\r?\n/g);
+	const columnNames = getColumns(lines[0]);
+	const insertStatement = defineInsertStatement(columnNames);
 
-	var output = "";
+	let output = "";
+	let i;
 
-	for (var i=1; i<lines.length; i++)
+	for (i=1; i<lines.length; i++)
 	{
 		if (rowOfInsert++ >= 1000)
 		{
@@ -63,8 +65,8 @@ exports.edit=function(input, switches){
 		{
 			output+=",";
 		}
-		
-		var cols = getColumns(lines[i]);
+
+		let cols = getColumns(lines[i]);
 		output += writeSingleRow(cols);
 	}
 

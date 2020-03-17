@@ -31,5 +31,7 @@
     "readline-sync": "^1.4.9",
     "uuid": "^3.3.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "mocha": "^6.2.2"
+  }
 }

@@ -1,7 +1,7 @@
 
 exports.calledName = "";
 exports.names=["grep","grab"];
-var os = require("os");
+const os = require("os");
 
 exports.parms=[{
 	name:"pattern",
@@ -31,31 +31,31 @@ exports.helpText = "grep - Gets a regex and prints"+os.EOL+
 	">> 3";
 exports.oneLiner = "you know, GREP...";
 
-var str = require("../stringHelpers.js");
+const str = require("../stringHelpers.js");
 
 
 exports.edit=function(input, switches){
-	var pattern = exports.parms[0].value;
-	var sep = exports.parms[1].value;
-	var regxSwitches = str.getRegexSwitches(switches);
-	var rx = new RegExp(pattern, regxSwitches);
-	var reverse = str.isReverse(switches);
+	const pattern = exports.parms[0].value;
+	const sep = exports.parms[1].value;
+	const regxSwitches = str.getRegexSwitches(switches);
+	const rx = new RegExp(pattern, regxSwitches);
+	const reverse = str.isReverse(switches);
 
 	//non-linear matching
 	if(switches.indexOf("L") > -1){
 		if(reverse){
 			return input.replace(rx,"");
 		}
-		var matches = input.match(rx);
+		let matches = input.match(rx);
 		return matches.join(sep);
 	}
 
 	//standard GREP
-	var sepRx = new RegExp(str.escapeRegex(sep),"gi");
-	var lines = input.split(sepRx);
-	var output = [];
+	const sepRx = new RegExp(str.escapeRegex(sep),"gi");
+	const lines = input.split(sepRx);
+	let output = [];
 
-	var ln;
+	let ln;
 	for(ln=0;ln<lines.length;ln++){
 		rx.lastIndex = 0;
 		if(rx.test(lines[ln]) !== reverse){

@@ -1,10 +1,11 @@
-var settings = require("../settings.js").settings;
-var str = require("../stringHelpers.js");
+const settings = require("../settings.js").settings;
+const str = require("../stringHelpers.js");
 
 function getNames(){
-	var output = ["userfunc"];
+	let output = ["userfunc"];
+	let i;
 	if(settings && settings.savedCommands){
-		for(var i=0;i<settings.savedCommands.length;i++){
+		for(i=0;i<settings.savedCommands.length;i++){
 			output.push(settings.savedCommands[i].name);
 		}
 	}
@@ -13,7 +14,8 @@ function getNames(){
 
 function getSavedCommand(name){
 	if(settings && settings.savedCommands){
-		for(var i=0;i<settings.savedCommands.length;i++){
+		let i;
+		for(i=0;i<settings.savedCommands.length;i++){
 			if(str.same(settings.savedCommands[i].name, name)){
 				return settings.savedCommands[i];
 			}
@@ -23,8 +25,8 @@ function getSavedCommand(name){
 
 exports.getParms = function(){
 	//{ name:"pattern", value:null, defaultValue:null }
-	var cmd = getSavedCommand(exports.calledName);
-	var output = cmd.parameters;
+	const cmd = getSavedCommand(exports.calledName);
+	let output = cmd.parameters;
 	if(output === null){
 		return [];
 	}
@@ -33,7 +35,7 @@ exports.getParms = function(){
 };
 
 exports.updateHelpText = function(){
-	var savedCmd = getSavedCommand(exports.calledName);
+	const savedCmd = getSavedCommand(exports.calledName);
 	if(!savedCmd){
 		return "no saved command with the name \""+exports.calledName+"\" exists: see ~/pasty.json";
 	}
@@ -49,10 +51,10 @@ exports.helpText = "executes user defined functions from ~/pasty.json";
 exports.oneLiner = exports.helpText;
 
 function getReplacedArgs(args){
-	var output = [];
+	let output = [];
 	args.forEach(function(el){
 		exports.parms.forEach(function(replacement){
-			var replaceRx = new RegExp(str.escapeRegex("{{"+replacement.name+"}}"),"g");
+			const replaceRx = new RegExp(str.escapeRegex("{{"+replacement.name+"}}"),"g");
 			el = el.replace(replaceRx, replacement.value);
 		});
 		output.push(el);
@@ -62,15 +64,16 @@ function getReplacedArgs(args){
 
 exports.edit=function(input, switches){
 	debugger;
-	var savedCmd = getSavedCommand(exports.calledName);
+	const savedCmd = getSavedCommand(exports.calledName);
 	if(!savedCmd){
 		return "no saved command with the name \""+exports.calledName+"\" exists: see ~/pasty.json";
 	}
 
-	var runr = require("../editorRunner.js");
-	for(var i=0;i<savedCmd.commands.length;i++){
+	const runr = require("../editorRunner.js");
+	let i;
+	for(i=0;i<savedCmd.commands.length;i++){
 		debugger;
-		var replacedArgs = getReplacedArgs(savedCmd.commands[i].args);
+		let replacedArgs = getReplacedArgs(savedCmd.commands[i].args);
 		input = runr.runNamedEditor(input, savedCmd.commands[i].name, replacedArgs);
 	}
 	return input;

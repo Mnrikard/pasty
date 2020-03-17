@@ -1,7 +1,7 @@
 
 exports.calledName = "";
 exports.names=["tobase"];
-var os = require("os");
+const os = require("os");
 
 exports.parms=[
 	{ name:"base", value:null, defaultValue:"16" }
@@ -22,10 +22,10 @@ exports.helpText = "toBase - converts a number to/from decimal from/to a base."+
 
 exports.oneLiner = "converts a number to/from decimal from/to a base";
 
-var str = require("../stringHelpers.js");
+const str = require("../stringHelpers.js");
 
 exports.edit=function(input, switches){
-	var base = parseInt(exports.parms[0].value);
+	let base = parseInt(exports.parms[0].value);
 
 	if(exports.parms[0].value == "0x"){ base=16; }
 	if(base == 0){ base=8; }

@@ -1,11 +1,11 @@
-var os = require("os");
-var fs = require("fs");
+const os = require("os");
+const fs = require("fs");
 
 function getSettings(){
-	var settingsPath = getSettingsFile();
+	const settingsPath = getSettingsFile();
 	if(fs.existsSync(settingsPath)){
-		var settings = fs.readFileSync(settingsPath);
-		var output = JSON.parse(settings);
+		const settings = fs.readFileSync(settingsPath);
+		const output = JSON.parse(settings);
 		fullyQualifyHomeDirectory(output);
 		return output;
 	} else {
