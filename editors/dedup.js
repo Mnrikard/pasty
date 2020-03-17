@@ -1,7 +1,7 @@
 
 exports.calledName = "";
 exports.names=["dedup"];
-var os = require("os");
+const os = require("os");
 
 exports.parms=[{
 	name:"separator",
@@ -22,10 +22,11 @@ exports.helpText = "dedup - Deduplicates a list"+os.EOL+
 	">> 1,2,3";
 exports.oneLiner = "Deduplicates a list";
 
-var str = require("../stringHelpers.js");
+const str = require("../stringHelpers.js");
 
 function contains(arr, itm){
-	for(var i=0;i<arr.length;i++){
+	let i;
+	for(i=0;i<arr.length;i++){
 		if(arr[i].trim() == itm.trim()){
 			return true;
 		}
@@ -34,11 +35,11 @@ function contains(arr, itm){
 }
 
 exports.edit=function(input, switches){
-	var sep = exports.parms[0].value;
-	var regxSwitches = str.getRegexSwitches(switches);
-	var rx = new RegExp(str.escapeRegex(sep), regxSwitches);
-	var matches = input.split(rx);
-	var output = [];
+	const sep = exports.parms[0].value;
+	const regxSwitches = str.getRegexSwitches(switches);
+	const rx = new RegExp(str.escapeRegex(sep), regxSwitches);
+	const matches = input.split(rx);
+	let output = [];
 	matches.forEach(function(el){
 		if(!contains(output, el)){
 			output.push(el);

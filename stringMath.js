@@ -1,19 +1,19 @@
-//var str = require("./stringHelpers.js");
+//const str = require("./stringHelpers.js");
 
-var decimalPattern = "(?!=\\d\\s*)\\-?\\d+(\\.\\d+)?";
-var insideParens = new RegExp("\\(([^\\(\\)]+)\\)");
+const decimalPattern = "(?!=\\d\\s*)\\-?\\d+(\\.\\d+)?";
+const insideParens = new RegExp("\\(([^\\(\\)]+)\\)");
 
 
 function getEquationArguments(regx, equation){
-	var expr = regx.exec(equation);
+	const expr = regx.exec(equation);
 	if(expr === null) { return null; }
 	return {left: parseFloat(expr[1]), right: parseFloat(expr[4]), operator: expr[3], expression:expr[0]};
 }
 
 function evaluatePattern(math, mathFunction)
 {
-	var mathArgs = getEquationArguments(mathFunction.equationPattern, math);
-	var answer;
+	let mathArgs = getEquationArguments(mathFunction.equationPattern, math);
+	let answer;
 	while(mathArgs)
 	{
 		answer = mathFunction.evaluate(mathArgs);
@@ -26,7 +26,7 @@ function evaluatePattern(math, mathFunction)
 	return math;
 }
 
-var AddSubtract = {
+const AddSubtract = {
 	equationPattern:new RegExp("("+decimalPattern+")\\s*([\\+\\-])\\s*("+decimalPattern+")","gi")
 };
 AddSubtract.evaluate=function(expr){
@@ -37,7 +37,7 @@ AddSubtract.evaluate=function(expr){
 	return (expr.left-expr.right).toString();
 };
 
-var MultiplyDivide = {
+const MultiplyDivide = {
 	equationPattern:new RegExp("("+decimalPattern+")\\s*([\\*\\/])\\s*("+decimalPattern+")")
 };
 MultiplyDivide.evaluate=function(expr) {
@@ -48,14 +48,14 @@ MultiplyDivide.evaluate=function(expr) {
 	return (expr.left / expr.right).toString();
 };
 
-var Exponent = {
+const Exponent = {
 	equationPattern:new RegExp("("+decimalPattern+")\\s*(\\^)\\s*("+decimalPattern+")")
 };
 Exponent.evaluate=function(expr) {
 	return Math.pow(expr.left,expr.right).toString();
 };
 
-var Modulo = {
+const Modulo = {
 	equationPattern : new RegExp("("+decimalPattern+")\\s*(\\%)\\s*("+decimalPattern+")")
 };
 
@@ -63,7 +63,7 @@ Modulo.evaluate = function(expr){
 	return (expr.left % expr.right).toString();
 };
 
-var DivideWithRemainder = {
+const DivideWithRemainder = {
 	equationPattern : new RegExp("("+decimalPattern+")\\s*(\\/\\%)\\s*("+decimalPattern+")")
 };
 
@@ -72,7 +72,7 @@ DivideWithRemainder.evaluate = function(expr) {
 };
 
 function allAreNumbers(numArr){
-	var i;
+	let i;
 	for(i=0;i<numArr.length;i++){
 		if(isNaN(numArr[i])){
 			return false;
@@ -83,15 +83,15 @@ function allAreNumbers(numArr){
 
 
 exports.evaluateExpression = function(math){
-	var originalMath = math.trim().replace(/\=$/,"");
+	const originalMath = math.trim().replace(/\=$/,"");
 	math = originalMath;
 
 	if(allAreNumbers(originalMath.split(/,/g))){
 		return math;
 	}
 
-	var paren = math.match(insideParens);
-	var insideMath;
+	let paren = math.match(insideParens);
+	let insideMath;
 	while(paren)
 	{
 		insideMath = paren[1];
