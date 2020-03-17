@@ -1,6 +1,6 @@
 exports.calledName = "";
 exports.names=["columnAlign","align"];
-var os = require("os");
+const os = require("os");
 
 exports.parms=[{
 	name:"number of spaces",
@@ -26,21 +26,22 @@ exports.helpText = "columnAlign - Aligns delimited data by column"+os.EOL+
 	">> names  some other data  1234";
 exports.oneLiner = "Aligns delimited data by column";
 
-var str = require("../stringHelpers.js");
+const str = require("../stringHelpers.js");
 
-var _columnLengths = [];
+let _columnLengths = [];
 
 function splitLine(line){
-	var splitter = new RegExp(str.escapeRegex(exports.parms[1].value), "ig");
+	const splitter = new RegExp(str.escapeRegex(exports.parms[1].value), "ig");
 	return line.split(splitter);
 }
 
 function rebuildRows (rows) {
-	var columnSeparator = str.makeString(" ", exports.parms[0].value);
+	const columnSeparator = str.makeString(" ", exports.parms[0].value);
+	let r,c;
 
-	for(var r=0; r<rows.length; r++){
-		var cols = splitLine(rows[r]);
-		for (var c = 0; c < cols.length; c++)
+	for(r=0; r<rows.length; r++){
+		const cols = splitLine(rows[r]);
+		for (c = 0; c < cols.length; c++)
 		{
 			cols[c] = str.padRight(cols[c], ' ', _columnLengths[c]);
 		}
@@ -50,9 +51,10 @@ function rebuildRows (rows) {
 
 function defineColumnLengths(rows){
 	_columnLengths = [];
-	for (var r=0; r<rows.length;r++){
-		var cols = splitLine(rows[r]);
-		for (var c=0; c<cols.length; c++){
+	let r,c;
+	for (r=0; r<rows.length;r++){
+		const cols = splitLine(rows[r]);
+		for (c=0; c<cols.length; c++){
 			if (c >= _columnLengths.length)
 			{
 				_columnLengths.push(cols[c].length);
@@ -63,7 +65,7 @@ function defineColumnLengths(rows){
 }
 
 exports.edit=function(input, switches){
-	var rows = input.split(/\r?\n/g);
+	let rows = input.split(/\r?\n/g);
 	defineColumnLengths(rows);
 	rebuildRows(rows);
 	return rows.join("\n");

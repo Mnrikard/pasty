@@ -1,19 +1,19 @@
 exports.makeString = function(text, count){
-	var output = "";
-	for(var i=0;i<count;i++){
+	let output = "",i;
+	for(i=0;i<count;i++){
 		output += text;
 	}
 	return output;
 };
 
 exports.makeTabs = function(tabcount){
-	var settings = require("../settings.js").settings;
-	var tabstr = settings.tabString;
+	const settings = require("../settings.js").settings;
+	const tabstr = settings.tabString;
 	return exports.makeString(tabstr, tabcount);
 };
 
 exports.getRegexSwitches = function(switches){
-	var output = "";
+	let output = "";
 	if(switches.indexOf("m")>-1){
 		output += "m";
 	}
@@ -50,7 +50,7 @@ exports.same = function(text1, text2){
 };
 
 exports.padRight = function(text, withstr, count){
-	var whatsleft = count - text.length;
+	const whatsleft = count - text.length;
 	if(whatsleft > 0){
 		return text+exports.makeString(' ', whatsleft);
 	}
@@ -68,8 +68,8 @@ exports.isNullOrNumber = function(text){
 
 
 exports.keepWindowOpen = function(){
-	var readlineSync = require('readline-sync');
-	var output = readlineSync.question("\n\nPress Enter to continue...");
+	const readlineSync = require('readline-sync');
+	const output = readlineSync.question("\n\nPress Enter to continue...");
 	return output;
 };
 

@@ -1,6 +1,6 @@
 exports.calledName = "";
 exports.names=["rep","replace"];
-var os = require("os");
+const os = require("os");
 
 exports.parms=[
 	{name:"pattern", value:null, defaultValue:null },
@@ -23,13 +23,13 @@ exports.oneLiner = "replaces with a RegExp";
 
 exports.allowedSwitches = "migIG";
 
-var str = require("../stringHelpers.js");
+const str = require("../stringHelpers.js");
 
 function enhancedReplacementPattern(){
-	var thisRp = exports.parms[1].value;
+	let thisRp = exports.parms[1].value;
 
-	var args = Array.prototype.slice.call(arguments);
-	var groups = args.splice(0,arguments.length-2);
+	const args = Array.prototype.slice.call(arguments);
+	const groups = args.splice(0,arguments.length-2);
 
 	thisRp = thisRp.replace(/\\u\$(\d)/i, function(a,b){ return groups[parseInt(b,10)].toUpperCase(); });
 	thisRp = thisRp.replace(/\\u\$\{(\d+)\}/i, function(a,b){ return groups[parseInt(b,10)].toUpperCase(); });
@@ -44,10 +44,10 @@ function enhancedReplacementPattern(){
 }
 
 exports.edit=function(input, switches){
-	var pattern = exports.parms[0].value;
-	var repl = exports.parms[1].value;
-	var regxSwitches = str.getRegexSwitches(switches);
-	var rx = new RegExp(pattern, regxSwitches);
+	const pattern = exports.parms[0].value;
+	const repl = exports.parms[1].value;
+	const regxSwitches = str.getRegexSwitches(switches);
+	const rx = new RegExp(pattern, regxSwitches);
 	if(repl.match(/(\\[ul]\$(\{\d+\}|\d)|\$0)/i)){
 		return input.replace(rx, enhancedReplacementPattern);
 	}

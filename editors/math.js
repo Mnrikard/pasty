@@ -1,6 +1,6 @@
 exports.calledName = "";
 exports.names=["math"];
-var os = require("os");
+const os = require("os");
 
 exports.parms=[
 	{name:"\"answer\" for answer only", value:null, defaultValue:"" }
@@ -16,25 +16,25 @@ exports.helpText = "math - Solves simple math problems"+os.EOL+
 	">> 579";
 exports.oneLiner = "Solves simple math problems";
 
-var str = require("../stringHelpers.js");
+const str = require("../stringHelpers.js");
 
-var decimalPattern = "(?!=\\d\\s*)\\-?\\d+(\\.\\d+)?";
-var sumUpList = new RegExp("("+decimalPattern+")\\s+("+decimalPattern+")");
+const decimalPattern = "(?!=\\d\\s*)\\-?\\d+(\\.\\d+)?";
+const sumUpList = new RegExp("("+decimalPattern+")\\s+("+decimalPattern+")");
 
 exports.edit=function(input, switches){
 	input = input.trim();
-	var calc = require("../stringMath.js");
-	var expression = input.replace(sumUpList, "${1}+${2}");
+	const calc = require("../stringMath.js");
+	let expression = input.replace(sumUpList, "${1}+${2}");
 	expression = expression.replace(sumUpList, "${1}+${2}");
 
-	var answer = calc.evaluateExpression(expression);
+	let answer = calc.evaluateExpression(expression);
 
 	if(str.same(exports.parms[0].value, "answer"))
 	{
 		return answer;
 	}
-	
-	var joiner = "=";
+
+	const joiner = "=";
 
 	if(input.match(/\n/)) { joiner = "\n"; }
 	else if(input.match(/\=/)) { joiner = ""; }

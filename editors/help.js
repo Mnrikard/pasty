@@ -7,7 +7,7 @@ exports.parms = [{
 	defaultValue:"."
 }];
 
-var str = require("../stringHelpers.js");
+const str = require("../stringHelpers.js");
 
 exports.getParms = function(){
 	return exports.parms;
@@ -17,15 +17,16 @@ exports.helpText = "why are you looking for help on help? What did you expect to
 exports.oneLiner = "gets help on functions";
 
 function prettyWriteHelp(searchedName, helpText){
-	var output = "";
+	let output = "";
 	if(!helpText || helpText === ""){
 		helpText = "No help available for this command";
 	}
 
-	var lines = helpText.split(/\r?\n/g);
-	for(var i=0;i<lines.length;i++){
+	let lines = helpText.split(/\r?\n/g);
+	let i;
+	for(i=0;i<lines.length;i++){
 		if(i==0){
-			var edname = lines[i].match(/[\w]+ - /);
+			let edname = lines[i].match(/[\w]+ - /);
 			if(!edname){
 				edname = searchedName + " - ";
 			}
@@ -47,9 +48,9 @@ function prettyWriteHelp(searchedName, helpText){
 }
 
 exports.edit = function(input, switches){
-	var ed = require("./");
-	var searchEd = exports.parms[0].value;
-	var editor = ed.getEditor(searchEd, false);
+	const ed = require("./");
+	const searchEd = exports.parms[0].value;
+	const editor = ed.getEditor(searchEd, false);
 	if(editor === null){
 		console.log(chalk.red.bold("No editor found matching: "+searchEd));
 		listEditors();
@@ -67,17 +68,19 @@ exports.edit = function(input, switches){
 };
 
 function listEditors(){
-	var names = require("./index.js").getEditorNames();
-	for(var i=0;i<names.length;i++){
+	const names = require("./index.js").getEditorNames();
+	let i;
+	for(i=0;i<names.length;i++){
 		console.log(chalk.cyan.bold(names[i].name+getAliases(names[i].aliases))+" "+names[i].description);
 	}
 }
 
 function getCamelNames(editorName){
-	var output = [];
+	let output = [];
 
-	for(var c=0;c<editorName.length;c++){
-		var chr = editorName[c].charCodeAt(0);
+	let c;
+	for(c=0;c<editorName.length;c++){
+		let chr = editorName[c].charCodeAt(0);
 		if(c ===0 || chr >= 65 && chr <= 90){
 			output.push(editorName[c]);
 		} else {
@@ -89,15 +92,15 @@ function getCamelNames(editorName){
 }
 
 function findSimilarEditors(editorName){
-	var editors = require("./index.js").getEditorNames();
-	var matches = [];
-	var camelNames = getCamelNames(editorName);
-	var pattern = new RegExp("("+camelNames.join("|")+")","i");
+	const editors = require("./index.js").getEditorNames();
+	const camelNames = getCamelNames(editorName);
+	const pattern = new RegExp("("+camelNames.join("|")+")","i");
+	let matches = [];
 
 	console.log(chalk.red.bold("Attempting to find functions matching the words:"));
 	console.log(chalk.red.bold(camelNames.join(", ")));
 	console.log();
-	var i,j;
+	let i,j;
 	for(i=0;i<editors.length;i++){
 		if(editors[i].name.match(pattern)){
 			matches.push(editors[i].name);
@@ -126,7 +129,6 @@ function getAliases(names){
 }
 
 function listEditorsInBlock(){
-	var names = require("./index.js").getEditorNames();
-	var maxwidth = process.stdout.columns;
-
+	const names = require("./index.js").getEditorNames();
+	const maxwidth = process.stdout.columns;
 }

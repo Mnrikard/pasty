@@ -1,6 +1,6 @@
-var complete = require('complete');
+const complete = require('complete');
 
-var completionObj = {
+const completionObj = {
   program: 'pasty',
   // Commands
   commands: { },
@@ -17,12 +17,12 @@ var completionObj = {
   }
 };
 
-var nameonlyComplete = function(words,prev,cur){
+const nameonlyComplete = function(words,prev,cur){
 	complete.output(cur, []);
 };
 
-var names = require("./editors").getEditorNames();
-var i,a;
+const names = require("./editors").getEditorNames();
+let i,a;
 for(i=0;i<names.length;i++){
 	completionObj.commands[names[i].name] = nameonlyComplete;
 	for(a=0;a<names[i].aliases.length;a++){

@@ -1,6 +1,6 @@
 exports.calledName = "";
 exports.names=["cap","lower","upper"];
-var os = require("os");
+const os = require("os");
 
 exports.parms=[];
 exports.getParms = function(){
@@ -15,9 +15,9 @@ exports.helpText = "cap - capitalizes or lower cases"+os.EOL+
 exports.oneLiner = "capitalizes or lower cases";
 exports.allowedSwitches = "r";
 
-var str = require("../stringHelpers.js");
+const str = require("../stringHelpers.js");
 
-var _columnLengths = [];
+let _columnLengths = [];
 
 exports.edit=function(input, switches){
 	if(exports.calledName.toLowerCase() === "cap" || exports.calledName.toLowerCase() === "upper"){

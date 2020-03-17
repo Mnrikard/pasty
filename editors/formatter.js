@@ -1,7 +1,7 @@
 
 exports.calledName = "";
 exports.names=["format","tabright"];
-var os = require("os");
+const os = require("os");
 
 exports.parms=[{
 	name:"language",
@@ -19,37 +19,37 @@ exports.helpText = "format - indents your code"+os.EOL+
 	">> }";
 exports.oneLiner = "indents your code";
 
-var str = require("../stringHelpers.js");
+const str = require("../stringHelpers.js");
 
-var tabstr = "tab";
+let tabstr = "tab";
 
 
 function tabRightC(code) {
-	var tabcount = 0;
-	var keywords = ["abstract","as","base","break","case","catch","checked","continue","default","delegate","do","else","event","explicit","extern","false","finally","fixed","for","foreach","goto","if","implicit","in","interface","internal","is","lock","namespace","new","null","object","operator","out","override","params","private","protected","public","readonly","ref","return","sealed","sizeof","stackalloc","switch","this","throw","true","try","typeof","unchecked","unsafe","using","virtual","while"];
-	var types = [ "bool", "byte", "char", "class", "const", "decimal", "double", "enum", "float", "int", "long", "sbyte", "short", "static", "string", "struct", "uint", "ulong", "ushort", "void" ];
+	let tabcount = 0;
+	let keywords = ["abstract","as","base","break","case","catch","checked","continue","default","delegate","do","else","event","explicit","extern","false","finally","fixed","for","foreach","goto","if","implicit","in","interface","internal","is","lock","namespace","new","null","object","operator","out","override","params","private","protected","public","readonly","ref","return","sealed","sizeof","stackalloc","switch","this","throw","true","try","typeof","unchecked","unsafe","using","virtual","while"];
+	let types = [ "bool", "byte", "char", "class", "const", "decimal", "double", "enum", "float", "int", "long", "sbyte", "short", "static", "string", "struct", "uint", "ulong", "ushort", "void" ];
 
-	var inString = false;
-	var inComment = false;
-	var blockString = false;
-	var blockComment = false;
-	var prevChar = "";
-	var setPrvChr = "";
+	let inString = false;
+	let inComment = false;
+	let blockString = false;
+	let blockComment = false;
+	let prevChar = "";
+	let setPrvChr = "";
 
-	var sr = code.split(/\r*\n/g);
-	var output = [];
-	var i;
+	let sr = code.split(/\r*\n/g);
+	let output = [];
+	let i;
 
 	sr.forEach(function(line){
-		var subtracttab = 0;
+		let subtracttab = 0;
 		if(!blockString && !blockComment){
 			line = line.trim();
 		}
 
 		prevChar = os.EOL;
-		var c;
-		var concurrentQuot;
-		var concurrentSlash;
+		let c;
+		let concurrentQuot;
+		let concurrentSlash;
 		for (i = 0; i < line.length; i++ ){
 			c = line[i];
 			setPrvChr = c;
@@ -150,28 +150,28 @@ function tabRightVb(code){
 	code = code.replace(/(else)\s*('.+)/gi, "$1\n$2");
 	code = code.replace(/(then)\s*('.+)/gi, "$1\n$2");
 
-	var tplus = new RegExp("^(while|for|if|elseif|class|function|sub|select\\s+case|do|(private\\s+|public\\s+|friend\\s+|protected\\s+)?(shared\\s+|mustinherit\\s+|sealed\\s+)?(function|class|sub|property|module))[\\s]", "gi");
-	var singleLineIf = new RegExp("then$", "gi");
-	var tabBecauseIf = new RegExp("^if", "gi");
-	var tminus = new RegExp("^(wend|until|loop|next|elseif|end\\s+(if|function|sub|class|select|property))[\\s]?", "gi");
-	var isLabel = new RegExp("[^\\s]:$","g");
-	var elif = new RegExp("^elseif.+then$", "gi");
+	let tplus = new RegExp("^(while|for|if|elseif|class|function|sub|select\\s+case|do|(private\\s+|public\\s+|friend\\s+|protected\\s+)?(shared\\s+|mustinherit\\s+|sealed\\s+)?(function|class|sub|property|module))[\\s]", "gi");
+	let singleLineIf = new RegExp("then$", "gi");
+	let tabBecauseIf = new RegExp("^if", "gi");
+	let tminus = new RegExp("^(wend|until|loop|next|elseif|end\\s+(if|function|sub|class|select|property))[\\s]?", "gi");
+	let isLabel = new RegExp("[^\\s]:$","g");
+	let elif = new RegExp("^elseif.+then$", "gi");
 
 	//special instructions for "select case" statements
-	var casebound = new RegExp("^(select case|end select)", "gi");
-	var caseitem = new RegExp("^case\s", "gi");
+	let casebound = new RegExp("^(select case|end select)", "gi");
+	let caseitem = new RegExp("^case\s", "gi");
 
-	var incase = false;
+	let incase = false;
 
 	//get rid of multiline rows
 	code = code.replace(/_[ \t]+\n[ \t]*/i, " ");
 
-	var rows = code.split(/\n/g);
-	var ii = 0;
-	var tabcount=0;
+	let rows = code.split(/\n/g);
+	let ii = 0;
+	let tabcount=0;
 
 	for (ii = 0; ii < rows.length; ii++) {
-		var currTabc = 0;
+		let currTabc = 0;
 
 		rows[ii] = rows[ii].trim();
 
@@ -195,7 +195,7 @@ function tabRightVb(code){
 		}
 		currTabc = tabcount;
 
-		var currentLine = "";
+		let currentLine = "";
 		if (isLabel.IsMatch(rows[ii])) {
 			currentLine = rows[ii];
 		} else if (incase && caseitem.IsMatch(rows[ii]) && tabcount > 0) {
@@ -224,7 +224,7 @@ function tabRightVb(code){
 }
 
 exports.edit=function(input, switches){
-	var obt = require("../settings.js").settings;
+	const obt = require("../settings.js").settings;
 	tabstr = obt.tabString;
 
 	if(exports.parms[0].value.trim().toLowerCase() === "c"){

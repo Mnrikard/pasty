@@ -1,6 +1,6 @@
 exports.calledName = "";
 exports.names=["xml"];
-var os = require("os");
+const os = require("os");
 
 exports.parms=[];
 
@@ -20,11 +20,12 @@ exports.oneLiner = "Pretty prints xml inside the string";
 exports.edit=function(input, switches){
 	input = initializeSpaces(input);
 
-	var lines = input.split(/\n/g);
-	var tabcount = 0;
-	var inCommentOrCdata = false;
+	let lines = input.split(/\n/g);
+	let tabcount = 0;
+	let inCommentOrCdata = false;
+	let line;
 
-	for (var line = 0; line < lines.length; line++)
+	for (line = 0; line < lines.length; line++)
 	{
 		if(inCommentOrCdata)
 		{
@@ -43,7 +44,7 @@ exports.edit=function(input, switches){
 
 		lines[line] = makeTabs(tabcount) + lines[line];
 
-		if (shouldIncrementTabCount(lines, inCommentOrCdata, line)) 
+		if (shouldIncrementTabCount(lines, inCommentOrCdata, line))
 		{
 			tabcount++;
 		}
@@ -54,10 +55,10 @@ exports.edit=function(input, switches){
 };
 
 function makeTabs(tabcount){
-	var settings = require("../settings.js").settings;
-	var tabstr = settings.tabString;
-	var output = "";
-	for(var i=0;i<tabcount;i++){
+	const settings = require("../settings.js").settings;
+	const tabstr = settings.tabString;
+	let output = "",i;
+	for(i=0;i<tabcount;i++){
 		output += tabstr;
 	}
 	return output;
@@ -78,7 +79,7 @@ function startsCommentOrCdata(line)
 
 function shouldIncrementTabCount(lines, inComment, line)
 {
-	var output = !inComment &&
+	let output = !inComment &&
 		!lines[line].match(/<\//) &&
 		!lines[line].match(/\/>/) &&
 		!lines[line].match(/^<\//) &&
@@ -90,12 +91,12 @@ function shouldIncrementTabCount(lines, inComment, line)
 
 
 function initializeSpaces(text){
-	var spaceBetweenTags = new RegExp(/>\s+</g);
-	var endTags = new RegExp(/([^>\n])</g);
-	var textAfterClosedTag = new RegExp(/\/>([^\n<])/g);
-	var emptyTag = new RegExp(/(<([^\s>]+).+)\n(<\/\2[\s>])/g);
+	const spaceBetweenTags = new RegExp(/>\s+</g);
+	const endTags = new RegExp(/([^>\n])</g);
+	const textAfterClosedTag = new RegExp(/\/>([^\n<])/g);
+	const emptyTag = new RegExp(/(<([^\s>]+).+)\n(<\/\2[\s>])/g);
 
-	var text = text.replace(spaceBetweenTags, "><")
+	text = text.replace(spaceBetweenTags, "><")
 		.replace(/></g,">\n<")
 		.replace(endTags,"$1\n<")
 		.replace(textAfterClosedTag, "/>\n$1")

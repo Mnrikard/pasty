@@ -1,6 +1,6 @@
-var eds = [];
+let eds = [];
 
-var path = __dirname;
+let path = __dirname;
 
 require('fs').readdirSync(path).forEach(function(file){
 	if(file != "index.js" && file.match(/\.js$/i)){
@@ -8,14 +8,14 @@ require('fs').readdirSync(path).forEach(function(file){
 	}
 });
 
-var settings = require("../settings.js").settings;
+const settings = require("../settings.js").settings;
 
 if(settings["pluginsDirectory"]){
-	var pluginPath = settings["pluginsDirectory"];
+	let pluginPath = settings["pluginsDirectory"];
 	if(!/\/$/.test(pluginPath)){
 		pluginPath += "/";
 	}
-	var fs = require('fs');
+	const fs = require('fs');
 	if(fs.existsSync(pluginPath)){
 		fs.readdirSync(pluginPath).forEach(function(file){
 			if(file.match(/\.js$/i)){
@@ -28,8 +28,8 @@ if(settings["pluginsDirectory"]){
 exports.editors = eds;
 
 exports.getEditor = function(name, returnHelp){
-	var searchTerm = new RegExp("^"+name+"$","gi");
-	var ed,n;
+	const searchTerm = new RegExp("^"+name+"$","gi");
+	let ed,n;
 	for(ed=0;ed < eds.length;ed++){
 		for(n=0;n<eds[ed].names.length;n++){
 			if(eds[ed].names[n].match(searchTerm)){
@@ -45,8 +45,8 @@ exports.getEditor = function(name, returnHelp){
 };
 
 exports.getAllFuncNames = function(){
-	var output = [];
-	var ed,n;
+	let output = [];
+	let ed,n;
 	for(ed=0;ed < eds.length;ed++){
 		for(n=0;n<eds[ed].names.length;n++){
 			if(eds[ed].names[n] === "userfunc"){
@@ -59,8 +59,8 @@ exports.getAllFuncNames = function(){
 };
 
 exports.getEditorNames = function(){
-	var output = [];
-	var ed,name,addEd,n;
+	let output = [];
+	let ed,name,addEd,n;
 	for(ed=0;ed < eds.length;ed++){
 		name = eds[ed].names[0];
 		addEd = {"name":name,"aliases":[],"description":eds[ed].oneLiner};
