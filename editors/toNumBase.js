@@ -1,6 +1,6 @@
 
 exports.calledName = "";
-exports.names=["tobase"];
+exports.names=["tobase","frombase"];
 const os = require("os");
 
 exports.parms=[
@@ -31,7 +31,7 @@ exports.edit=function(input, switches){
 	if(base == 0){ base=8; }
 	debugger;
 
-	if(str.isReverse(switches)){
+	if(str.isReverse(switches) || exports.calledName.toLowerCase() === "frombase"){
 		return parseInt(input, base).toString();
 	}
 	return parseInt(input).toString(base).toUpperCase();
