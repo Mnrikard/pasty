@@ -95,7 +95,7 @@ exports.runNamedEditor = function(input, name, args){
 
 	input = input.replace(/\r/g,"");
 
-	const editor = getEditor(name);
+	let editor = getEditor(name);
 	if(editor === null){
 		args.unshift(name);
 		editor = getEditor("help");
