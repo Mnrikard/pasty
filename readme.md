@@ -5,7 +5,7 @@ Edit the text directly on your clipboard (paste bin/whatever) with some built in
 
 ## Installation
 
-`npm install pasty-clipboard-editor`
+`npm install -g pasty-clipboard-editor`
 
 ## Usage
 
