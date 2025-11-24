@@ -16,8 +16,6 @@ var rootCmd = &cobra.Command{
 	},
 }
 
-
-
 var caseCmd = &cobra.Command{
 	Use:   "case",
 	Short: "change case",
@@ -37,5 +35,4 @@ func init() {
 	rootCmd.AddCommand(repCmd)
 	rootCmd.AddCommand(caseCmd)
 	rootCmd.AddCommand(completionCmd)
-	rootCmd.AddCommand(pasteCmd)
 }

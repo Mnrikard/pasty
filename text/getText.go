@@ -5,21 +5,25 @@ import (
 	"log"
 	"os"
 
-	"github.com/golang-design/clipboard"
+	"github.com/tiagomelo/go-clipboard/clipboard"
 )
-
 
 func GetText() (string, error) {
 	if isInputPiped() {
-		return string(getStdInput()), nil;
+		return string(getStdInput()), nil
 	}
 
-	err := clipboard.init()
+	log.Println("getting data from clipboard")
+
+	c := clipboard.New()
+	text, err := c.PasteText()
 	if err != nil {
 		return "", err
 	}
 
-	return clipboard.Read(clipboard.FmtText)
+	log.Printf("text: %q\n", text)
+
+	return text, nil
 }
 
 func getStdInput() []byte {
@@ -33,7 +37,3 @@ func getStdInput() []byte {
 	return data
 }
 
-func isInputPiped() bool {
-	stat, _ := os.Stdin.Stat()
-	return (stat.Mode() & os.ModeCharDevice) == 0
-}
