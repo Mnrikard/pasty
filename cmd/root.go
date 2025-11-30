@@ -16,14 +16,6 @@ var rootCmd = &cobra.Command{
 	},
 }
 
-var caseCmd = &cobra.Command{
-	Use:   "case",
-	Short: "change case",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("case command")
-	},
-}
-
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
@@ -32,7 +24,13 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.AddCommand(repCmd)
-	rootCmd.AddCommand(caseCmd)
 	rootCmd.AddCommand(completionCmd)
+
+	rootCmd.AddCommand(ColumnAlign.Command)
+	rootCmd.AddCommand(Dedup.Command)
+	rootCmd.AddCommand(Length.Command)
+	rootCmd.AddCommand(Lower.Command)
+	rootCmd.AddCommand(Replace.Command)
+	rootCmd.AddCommand(Title.Command)
+	rootCmd.AddCommand(Upper.Command)
 }
