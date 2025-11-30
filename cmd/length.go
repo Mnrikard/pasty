@@ -8,9 +8,7 @@ import (
 	"github.com/mattr/pasty/text"
 	"github.com/mattr/pasty/util"
 	"github.com/spf13/cobra"
-	"github.com/gen2brain/beeep"
 )
-
 
 var lengthArgDefs = []util.Arg {
 	{
@@ -33,6 +31,7 @@ var Length = &util.Editor {
 			countItem(e)
 		},
 		Use:   "length",
+		Aliases: []string{"count","len"},
 		Short: "Gets the length of characters, lines, or words",
 		Args:  cobra.MinimumNArgs(0),
 	},
@@ -41,7 +40,7 @@ var Length = &util.Editor {
 func countItem(e util.Editor) {
 	txt, err := text.GetText();
 	if err != nil {
-		panic(err)
+		util.DisplayError(err)
 	}
 
 	var count int
@@ -58,10 +57,5 @@ func countItem(e util.Editor) {
 		count = len(strings.TrimSpace(txt))
 	}
 
-	beeep.AppName = "pasty"
-	var icon []byte
-	err = beeep.Alert(e.Option, fmt.Sprintf("%d %s\n", count, e.Option), icon)
-	if err != nil {
-		panic(err)
-	}
+	util.Notify(e.Option, fmt.Sprintf("%d %s\n", count, e.Option))
 }

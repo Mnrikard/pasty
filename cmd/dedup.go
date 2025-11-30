@@ -42,7 +42,7 @@ hello world
 func deduplicate(e *util.Editor) {
 	txt, err := text.GetText();
 	if err != nil {
-		panic(err)
+		util.DisplayError(err)
 	}
 
 	items := strings.Split(txt, e.RowDelimiter)
@@ -57,6 +57,6 @@ func deduplicate(e *util.Editor) {
 
 	err = text.SetText(replacedText)
 	if err != nil {
-		panic(err)
+		util.DisplayError(err)
 	}
 }
