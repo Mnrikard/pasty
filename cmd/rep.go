@@ -50,17 +50,17 @@ var Replace = &util.Editor {
 func editorFuncRep(regex string, repla string) {
 	txt, err := text.GetText();
 	if err != nil {
-		panic(err)
+		util.DisplayError(err)
 	}
 
 	rx, err := regexp.Compile(regex)
 	if err != nil {
-		panic(err)
+		util.DisplayError(err)
 	}
 
 	replacedText := rx.ReplaceAllString(txt, repla)
 	err = text.SetText(replacedText)
 	if err != nil {
-		panic(err)
+		util.DisplayError(err)
 	}
 }

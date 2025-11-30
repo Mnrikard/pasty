@@ -46,14 +46,14 @@ var Title = &util.Editor {
 func changeCase(fx func (string)(string)) {
 	txt, err := text.GetText();
 	if err != nil {
-		panic(err)
+		util.DisplayError(err)
 	}
 
 	replacedText := fx(txt)
 
 	err = text.SetText(replacedText)
 	if err != nil {
-		panic(err)
+		util.DisplayError(err)
 	}
 }
 

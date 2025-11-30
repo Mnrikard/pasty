@@ -17,7 +17,7 @@ var columnAlignArgs = []util.Arg {
 			var err error
 			e.NumSpaces, err = strconv.Atoi(value)
 			if err != nil {
-				panic(err)
+				util.DisplayError(err)
 			}
 		},
 		DefaultValue: "2",
@@ -50,7 +50,7 @@ var ColumnAlign = &util.Editor {
 func alignColumns(e util.Editor) {
 	txt, err := text.GetText();
 	if err != nil {
-		panic(err)
+		util.DisplayError(err)
 	}
 
 	rows := util.SplitRows(txt)
@@ -61,7 +61,7 @@ func alignColumns(e util.Editor) {
 
 	err = text.SetText(replacedText)
 	if err != nil {
-		panic(err)
+		util.DisplayError(err)
 	}
 }
 
