@@ -1,6 +1,8 @@
 package util
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func HelpE() error {
 	fmt.Printf("commands: rep,grep,base64")
