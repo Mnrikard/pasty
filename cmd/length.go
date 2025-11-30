@@ -2,13 +2,13 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 	"regexp"
 	"strings"
 
 	"github.com/mattr/pasty/text"
 	"github.com/mattr/pasty/util"
 	"github.com/spf13/cobra"
+	"github.com/gen2brain/beeep"
 )
 
 
@@ -58,5 +58,10 @@ func countItem(e util.Editor) {
 		count = len(strings.TrimSpace(txt))
 	}
 
-	fmt.Fprintf(os.Stderr, "%d %s\n", count, e.Option)
+	beeep.AppName = "pasty"
+	var icon []byte
+	err = beeep.Alert(e.Option, fmt.Sprintf("%d %s\n", count, e.Option), icon)
+	if err != nil {
+		panic(err)
+	}
 }
