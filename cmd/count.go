@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var lengthArgDefs = []util.Arg {
+var countArgDefs = []util.Arg {
 	{
 		Position: 0,
 		Options: []string { "lines", "words", "chars" },
@@ -21,18 +21,18 @@ var lengthArgDefs = []util.Arg {
 	},
 }
 
-var Length = &util.Editor {
-	ArgDefs: lengthArgDefs,
+var Counter = &util.Editor {
+	ArgDefs: countArgDefs,
 	Command: &cobra.Command {
-		ValidArgsFunction: util.BuildArguments(lengthArgDefs),
+		ValidArgsFunction: util.BuildArguments(countArgDefs),
 		Run: func(cmd *cobra.Command, args []string) {
 			e := util.Editor{}
-			util.GetArguments(&e, lengthArgDefs, args)
+			util.GetArguments(&e, countArgDefs, args)
 			countItem(e)
 		},
-		Use:   "length",
-		Aliases: []string{"count","len"},
-		Short: "Gets the length of characters, lines, or words",
+		Use:   "count",
+		Aliases: []string{"length","len"},
+		Short: "Gets the count of characters, lines, or words",
 		Args:  cobra.MinimumNArgs(0),
 	},
 }

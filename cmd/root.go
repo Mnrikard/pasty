@@ -27,8 +27,8 @@ func init() {
 	rootCmd.AddCommand(completionCmd)
 
 	rootCmd.AddCommand(ColumnAlign.Command)
+	rootCmd.AddCommand(Counter.Command)
 	rootCmd.AddCommand(Dedup.Command)
-	rootCmd.AddCommand(Length.Command)
 	rootCmd.AddCommand(Lower.Command)
 	rootCmd.AddCommand(Replace.Command)
 	rootCmd.AddCommand(Title.Command)
