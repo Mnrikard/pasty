@@ -1,0 +1,72 @@
+package text
+
+import (
+	"fmt"
+	"io"
+	"log"
+	"os"
+
+	"github.com/tiagomelo/go-clipboard/clipboard"
+)
+
+var mockedText = ""
+var mockedError error = nil
+var isMocked = false
+
+func SetMockedText(text string, err error) {
+	isMocked = true
+	mockedText = text
+	mockedError = err
+}
+
+func GetMockedText() string {
+	return mockedText
+}
+
+func GetText() (string, error) {
+	if isMocked {
+		return mockedText, mockedError
+	}
+
+	if isInputPiped() {
+		return string(getStdInput()), nil
+	}
+
+	c := clipboard.New()
+	text, err := c.PasteText()
+	if err != nil {
+		return "", err
+	}
+
+	return text, nil
+}
+
+func SetText(input string) error {
+	if isMocked {
+		mockedText = input
+		return mockedError
+	}
+
+	if isInputPiped() {
+		fmt.Println(input);
+	} else {
+		c := clipboard.New()
+		if err := c.CopyText(input); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func getStdInput() []byte {
+	if !isInputPiped() {
+		return nil
+	}
+	data, err := io.ReadAll(os.Stdin)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return data
+}
+

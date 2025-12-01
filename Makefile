@@ -5,3 +5,7 @@ binary_name = pasty
 build:
 	go build -o=/tmp/bin/${binary_name} ${main_package_path}
 
+.PHONY: test
+test:
+	go test ./...
+
