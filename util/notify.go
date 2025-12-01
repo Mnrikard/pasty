@@ -11,7 +11,7 @@ var pastyIcon []byte
 
 func Notify(title, message string) {
 	beeep.AppName = "pasty"
-	err := beeep.Notify(title, message, pastyIcon)
+	err := beeep.Alert(title, message, pastyIcon)
 	if err != nil {
 		panic(err)
 	}
