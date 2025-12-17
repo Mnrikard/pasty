@@ -1,63 +1,37 @@
 package cmd
 
 import (
-	"strings"
-
+	"github.com/mattr/pasty/edit"
 	"github.com/mattr/pasty/text"
-	"github.com/mattr/pasty/util"
 	"github.com/spf13/cobra"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 )
 
-var Upper = &util.Editor {
-	Command: &cobra.Command{
-		Use:   "upper",
-		Short: "Upper cases text",
-		Args:  cobra.MinimumNArgs(0),
-		Run: func(cmd *cobra.Command, args []string) {
-			changeCase(strings.ToUpper)
-		},
+var Upper = &cobra.Command{
+	Use:   "upper",
+	Short: "Upper cases text",
+	Args:  cobra.MinimumNArgs(0),
+	Run: func(cmd *cobra.Command, args []string) {
+		e := &edit.EditorArgs{}
+		text.EditText(e, e.Upper)
 	},
 }
 
-var Lower = &util.Editor {
-	Command: &cobra.Command{
-		Use:   "lower",
-		Short: "Lower cases text",
-		Args:  cobra.MinimumNArgs(0),
-		Run: func(cmd *cobra.Command, args []string) {
-			changeCase(strings.ToLower)
-		},
+var Lower = &cobra.Command{
+	Use:   "lower",
+	Short: "Lower cases text",
+	Args:  cobra.MinimumNArgs(0),
+	Run: func(cmd *cobra.Command, args []string) {
+		e := &edit.EditorArgs{}
+		text.EditText(e, e.Lower)
 	},
 }
 
-var Title = &util.Editor {
-	Command: &cobra.Command{
-		Use:   "title",
-		Short: "Title cases text",
-		Args:  cobra.MinimumNArgs(0),
-		Run: func(cmd *cobra.Command, args []string) {
-			changeCase(titleCase)
-		},
+var Title = &cobra.Command{
+	Use:   "title",
+	Short: "Title cases text",
+	Args:  cobra.MinimumNArgs(0),
+	Run: func(cmd *cobra.Command, args []string) {
+		e := &edit.EditorArgs{}
+		text.EditText(e, e.Title)
 	},
-}
-
-func changeCase(fx func (string)(string)) {
-	txt, err := text.GetText();
-	if err != nil {
-		util.DisplayError(err)
-	}
-
-	replacedText := fx(txt)
-
-	err = text.SetText(replacedText)
-	if err != nil {
-		util.DisplayError(err)
-	}
-}
-
-func titleCase(input string) string {
-	caser := cases.Title(language.English)
-	return caser.String(input)
 }

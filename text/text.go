@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/mattr/pasty/edit"
+	"github.com/mattr/pasty/util"
 	"github.com/tiagomelo/go-clipboard/clipboard"
 )
 
@@ -68,5 +70,25 @@ func getStdInput() []byte {
 		log.Fatal(err)
 	}
 	return data
+}
+
+func EditText(e *edit.EditorArgs, fx func(string)(string, error)) {
+	txt, err := GetText()
+	if err != nil {
+		util.DisplayError(err)
+		return
+	}
+
+	newText, err := fx(txt)
+	if err != nil {
+		util.DisplayError(err)
+		return
+	}
+
+	err = SetText(newText)
+	if err != nil {
+		util.DisplayError(err)
+		return
+	}
 }
 

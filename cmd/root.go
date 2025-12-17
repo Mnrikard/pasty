@@ -26,11 +26,11 @@ func Execute() {
 func init() {
 	rootCmd.AddCommand(completionCmd)
 
-	rootCmd.AddCommand(ColumnAlign.Command)
-	rootCmd.AddCommand(Counter.Command)
-	rootCmd.AddCommand(Dedup.Command)
-	rootCmd.AddCommand(Lower.Command)
-	rootCmd.AddCommand(Replace.Command)
-	rootCmd.AddCommand(Title.Command)
-	rootCmd.AddCommand(Upper.Command)
+	rootCmd.AddCommand(ColumnAlign)
+	rootCmd.AddCommand(Counter)
+	rootCmd.AddCommand(Dedup)
+	rootCmd.AddCommand(Lower)
+	rootCmd.AddCommand(Replace)
+	rootCmd.AddCommand(Title)
+	rootCmd.AddCommand(Upper)
 }
