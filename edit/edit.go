@@ -1,28 +1,27 @@
-package util
+package edit
 
-import "github.com/spf13/cobra"
+import (
+	"github.com/spf13/cobra"
+)
 
 type Arg struct {
 	Position int
 	HelpText string
 	Options []string
-	SetValue func(*Editor, string)
+	SetValue func(*EditorArgs, string)
 	DefaultValue string
 }
 
-type Editor struct {
+type EditorArgs struct {
 	Regex string
 	Replacement string
 	ColumnDelimiter string
 	RowDelimiter string
 	NumSpaces int
 	Option string
-
-	ArgDefs []Arg
-	Command *cobra.Command
 }
 
-func GetArguments(e *Editor, argDefs []Arg, args []string) {
+func (e *EditorArgs) GetArguments(argDefs []Arg, args []string) {
 	for ia, argDef := range argDefs {
 		if len(args) > ia {
 			argDef.SetValue(e, args[ia])
