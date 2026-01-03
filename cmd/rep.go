@@ -21,13 +21,6 @@ var repArgDefs = []edit.Arg{
 			e.Replacement = value
 		},
 	},
-	{
-		Position: 2,
-		Options: []string{"i", "m", "s", "U"},
-		SetValue: func (e *edit.EditorArgs, value string) {
-			e.Regex = "(?" + value + ")" + e.Regex
-		},
-	},
 }
 
 var Replace = &cobra.Command{
@@ -38,6 +31,7 @@ var Replace = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		e := &edit.EditorArgs{}
 		e.GetArguments(repArgDefs, args)
+		e.PrependRegex(rootSwitches)
 		text.EditText(e, e.ReplaceText)
 	},
 }

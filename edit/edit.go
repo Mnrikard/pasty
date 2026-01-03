@@ -1,24 +1,47 @@
 package edit
 
 import (
+	"strings"
+
+	"github.com/mattr/pasty/switches"
 	"github.com/spf13/cobra"
 )
 
 type Arg struct {
-	Position int
-	HelpText string
-	Options []string
-	SetValue func(*EditorArgs, string)
+	Position     int
+	HelpText     string
+	Options      []string
+	SetValue     func(*EditorArgs, string)
 	DefaultValue string
 }
 
 type EditorArgs struct {
-	Regex string
-	Replacement string
+	Regex           string
+	Replacement     string
 	ColumnDelimiter string
-	RowDelimiter string
-	NumSpaces int
-	Option string
+	RowDelimiter    string
+	NumSpaces       int
+	Option          string
+}
+
+func (e *EditorArgs) PrependRegex(rootSwitches switches.Switches) {
+	sw := make([]string, 0)
+	if !rootSwitches.CaseSensitive {
+		sw = append(sw, "i")
+	}
+	if rootSwitches.SingleLine {
+		sw = append(sw, "s")
+	}
+	if rootSwitches.Multiline {
+		sw = append(sw, "m")
+	}
+	if rootSwitches.Ungreedy {
+		sw = append(sw, "U")
+	}
+
+	if len(sw) > 0 {
+		e.Regex = "(?" + strings.Join(sw, "") + ")"
+	}
 }
 
 func (e *EditorArgs) GetArguments(argDefs []Arg, args []string) {
