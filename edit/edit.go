@@ -22,6 +22,7 @@ type EditorArgs struct {
 	RowDelimiter    string
 	NumSpaces       int
 	Option          string
+	Invert          bool
 }
 
 func (e *EditorArgs) PrependRegex(rootSwitches switches.Switches) {
@@ -32,7 +33,7 @@ func (e *EditorArgs) PrependRegex(rootSwitches switches.Switches) {
 	if rootSwitches.SingleLine {
 		sw = append(sw, "s")
 	}
-	if rootSwitches.Multiline {
+	if rootSwitches.MultiLine {
 		sw = append(sw, "m")
 	}
 	if rootSwitches.Ungreedy {
@@ -40,7 +41,7 @@ func (e *EditorArgs) PrependRegex(rootSwitches switches.Switches) {
 	}
 
 	if len(sw) > 0 {
-		e.Regex = "(?" + strings.Join(sw, "") + ")"
+		e.Regex = "(?" + strings.Join(sw, "") + ")"+e.Regex
 	}
 }
 

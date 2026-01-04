@@ -3,7 +3,8 @@ package switches
 type Switches struct {
 	CaseSensitive bool
 	SingleLine bool
-	Multiline bool
+	MultiLine bool
 	Ungreedy bool
-	GrepAll bool
+	GrepOnlyMatching bool
+	GrepInvertMatch bool
 }

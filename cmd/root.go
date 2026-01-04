@@ -27,10 +27,10 @@ func Execute() {
 var rootSwitches = switches.Switches{}
 
 func DefineRegexSwitches(cmd *cobra.Command) {
-	cmd.Flags().BoolVarP(&rootSwitches.Multiline, "multi-line", "m", false, "regex ^ and $ matches beginning and end of lines")
-	cmd.Flags().BoolVarP(&rootSwitches.SingleLine, "single-line", "s", false, "regex . matches \\n")
+	cmd.Flags().BoolVarP(&rootSwitches.MultiLine,     "multi-line",     "m", false, "regex ^ and $ matches beginning and end of lines")
+	cmd.Flags().BoolVarP(&rootSwitches.SingleLine,    "single-line",    "s", false, "regex . matches \\n")
 	cmd.Flags().BoolVarP(&rootSwitches.CaseSensitive, "case-sensitive", "I", false, "regex is case sensitive")
-	cmd.Flags().BoolVarP(&rootSwitches.Ungreedy, "un-greedy", "U", false, "regex patterns behave ungreedily")
+	cmd.Flags().BoolVarP(&rootSwitches.Ungreedy,      "un-greedy",      "U", false, "regex patterns behave ungreedily")
 }
 
 func init() {
@@ -53,5 +53,6 @@ func init() {
 	rootCmd.AddCommand(XmlDecode)
 	rootCmd.AddCommand(Grep)
 	DefineRegexSwitches(Grep)
-	Grep.Flags().BoolVarP(&rootSwitches.GrepAll, "grep-matches", "L", false, "grep returns each match instead of each matched line")
+	Grep.Flags().BoolVarP(&rootSwitches.GrepOnlyMatching, "only-matching", "o", false, "Returns only the matched (non-empty) parts of a matching line, with each such part on a separate output section")
+	Grep.Flags().BoolVarP(&rootSwitches.GrepInvertMatch, "invert-match", "v", false, "Invert the sense of matching, to select non-matching lines")
 }
