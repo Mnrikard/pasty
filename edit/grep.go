@@ -11,19 +11,24 @@ func (e *EditorArgs) Grep(input string) (string, error) {
 		return input, err
 	}
 
-	if e.Option == "L" {
+	if e.Option == "OnlyMatching" {
 		matches := rx.FindAllString(input, -1)
 		return strings.Join(matches, e.RowDelimiter), nil
 	}
 
 	output := make([]string, 0)
-	lines := strings.Split(input, "\n")
-	for _, line := range lines {
+	lines := strings.SplitSeq(input, e.RowDelimiter)
+	for line := range lines {
 		if rx.MatchString(line) {
-			output = append(output, strings.Trim(line, "\r"))
+			if !e.Invert {
+				output = append(output, strings.Trim(line, "\r"))
+			}
+		} else {
+			if e.Invert {
+				output = append(output, strings.Trim(line, "\r"))
+			}
 		}
 	}
 
 	return strings.Join(output, e.RowDelimiter), nil
-
 }
