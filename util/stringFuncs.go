@@ -3,6 +3,7 @@ package util
 import (
 	"log"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -20,4 +21,34 @@ func SplitColumns(rows []string, columnDelimiter string) [][]string {
 	}
 
 	return output
+}
+
+func IsNullOrNumber(input string) bool {
+	if len(input) == 0 {
+		return false
+	}
+
+	if strings.ToUpper(input) == "NULL" {
+		return true;
+	}
+
+	_, numErr := strconv.ParseFloat(input, 64)
+	return numErr == nil
+}
+
+func EscapeRegex(input string) string {
+	return strings.ReplaceAll(
+		strings.ReplaceAll(
+		strings.ReplaceAll(
+		strings.ReplaceAll(
+		strings.ReplaceAll(
+		strings.ReplaceAll(
+		strings.ReplaceAll(input,
+		"(","\\("),
+		")","\\)"),
+		"+","\\+"),
+		"*","\\*"),
+		"-","\\-"),
+		".","\\."),
+		"|","\\|");
 }

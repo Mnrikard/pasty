@@ -46,6 +46,18 @@ func (e *EditorArgs) PrependRegex(rootSwitches switches.Switches) {
 }
 
 func (e *EditorArgs) GetArguments(argDefs []Arg, args []string) {
+	for ii, arg := range args {
+		args[ii] = strings.ReplaceAll(
+			strings.ReplaceAll(
+			strings.ReplaceAll(
+			strings.ReplaceAll(
+			strings.ReplaceAll(arg,
+			"\\t", "\t"),
+			"\\r", "\r"),
+			"\\n", "\n"),
+			"\\p", "|"),
+			"\\q", "\"")
+	}
 	for ia, argDef := range argDefs {
 		if len(args) > ia {
 			argDef.SetValue(e, args[ia])
