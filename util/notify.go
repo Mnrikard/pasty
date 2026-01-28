@@ -1,22 +1,21 @@
 package util
 
 import (
-	_ "embed"
-
-	"github.com/gen2brain/beeep"
+	"bufio"
+	"fmt"
+	"os"
 )
 
-//go:embed binaries/pasty.png
-var pastyIcon []byte
+func Notify(input string) {
+	fmt.Println(input)
 
-func Notify(title, message string) {
-	beeep.AppName = "pasty"
-	err := beeep.Alert(title, message, pastyIcon)
-	if err != nil {
-		panic(err)
+	if !IsInputPiped() {
+		reader := bufio.NewReader(os.Stdin)
+		fmt.Print("\nPress any key to continue")
+		reader.ReadRune()
 	}
 }
 
-func DisplayError(message error) {
-	Notify("Error", message.Error())
+func DisplayError(input error) {
+	fmt.Errorf("%w", input)
 }

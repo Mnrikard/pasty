@@ -23,7 +23,7 @@ func (e *EditorArgs) CountItem(input string) (string, error) {
 		count = len(strings.TrimSpace(input))
 	}
 
-	util.Notify(e.Option, fmt.Sprintf("%d %s\n", count, e.Option))
+	util.Notify(fmt.Sprintf("%d %s", count, e.Option))
 
 	return input, nil
 }

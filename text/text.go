@@ -30,7 +30,7 @@ func GetText() (string, error) {
 		return mockedText, mockedError
 	}
 
-	if isInputPiped() {
+	if util.IsInputPiped() {
 		return string(getStdInput()), nil
 	}
 
@@ -49,7 +49,7 @@ func SetText(input string) error {
 		return mockedError
 	}
 
-	if isInputPiped() {
+	if util.IsInputPiped() {
 		fmt.Print(input)
 	} else {
 		c := clipboard.New()
@@ -62,7 +62,7 @@ func SetText(input string) error {
 }
 
 func getStdInput() []byte {
-	if !isInputPiped() {
+	if !util.IsInputPiped() {
 		return nil
 	}
 	data, err := io.ReadAll(os.Stdin)
