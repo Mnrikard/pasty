@@ -3,6 +3,6 @@ package text
 import "os"
 
 func isInputPiped() bool {
-	stat, _ := os.Stdin.Stat()
-	return (stat.Mode() & os.ModeCharDevice) == 0
+	stat, err := os.Stdin.Stat()
+	return err == nil && (stat.Mode() & os.ModeCharDevice) == 0
 }

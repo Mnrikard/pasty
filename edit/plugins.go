@@ -18,7 +18,7 @@ func (e *EditorArgs) HandlePlugin(input string) (string, error) {
 func (e *EditorArgs) executePlugin(inputText string, inputParams []string) (string, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		return "", fmt.Errorf("Error getting home directory: %e", err)
+		return "", fmt.Errorf("Error getting home directory: %w", err)
 	}
 
 	// Construct the plugin path
@@ -35,7 +35,7 @@ func (e *EditorArgs) executePlugin(inputText string, inputParams []string) (stri
 
 	// Load the Lua plugin file
 	if err := L.DoFile(pluginPath); err != nil {
-		return "", fmt.Errorf("Error loading plugin: %e", err)
+		return "", fmt.Errorf("Error loading plugin: %w", err)
 	}
 
 	// Convert the Go string slice to a Lua table
@@ -51,7 +51,7 @@ func (e *EditorArgs) executePlugin(inputText string, inputParams []string) (stri
 		Protect: true,
 	}, lua.LString(inputText), paramsTable)
 	if err != nil {
-		return "", fmt.Errorf("Error calling function: %e", err)
+		return "", fmt.Errorf("Error calling function: %w", err)
 	}
 
 	// Get the returned value
