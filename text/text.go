@@ -50,7 +50,7 @@ func SetText(input string) error {
 	}
 
 	if isInputPiped() {
-		fmt.Print(input);
+		fmt.Print(input)
 	} else {
 		c := clipboard.New()
 		if err := c.CopyText(input); err != nil {
