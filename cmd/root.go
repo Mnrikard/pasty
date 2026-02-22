@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/mattr/pasty/edit"
 	"github.com/mattr/pasty/switches"
+	"github.com/mattr/pasty/text"
 	"github.com/spf13/cobra"
 )
 
@@ -22,7 +24,12 @@ func Execute() {
 
 var rootSwitches = switches.Switches{}
 
-func DefineRegexSwitches(cmd *cobra.Command) {
+func defineRegexSwitches(commandName string) {
+	cmd := edit.FindCommandByName(rootCmd, commandName)
+	if cmd == nil {
+		return
+	}
+
 	cmd.Flags().BoolVarP(&rootSwitches.MultiLine,     "multi-line",     "m", false, "regex ^ and $ matches beginning and end of lines")
 	cmd.Flags().BoolVarP(&rootSwitches.SingleLine,    "single-line",    "s", false, "regex . matches \\n")
 	cmd.Flags().BoolVarP(&rootSwitches.CaseSensitive, "case-sensitive", "I", false, "regex is case sensitive")
@@ -30,31 +37,45 @@ func DefineRegexSwitches(cmd *cobra.Command) {
 }
 
 func init() {
-
 	rootCmd.AddCommand(completionCmd)
 
-	rootCmd.AddCommand(ColumnAlign)
-	rootCmd.AddCommand(Counter)
-	rootCmd.AddCommand(Dedup)
-	rootCmd.AddCommand(Lower)
-	rootCmd.AddCommand(Replace)
-	DefineRegexSwitches(Replace)
-	rootCmd.AddCommand(Title)
-	rootCmd.AddCommand(Upper)
-	rootCmd.AddCommand(Base64Encode)
-	rootCmd.AddCommand(Base64Decode)
-	rootCmd.AddCommand(UrlEncode)
-	rootCmd.AddCommand(UrlDecode)
-	rootCmd.AddCommand(XmlEncode)
-	rootCmd.AddCommand(XmlDecode)
-	rootCmd.AddCommand(Grep)
-	rootCmd.AddCommand(insertSql)
-	rootCmd.AddCommand(SetText)
-	rootCmd.AddCommand(NewGuid)
-	rootCmd.AddCommand(FromBase)
-	rootCmd.AddCommand(ToBase)
-	rootCmd.AddCommand(SolveMath)
-	DefineRegexSwitches(Grep)
-	Grep.Flags().BoolVarP(&rootSwitches.GrepOnlyMatching, "only-matching", "o", false, "Returns only the matched (non-empty) parts of a matching line, with each such part on a separate output section")
-	Grep.Flags().BoolVarP(&rootSwitches.GrepInvertMatch, "invert-match", "v", false, "Invert the sense of matching, to select non-matching lines")
+	for _, sc := range edit.SubCommands {
+		cmd := buildCommand(sc)
+		rootCmd.AddCommand(cmd)
+	}
+
+	defineRegexSwitches("rep")
+	defineRegexSwitches("grep")
+	grep := edit.FindCommandByName(rootCmd, "grep")
+	if grep != nil {
+		grep.Flags().BoolVarP(&rootSwitches.GrepOnlyMatching, "only-matching", "o", false, "Returns only the matched (non-empty) parts of a matching line, with each such part on a separate output section")
+		grep.Flags().BoolVarP(&rootSwitches.GrepInvertMatch, "invert-match", "v", false, "Invert the sense of matching, to select non-matching lines")
+	}
+}
+
+func buildCommand(sc edit.SubCommand) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     sc.Use,
+		Short:   sc.Short,
+		Long:    sc.Long,
+		Aliases: sc.Aliases,
+		Args:    sc.Args,
+	}
+
+	if len(sc.ArgDefs) > 0 {
+		cmd.ValidArgsFunction = edit.BuildArguments(sc.ArgDefs)
+	}
+
+	cmd.Run = func(cmd *cobra.Command, args []string) {
+		e := &edit.EditorArgs{}
+		if len(sc.ArgDefs) > 0 {
+			e.GetArguments(sc.ArgDefs, args)
+		}
+		if sc.CustomSetup != nil {
+			sc.CustomSetup(cmd, e)
+		}
+		text.EditText(e, sc.EditFunc(e))
+	}
+
+	return cmd
 }
