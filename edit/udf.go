@@ -45,7 +45,7 @@ func (e *EditorArgs) ExecuteUdf(input string) (string, error) {
 		}
 
 		subEditArgs := &EditorArgs{}
-		err = setArgs(subEditArgs, editor.ArgDefs, e.OriginalArgs)
+		err = setArgs(subEditArgs, editor.ArgDefs, subCmd.Args)
 		if err != nil {
 			return "", err
 		}
