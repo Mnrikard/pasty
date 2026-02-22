@@ -23,6 +23,7 @@ type EditorArgs struct {
 	NumSpaces       int
 	Option          string
 	Invert          bool
+	OriginalArgs    []string
 }
 
 func (e *EditorArgs) PrependRegex(rootSwitches switches.Switches) {
@@ -46,6 +47,7 @@ func (e *EditorArgs) PrependRegex(rootSwitches switches.Switches) {
 }
 
 func (e *EditorArgs) GetArguments(argDefs []Arg, args []string) {
+	e.OriginalArgs = args
 	for ii, arg := range args {
 		args[ii] = strings.ReplaceAll(
 			strings.ReplaceAll(
