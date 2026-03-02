@@ -21,6 +21,21 @@ type SubCommand struct {
 
 var SubCommands = []SubCommand{
 	{
+		Name:      "udf",
+		Use:       "udf [name] [args...]",
+		Short:     "Runs a user defined function",
+		Args:      cobra.MinimumNArgs(1),
+		ArgDefs: []Arg{
+			{
+				Position:     0,
+				HelpText:     "Name of UDF",
+				SetValue: func(e *EditorArgs, value string) {
+					e.Option = value
+				},
+			},
+		},
+	},
+	{
 		Name:      "upper",
 		Use:      "upper",
 		Short:    "Upper cases text",
@@ -299,6 +314,24 @@ hello world
 			},
 		},
 		EditFunc: func(e *EditorArgs) func(string) (string, error) { return e.Grep },
+	},
+	{
+		Name:  "sort",
+		Use:   "sort",
+		Short: "Sorts alphabetically and numerically",
+		Long: `Sorts sets alphabetically and numerically`,
+		Args:               cobra.MinimumNArgs(0),
+		ArgDefs: []Arg{
+			{
+				Position: 0,
+				HelpText: "Separator",
+				SetValue: func(e *EditorArgs, value string) {
+					e.RowDelimiter = value
+				},
+				DefaultValue: "\n",
+			},
+		},
+		EditFunc: func(e *EditorArgs) func(string) (string, error) { return e.Sort },
 	},
 }
 
