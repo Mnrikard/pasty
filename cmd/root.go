@@ -40,6 +40,9 @@ func init() {
 	rootCmd.AddCommand(completionCmd)
 
 	for _, sc := range edit.SubCommands {
+		if sc.Name == "udf" {
+			sc.EditFunc = func (e *edit.EditorArgs) func(string) (string, error) { return e.ExecuteUdf }
+		}
 		cmd := buildCommand(sc)
 		rootCmd.AddCommand(cmd)
 	}
@@ -71,9 +74,11 @@ func buildCommand(sc edit.SubCommand) *cobra.Command {
 		if len(sc.ArgDefs) > 0 {
 			e.GetArguments(sc.ArgDefs, args)
 		}
+
 		if sc.CustomSetup != nil {
 			sc.CustomSetup(cmd, e)
 		}
+
 		text.EditText(e, sc.EditFunc(e))
 	}
 
