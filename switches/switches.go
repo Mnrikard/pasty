@@ -7,4 +7,5 @@ type Switches struct {
 	Ungreedy bool
 	GrepOnlyMatching bool
 	GrepInvertMatch bool
+	Invert bool
 }

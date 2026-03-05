@@ -1,6 +1,10 @@
 package edit
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/mattr/pasty/switches"
+)
 
 func TestSort(t *testing.T) {
 	tests := []struct {
@@ -70,7 +74,8 @@ func TestSort(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			args := EditorArgs{RowDelimiter: tt.rowDelimiter, Option: tt.option}
+			sw := switches.Switches{Invert: true}
+			args := EditorArgs{RowDelimiter: tt.rowDelimiter, Option: tt.option, Switches: sw }
 			result, err := args.Sort(tt.input)
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)

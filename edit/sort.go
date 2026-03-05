@@ -29,7 +29,11 @@ func (e *EditorArgs) Sort(input string) (string, error) {
 			return strings.ToLower(sortable[a].OriginalValue) > strings.ToLower(sortable[b].OriginalValue)
 		}
 
-		return sortable[a].OriginalValue > sortable[b].OriginalValue
+		if e.Switches.Invert {
+			return sortable[a].OriginalValue > sortable[b].OriginalValue
+		}
+
+		return sortable[a].OriginalValue < sortable[b].OriginalValue
 	})
 
 	output := make([]string, len(items))
