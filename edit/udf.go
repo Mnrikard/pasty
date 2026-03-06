@@ -27,6 +27,20 @@ type UdfParameter struct {
 	SetValue string
 }
 
+func ListUdfs() []string {
+	udfs, err := getUdfs()
+	if err != nil {
+		return make([]string, 0)
+	}
+
+	output := make([]string, len(udfs))
+	for i, udf := range udfs {
+		output[i] = udf.Name
+	}
+
+	return output
+}
+
 func (e *EditorArgs) ExecuteUdf(input string) (string, error) {
 	udfs, err := getUdfs()
 	if err != nil {

@@ -18,15 +18,24 @@ func (e *EditorArgs) Sort(input string) (string, error) {
 	sortable := getSortEntries(items)
 	sort.Slice(sortable, func(a, b int) bool {
 		if sortable[a].DateValue != nil && sortable[b].DateValue != nil {
-			return sortable[a].DateValue.UnixMicro() > sortable[b].DateValue.UnixMicro()
+			if e.Switches.Invert {
+				return sortable[a].DateValue.UnixMicro() > sortable[b].DateValue.UnixMicro()
+			}
+			return sortable[a].DateValue.UnixMicro() < sortable[b].DateValue.UnixMicro()
 		}
 
 		if sortable[a].FloatValue != nil && sortable[b].FloatValue != nil {
-			return *sortable[a].FloatValue > *sortable[b].FloatValue
+			if e.Switches.Invert {
+				return *sortable[a].FloatValue > *sortable[b].FloatValue
+			}
+			return *sortable[a].FloatValue < *sortable[b].FloatValue
 		}
 
 		if e.Option == "i" {
-			return strings.ToLower(sortable[a].OriginalValue) > strings.ToLower(sortable[b].OriginalValue)
+			if e.Switches.Invert {
+				return strings.ToLower(sortable[a].OriginalValue) > strings.ToLower(sortable[b].OriginalValue)
+			}
+			return strings.ToLower(sortable[a].OriginalValue) < strings.ToLower(sortable[b].OriginalValue)
 		}
 
 		if e.Switches.Invert {

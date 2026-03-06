@@ -24,7 +24,7 @@ type EditorArgs struct {
 	Option          string
 	Invert          bool
 	OriginalArgs    []string
-	Switches        switches.Switches
+	Switches        *switches.Switches
 }
 
 func (e *EditorArgs) PrependRegex(rootSwitches switches.Switches) {
