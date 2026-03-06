@@ -45,6 +45,7 @@ func init() {
 			sc.EditFunc = func (e *edit.EditorArgs) func(string) (string, error) { return e.ExecuteUdf }
 		}
 		cmd := buildCommand(sc)
+		cmd.ValidArgs = edit.ListUdfs()
 		rootCmd.AddCommand(cmd)
 	}
 

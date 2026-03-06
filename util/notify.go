@@ -3,6 +3,7 @@ package util
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 )
 
@@ -17,5 +18,6 @@ func Notify(input string) {
 }
 
 func DisplayError(input error) {
-	fmt.Errorf("%w", input)
+	l := log.New(os.Stderr, "", 0)
+	l.Println(input)
 }
