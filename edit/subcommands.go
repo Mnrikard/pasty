@@ -21,6 +21,23 @@ type SubCommand struct {
 
 var SubCommands = []SubCommand{
 	{
+		Name:      "plugin",
+		Use:       "plugin [name] [args...]",
+		Short:     "Runs a plugin found in your config directory",
+		Long:      "Define plugins in $HOME/.config/pasty/plugins/{name}.lua to be executed here",
+		Args:      cobra.MinimumNArgs(1),
+		ArgDefs: []Arg{
+			{
+				Position:     0,
+				HelpText:     "Name of Plugin",
+				SetValue: func(e *EditorArgs, value string) {
+					e.Option = value
+				},
+			},
+		},
+		EditFunc: func(e *EditorArgs) func(string) (string, error) { return e.HandlePlugin },
+	},
+	{
 		Name:      "udf",
 		Use:       "udf [name] [args...]",
 		Short:     "Runs a user defined function",
