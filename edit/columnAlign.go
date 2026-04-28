@@ -24,7 +24,10 @@ func rebuildRows(e *EditorArgs, grid [][]string, colWidths []int) string {
 			if len(col) < colWidths[ci] {
 				cols = append(cols, strings.Repeat(" ", colWidths[ci]-len(col)))
 			}
-			cols = append(cols, strings.Repeat(" ", e.NumSpaces))
+
+			if ci < len(row)-1 {
+				cols = append(cols, strings.Repeat(" ", e.NumSpaces))
+			}
 		}
 
 		output[ri] = strings.Join(cols, "")

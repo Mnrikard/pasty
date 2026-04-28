@@ -17,6 +17,7 @@ func (e *EditorArgs) Sort(input string) (string, error) {
 	items := strings.Split(input, e.RowDelimiter)
 	sortable := getSortEntries(items)
 	sort.Slice(sortable, func(a, b int) bool {
+		//Sort Dates
 		if sortable[a].DateValue != nil && sortable[b].DateValue != nil {
 			if e.Switches.Invert {
 				return sortable[a].DateValue.UnixMicro() > sortable[b].DateValue.UnixMicro()
@@ -24,6 +25,7 @@ func (e *EditorArgs) Sort(input string) (string, error) {
 			return sortable[a].DateValue.UnixMicro() < sortable[b].DateValue.UnixMicro()
 		}
 
+		//Sort Numbers
 		if sortable[a].FloatValue != nil && sortable[b].FloatValue != nil {
 			if e.Switches.Invert {
 				return *sortable[a].FloatValue > *sortable[b].FloatValue
@@ -31,18 +33,40 @@ func (e *EditorArgs) Sort(input string) (string, error) {
 			return *sortable[a].FloatValue < *sortable[b].FloatValue
 		}
 
-		if e.Option == "i" {
-			if e.Switches.Invert {
-				return strings.ToLower(sortable[a].OriginalValue) > strings.ToLower(sortable[b].OriginalValue)
+		//sort as strings
+		if sortable[a].DateValue == nil && sortable[b].DateValue == nil && sortable[a].FloatValue == nil && sortable[b].FloatValue == nil {
+			if e.Option == "i" {
+				if e.Switches.Invert {
+					return strings.ToLower(sortable[a].OriginalValue) > strings.ToLower(sortable[b].OriginalValue)
+				}
+				return strings.ToLower(sortable[a].OriginalValue) < strings.ToLower(sortable[b].OriginalValue)
 			}
-			return strings.ToLower(sortable[a].OriginalValue) < strings.ToLower(sortable[b].OriginalValue)
+
+			if e.Switches.Invert {
+				return sortable[a].OriginalValue > sortable[b].OriginalValue
+			}
+
+			return sortable[a].OriginalValue < sortable[b].OriginalValue
 		}
 
-		if e.Switches.Invert {
-			return sortable[a].OriginalValue > sortable[b].OriginalValue
+		//numbers go on top
+		if sortable[a].FloatValue != nil {
+			return !e.Switches.Invert
+		}
+		if sortable[b].FloatValue != nil {
+			return e.Switches.Invert
 		}
 
-		return sortable[a].OriginalValue < sortable[b].OriginalValue
+		//dates go before strings
+		if sortable[a].DateValue != nil {
+			return !e.Switches.Invert
+		}
+		if sortable[b].DateValue != nil {
+			return e.Switches.Invert
+		}
+
+		//should never reach this
+		return false
 	})
 
 	output := make([]string, len(items))

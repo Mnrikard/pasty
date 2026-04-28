@@ -13,15 +13,27 @@ seven	eight	nine
 ten	eleven	twelve
 thirteen	fourteen	fifteen`
 	expectedOutput := "" +
-		"one       two       three    \n" +
-		"four      five      six      \n" +
-		"seven     eight     nine     \n" +
-		"ten       eleven    twelve   \n" +
-		"thirteen  fourteen  fifteen  "
+		"one       two       three  \n" +
+		"four      five      six    \n" +
+		"seven     eight     nine   \n" +
+		"ten       eleven    twelve \n" +
+		"thirteen  fourteen  fifteen"
 	args := EditorArgs{
 		NumSpaces: 2,
 		ColumnDelimiter: "\t",
 	}
+	actualOutput, _ := args.AlignColumns(input)
+	assertEqual(t, expectedOutput, actualOutput, "")
+}
+
+func TestEmptyInputProducesEmptyOutput(t *testing.T) {
+	input := ""
+	expectedOutput := ""
+	args := EditorArgs {
+		NumSpaces: 2,
+		ColumnDelimiter: "\t",
+	}
+
 	actualOutput, _ := args.AlignColumns(input)
 	assertEqual(t, expectedOutput, actualOutput, "")
 }
