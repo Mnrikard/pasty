@@ -1,6 +1,7 @@
 package edit
 
 import (
+	"fmt"
 	"sort"
 	"strconv"
 	"strings"
@@ -101,7 +102,13 @@ func getSortEntries(items []string) []sortEntry {
 var standardDateFormats = []string {
 	time.RFC3339,
 	"2006-01-02",
+	"2006-1-2",
 	"01-02-2006",
+	"1-2-2006",
+	"2006/01/02",
+	"2006/1/2",
+	"01/02/2006",
+	"1/2/2006",
 }
 
 var standardTimeFormats = []string {
@@ -118,11 +125,14 @@ func getDateValue(input string) *time.Time {
 			return &date
 		}
 		for _, tfmt := range standardTimeFormats {
-			date, err = time.Parse(dfmt + " " + tfmt, input)
+			dtfmt := fmt.Sprintf("%s %s", dfmt, tfmt)
+			date, err = time.Parse(dtfmt, input)
 			if err == nil {
 				return &date
 			}
-			date, err = time.Parse(dfmt + "T" + tfmt, input)
+
+			dtfmt = fmt.Sprintf("%sT%s", dfmt, tfmt)
+			date, err = time.Parse(dtfmt, input)
 			if err == nil {
 				return &date
 			}
