@@ -100,24 +100,37 @@ func getSortEntries(items []string) []sortEntry {
 
 var standardDateFormats = []string {
 	time.RFC3339,
-	"2006-01-02 15:04:05",
-	"2006-01-02 03:04:05",
-	"2006-01-02 3:04:05",
-	"2006-01-02 3:04:05 PM",
-	"01-02-2006 15:04:05",
-	"01-02-2006 03:04:05",
-	"01-02-2006 3:04:05",
-	"01-02-2006 3:04:05 PM",
-	"01-02-2006",
 	"2006-01-02",
+	"01-02-2006",
+}
+
+var standardTimeFormats = []string {
 	"15:04:05",
 	"03:04:05",
-	"03:04:05 PM",
+	"3:04:05",
+	"3:04:05 PM",
 }
 
 func getDateValue(input string) *time.Time {
-	for _, fmt := range standardDateFormats {
-		date, err := time.Parse(fmt, input)
+	for _, dfmt := range standardDateFormats {
+		date, err := time.Parse(dfmt, input)
+		if err == nil {
+			return &date
+		}
+		for _, tfmt := range standardTimeFormats {
+			date, err = time.Parse(dfmt + " " + tfmt, input)
+			if err == nil {
+				return &date
+			}
+			date, err = time.Parse(dfmt + "T" + tfmt, input)
+			if err == nil {
+				return &date
+			}
+		}
+	}
+
+	for _, tfmt := range standardTimeFormats {
+		date, err := time.Parse(tfmt, input)
 		if err == nil {
 			return &date
 		}
