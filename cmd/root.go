@@ -44,8 +44,16 @@ func init() {
 		if sc.Name == "udf" {
 			sc.EditFunc = func (e *edit.EditorArgs) func(string) (string, error) { return e.ExecuteUdf }
 		}
+		if sc.Name == "plugin" {
+			sc.EditFunc = func (e *edit.EditorArgs) func(string) (string, error) { return e.HandlePlugin }
+		}
 		cmd := buildCommand(sc)
-		cmd.ValidArgs = edit.ListUdfs()
+		if sc.Name == "udf" {
+			cmd.ValidArgs = edit.ListUdfs()
+		}
+		if sc.Name == "plugin" {
+			cmd.ValidArgs = edit.ListPlugins()
+		}
 		rootCmd.AddCommand(cmd)
 	}
 

@@ -35,7 +35,6 @@ var SubCommands = []SubCommand{
 				},
 			},
 		},
-		EditFunc: func(e *EditorArgs) func(string) (string, error) { return e.HandlePlugin },
 	},
 	{
 		Name:      "udf",

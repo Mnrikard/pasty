@@ -15,14 +15,61 @@ func (e *EditorArgs) HandlePlugin(input string) (string, error) {
 	return e.executePlugin(input, PluginArgs)
 }
 
-func (e *EditorArgs) executePlugin(inputText string, inputParams []string) (string, error) {
+func ListPlugins() []string {
+	pluginDir, err := getPluginPath()
+	if err != nil {
+		return []string{}
+	}
+
+	plugins, err := os.ReadDir(pluginDir)
+	if err != nil {
+		return []string{}
+	}
+
+	prepOutput := make([]string, len(plugins))
+	ii := 0
+
+	for _, pl := range plugins {
+		if pl.IsDir() {
+			continue
+		}
+		name := pl.Name()
+		if len(name) > 4 && strings.EqualFold(name[len(name)-4:],".lua") {
+			prepOutput[ii] = name[0:len(name)-4]
+			ii += 1
+		}
+	}
+
+	output := make([]string, ii)
+	for i, nm := range prepOutput {
+		if i >= ii {
+			return output
+		}
+		output[i] = nm
+	}
+
+	return output
+}
+
+func getPluginPath() (string, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return "", fmt.Errorf("Error getting home directory: %w", err)
 	}
 
 	// Construct the plugin path
-	pluginPath := filepath.Join(homeDir, ".config", "pasty", "plugins", fmt.Sprintf("%s.lua", strings.Trim(e.Option, " \t\r\n")))
+	pluginPath := filepath.Join(homeDir, ".config", "pasty", "plugins")
+	return pluginPath, nil
+}
+
+func (e *EditorArgs) executePlugin(inputText string, inputParams []string) (string, error) {
+	pluginDir, err := getPluginPath()
+	if err != nil {
+		return "", err
+	}
+
+	// Construct the plugin path
+	pluginPath := filepath.Join(pluginDir, fmt.Sprintf("%s.lua", strings.Trim(e.Option, " \t\r\n")))
 
 	// Check if the plugin file exists
 	if _, err := os.Stat(pluginPath); os.IsNotExist(err) {
