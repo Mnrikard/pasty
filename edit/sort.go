@@ -2,10 +2,13 @@ package edit
 
 import (
 	"fmt"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/mattr/pasty/util"
 )
 
 type sortEntry struct {
@@ -99,32 +102,19 @@ func getSortEntries(items []string) []sortEntry {
 	return output
 }
 
-var standardDateFormats = []string {
-	time.RFC3339,
-	"2006-01-02",
-	"2006-1-2",
-	"01-02-2006",
-	"1-2-2006",
-	"2006/01/02",
-	"2006/1/2",
-	"01/02/2006",
-	"1/2/2006",
-}
-
-var standardTimeFormats = []string {
-	"15:04:05",
-	"03:04:05",
-	"3:04:05",
-	"3:04:05 PM",
-}
-
 func getDateValue(input string) *time.Time {
-	for _, dfmt := range standardDateFormats {
+	for _, dfmt := range util.Settings().DateFormats {
 		date, err := time.Parse(dfmt, input)
 		if err == nil {
 			return &date
 		}
-		for _, tfmt := range standardTimeFormats {
+
+		//if it contains time information, don't append time
+		if regexp.MustCompile("(?i)(pm|15:)").MatchString(dfmt) {
+			continue
+		}
+
+		for _, tfmt := range util.Settings().TimeFormats {
 			dtfmt := fmt.Sprintf("%s %s", dfmt, tfmt)
 			date, err = time.Parse(dtfmt, input)
 			if err == nil {
@@ -139,7 +129,7 @@ func getDateValue(input string) *time.Time {
 		}
 	}
 
-	for _, tfmt := range standardTimeFormats {
+	for _, tfmt := range util.Settings().TimeFormats {
 		date, err := time.Parse(tfmt, input)
 		if err == nil {
 			return &date

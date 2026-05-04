@@ -33,7 +33,6 @@ func rebuildRows(e *EditorArgs, grid [][]string, colWidths []int) string {
 		output[ri] = strings.Join(cols, "")
 	}
 
-	//todo: global settings for new line
 	return strings.Join(output, "\n")
 }
 

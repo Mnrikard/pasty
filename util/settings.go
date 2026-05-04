@@ -8,9 +8,9 @@ import (
 )
 
 type SettingValues struct {
-	TabString string
-	DateFormats []string
-	TimeFormats []string
+	TabString string `json:"tabString"`
+	DateFormats []string `json:"dateFormats"`
+	TimeFormats []string `json:"timeFormats"`
 }
 
 var sett *SettingValues
