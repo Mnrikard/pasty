@@ -84,3 +84,26 @@ func TestSolveMath_EdgeCases(t *testing.T) {
 		})
 	}
 }
+
+func TestEvaluateExpression_Errors(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+	}{
+		{"division by zero", "10 / 0"},
+		{"mismatched parentheses open", "(2 + 3"},
+		{"unexpected end", "2 +"},
+		{"expected number", "2 + * 3"},
+		{"empty expression", ""},
+		{"only operator", "+"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, err := evaluateExpression(tt.input)
+			if err == nil {
+				t.Errorf("expected error for %q, but got nil", tt.input)
+			}
+		})
+	}
+}

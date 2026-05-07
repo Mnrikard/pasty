@@ -7,8 +7,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/Mnrikard/pasty/util"
 )
 
 type sortEntry struct {
@@ -103,7 +101,7 @@ func getSortEntries(items []string) []sortEntry {
 }
 
 func getDateValue(input string) *time.Time {
-	for _, dfmt := range util.Settings().DateFormats {
+	for _, dfmt := range settings().DateFormats {
 		date, err := time.Parse(dfmt, input)
 		if err == nil {
 			return &date
@@ -114,7 +112,7 @@ func getDateValue(input string) *time.Time {
 			continue
 		}
 
-		for _, tfmt := range util.Settings().TimeFormats {
+		for _, tfmt := range settings().TimeFormats {
 			dtfmt := fmt.Sprintf("%s %s", dfmt, tfmt)
 			date, err = time.Parse(dtfmt, input)
 			if err == nil {
@@ -129,7 +127,7 @@ func getDateValue(input string) *time.Time {
 		}
 	}
 
-	for _, tfmt := range util.Settings().TimeFormats {
+	for _, tfmt := range settings().TimeFormats {
 		date, err := time.Parse(tfmt, input)
 		if err == nil {
 			return &date

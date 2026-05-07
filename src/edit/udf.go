@@ -3,7 +3,6 @@ package edit
 import (
 	"encoding/json"
 	"fmt"
-	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -78,18 +77,18 @@ func (e *EditorArgs) ExecuteUdf(input string) (string, error) {
 }
 
 func getUdfs() ([]UDF, error) {
-	homeDir, err := os.UserHomeDir()
+	homeDir, err := osUserHomeDir()
 	if err != nil {
 		return nil, fmt.Errorf("Error getting home directory: %w", err)
 	}
 
 	definitionsPath := filepath.Join(homeDir, ".config", "pasty", "user_defined.json")
 
-	if _, err := os.Stat(definitionsPath); os.IsNotExist(err) {
-		os.Create(definitionsPath)
+	if _, err := osStat(definitionsPath); osIsNotExist(err) {
+		osCreate(definitionsPath)
 	}
 
-	defFile, _ := os.ReadFile(definitionsPath)
+	defFile, _ := osReadFile(definitionsPath)
 	var data []UDF
 	err = json.Unmarshal(defFile, &data)
 	if err != nil {

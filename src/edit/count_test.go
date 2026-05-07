@@ -1,27 +1,35 @@
 package edit
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestCountItem_Words(t *testing.T) {
 	tests := []struct {
 		name   string
 		input  string
 		option string
+		expectedCount string
 	}{
-		{"single word", "hello", "words"},
-		{"multiple words", "hello world foo", "words"},
-		{"word option", "one two", "word"},
-		{"extra spaces", "  hello   world  ", "words"},
+		{"single word", "hello", "words", "1 words"},
+		{"multiple words", "hello world foo", "words", "3 words"},
+		{"word option", "one two", "word", "2 word"},
+		{"extra spaces", "  hello   world  ", "words", "2 words"},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			args := EditorArgs{Option: tt.option}
-			result, err := args.CountItem(tt.input)
+			actualCount := ""
+			notify = func(input string) {
+				actualCount = input
+			}
+			_, err := args.CountItem(tt.input)
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
 			}
-			assertEqual(t, tt.input, result, "CountItem should return original input")
+			assertEqual(t, tt.expectedCount, actualCount, fmt.Sprintf("Expected %q, but was %q", tt.expectedCount, actualCount))
 		})
 	}
 }

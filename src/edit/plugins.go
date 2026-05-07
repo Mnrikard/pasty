@@ -2,7 +2,6 @@ package edit
 
 import (
 	"fmt"
-	"os"
 	"path/filepath"
 	"strings"
 
@@ -21,7 +20,7 @@ func ListPlugins() []string {
 		return []string{}
 	}
 
-	plugins, err := os.ReadDir(pluginDir)
+	plugins, err := osReadDir(pluginDir)
 	if err != nil {
 		return []string{}
 	}
@@ -52,7 +51,7 @@ func ListPlugins() []string {
 }
 
 func getPluginPath() (string, error) {
-	homeDir, err := os.UserHomeDir()
+	homeDir, err := osUserHomeDir()
 	if err != nil {
 		return "", fmt.Errorf("Error getting home directory: %w", err)
 	}
@@ -72,7 +71,7 @@ func (e *EditorArgs) executePlugin(inputText string, inputParams []string) (stri
 	pluginPath := filepath.Join(pluginDir, fmt.Sprintf("%s.lua", strings.Trim(e.Option, " \t\r\n")))
 
 	// Check if the plugin file exists
-	if _, err := os.Stat(pluginPath); os.IsNotExist(err) {
+	if _, err := osStat(pluginPath); osIsNotExist(err) {
 		return "", fmt.Errorf("Plugin file not found at: %s\n", pluginPath)
 	}
 

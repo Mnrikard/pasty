@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
-
-	"github.com/Mnrikard/pasty/util"
 )
 
 func (e *EditorArgs) CountItem(input string) (string, error) {
@@ -23,7 +21,7 @@ func (e *EditorArgs) CountItem(input string) (string, error) {
 		count = len(strings.TrimSpace(input))
 	}
 
-	util.Notify(fmt.Sprintf("%d %s", count, e.Option))
+	notify(fmt.Sprintf("%d %s", count, e.Option))
 
 	return input, nil
 }

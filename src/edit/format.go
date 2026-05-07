@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/Mnrikard/pasty/reader"
-	"github.com/Mnrikard/pasty/util"
 )
 
 func (e *EditorArgs) FormatCode(input string) (string, error) {
@@ -49,7 +48,7 @@ func formatSql(input string) (string, error) {
 		if has(breakBefores, str) {
 			_, err = output.WriteString("\n")
 		} else if has(tabBefore, str) {
-			_, err = output.WriteString(fmt.Sprintf("\n%v", util.Settings().TabString))
+			_, err = output.WriteString(fmt.Sprintf("\n%v", settings().TabString))
 		} else if i > 0 {
 			_, err = output.WriteRune(' ')
 		}
@@ -130,7 +129,7 @@ func has(list []string, word string) bool {
 func tab(size int) string {
 	output := make([]string, size)
 	for i := range output {
-		output[i] = util.Settings().TabString
+		output[i] = settings().TabString
 	}
 
 	return strings.Join(output, "")
