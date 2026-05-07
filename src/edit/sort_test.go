@@ -3,7 +3,7 @@ package edit
 import (
 	"testing"
 
-	"github.com/mattr/pasty/switches"
+	"github.com/Mnrikard/pasty/switches"
 )
 
 func TestSort(t *testing.T) {

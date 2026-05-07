@@ -3,7 +3,7 @@ package edit
 import (
 	"strings"
 
-	"github.com/mattr/pasty/switches"
+	"github.com/Mnrikard/pasty/switches"
 	"github.com/spf13/cobra"
 )
 

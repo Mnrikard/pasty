@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/mattr/pasty/edit"
-	"github.com/mattr/pasty/util"
+	"github.com/Mnrikard/pasty/edit"
+	"github.com/Mnrikard/pasty/util"
 	"github.com/tiagomelo/go-clipboard/clipboard"
 )
 

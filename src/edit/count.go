@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/mattr/pasty/util"
+	"github.com/Mnrikard/pasty/util"
 )
 
 func (e *EditorArgs) CountItem(input string) (string, error) {

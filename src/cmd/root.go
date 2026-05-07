@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mattr/pasty/edit"
-	"github.com/mattr/pasty/switches"
-	"github.com/mattr/pasty/text"
+	"github.com/Mnrikard/pasty/edit"
+	"github.com/Mnrikard/pasty/switches"
+	"github.com/Mnrikard/pasty/text"
 	"github.com/spf13/cobra"
 )
 

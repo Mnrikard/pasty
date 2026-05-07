@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/mattr/pasty/reader"
-	"github.com/mattr/pasty/util"
+	"github.com/Mnrikard/pasty/reader"
+	"github.com/Mnrikard/pasty/util"
 )
 
 

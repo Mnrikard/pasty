@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/mattr/pasty/cmd"
+	"github.com/Mnrikard/pasty/cmd"
 	"github.com/spf13/cobra"
 )
 

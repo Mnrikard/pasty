@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/mattr/pasty/switches"
+	"github.com/Mnrikard/pasty/switches"
 )
 
 func TestCanPrependRegex(t *testing.T) {

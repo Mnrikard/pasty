@@ -3,7 +3,7 @@ package edit
 import (
 	"strings"
 
-	"github.com/mattr/pasty/util"
+	"github.com/Mnrikard/pasty/util"
 )
 
 func (e *EditorArgs) AlignColumns(input string) (string, error) {

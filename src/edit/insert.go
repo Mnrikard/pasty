@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/mattr/pasty/util"
+	"github.com/Mnrikard/pasty/util"
 )
 
 

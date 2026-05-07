@@ -18,7 +18,7 @@ and x=y`
 		InlineComments: "--",
 		StartBlockComment: "/*",
 		EndBlockComment: "*/",
-		StringChar: "'",
+		StringChars: []string{ "'" },
 		StringEscapeChar: "'",
 	}
 

@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mattr/pasty/util"
+	"github.com/Mnrikard/pasty/util"
 )
 
 type sortEntry struct {
