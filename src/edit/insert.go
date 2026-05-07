@@ -8,15 +8,14 @@ import (
 	"github.com/Mnrikard/pasty/util"
 )
 
-
 func (e *EditorArgs) InsertSQL(input string) (string, error) {
-	rowOfInsert := 1000;
+	rowOfInsert := 1000
 	lineSplitter := regexp.MustCompile(e.RowDelimiter)
 	lines := lineSplitter.Split(input, -1)
 	columnNames := e.getColumns(lines[0])
 	insertStatement := e.defineInsertStatement(columnNames)
 
-	output := strings.Builder {}
+	output := strings.Builder{}
 
 	for _, line := range lines[1:] {
 		if strings.Trim(line, "\t\r\n ") == "" {
@@ -35,19 +34,19 @@ func (e *EditorArgs) InsertSQL(input string) (string, error) {
 		rowOfInsert = rowOfInsert + 1
 	}
 
-	return output.String(), nil;
+	return output.String(), nil
 }
 
 func (e *EditorArgs) defineInsertStatement(columns []string) string {
 	tableName := strings.ReplaceAll(
 		strings.ReplaceAll(
-		strings.ReplaceAll(
-		strings.ReplaceAll(e.Option,
-		".", "].["),
-		"[[", "["),
-		"]]", "]"),
-		"[]","")
-	return fmt.Sprintf("insert into [%s] (%s)\nvalues\n ", tableName, strings.Join(columns, ", "));
+			strings.ReplaceAll(
+				strings.ReplaceAll(e.Option,
+					".", "].["),
+				"[[", "["),
+			"]]", "]"),
+		"[]", "")
+	return fmt.Sprintf("insert into [%s] (%s)\nvalues\n ", tableName, strings.Join(columns, ", "))
 }
 
 func (e *EditorArgs) getColumns(line string) []string {
@@ -55,11 +54,11 @@ func (e *EditorArgs) getColumns(line string) []string {
 	return colSplitter.Split(line, -1)
 }
 
-func writeSingleRow (cols []string, b *strings.Builder) {
-	b.WriteString("(");
+func writeSingleRow(cols []string, b *strings.Builder) {
+	b.WriteString("(")
 	for j, col := range cols {
 		if j > 0 {
-			b.WriteString(", ");
+			b.WriteString(", ")
 		}
 
 		var apostropheOrNot string
@@ -69,9 +68,8 @@ func writeSingleRow (cols []string, b *strings.Builder) {
 			apostropheOrNot = "'"
 		}
 
-		fmt.Fprintf(b, "%s%s%s", apostropheOrNot, strings.ReplaceAll(col, "'", "''"), apostropheOrNot);
+		fmt.Fprintf(b, "%s%s%s", apostropheOrNot, strings.ReplaceAll(col, "'", "''"), apostropheOrNot)
 	}
 
-	b.WriteString(")\n");
+	b.WriteString(")\n")
 }
-

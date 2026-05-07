@@ -34,4 +34,3 @@ func (e *EditorArgs) EncodeForXml(input string) (string, error) {
 func (e *EditorArgs) DecodeFromXml(input string) (string, error) {
 	return html.UnescapeString(input), nil
 }
-

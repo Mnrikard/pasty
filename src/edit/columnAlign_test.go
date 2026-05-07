@@ -19,7 +19,7 @@ thirteen	fourteen	fifteen`
 		"ten       eleven    twelve \n" +
 		"thirteen  fourteen  fifteen"
 	args := EditorArgs{
-		NumSpaces: 2,
+		NumSpaces:       2,
 		ColumnDelimiter: "\t",
 	}
 	actualOutput, _ := args.AlignColumns(input)
@@ -29,8 +29,8 @@ thirteen	fourteen	fifteen`
 func TestEmptyInputProducesEmptyOutput(t *testing.T) {
 	input := ""
 	expectedOutput := ""
-	args := EditorArgs {
-		NumSpaces: 2,
+	args := EditorArgs{
+		NumSpaces:       2,
 		ColumnDelimiter: "\t",
 	}
 
@@ -43,8 +43,8 @@ func assertEqual(t *testing.T, expected, actual string, message string) {
 		return
 	}
 	if len(message) == 0 {
-		expected = strings.ReplaceAll(strings.ReplaceAll(expected, "\r","\\r"), "\t", "\\t")
-		actual = strings.ReplaceAll(strings.ReplaceAll(actual, "\r","\\r"), "\t", "\\t")
+		expected = strings.ReplaceAll(strings.ReplaceAll(expected, "\r", "\\r"), "\t", "\\t")
+		actual = strings.ReplaceAll(strings.ReplaceAll(actual, "\r", "\\r"), "\t", "\\t")
 
 		message = fmt.Sprintf("expected %q but was %q", expected, actual)
 	}

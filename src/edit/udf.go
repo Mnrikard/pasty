@@ -10,21 +10,21 @@ import (
 )
 
 type UDF struct {
-	Name string `json:"name"`
+	Name        string          `json:"name"`
 	SubCommands []UdfSubCommand `json:"commands"`
-	Parameters []UdfParameter `json:"parameters"`
-	Description string `json:"description"`
+	Parameters  []UdfParameter  `json:"parameters"`
+	Description string          `json:"description"`
 }
 
 type UdfSubCommand struct {
-	Name string `json:"name"`
+	Name string   `json:"name"`
 	Args []string `json:"args"`
 }
 
 type UdfParameter struct {
-	Name string `json:"name"`
+	Name         string  `json:"name"`
 	DefaultValue *string `json:"defaultValue"`
-	SetValue string
+	SetValue     string
 }
 
 func ListUdfs() []string {

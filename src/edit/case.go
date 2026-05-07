@@ -19,4 +19,3 @@ func (e *EditorArgs) Title(input string) (string, error) {
 	caser := cases.Title(language.English)
 	return caser.String(input), nil
 }
-

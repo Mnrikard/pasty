@@ -3,19 +3,19 @@ package reader
 import "strings"
 
 type TextReader struct {
-	InlineComments string
+	InlineComments    string
 	StartBlockComment string
-	EndBlockComment string
-	StringChars []string
-	StringEscapeChar string
-	Words []*strings.Builder
-	KeyWords []string
+	EndBlockComment   string
+	StringChars       []string
+	StringEscapeChar  string
+	Words             []*strings.Builder
+	KeyWords          []string
 }
 
 func (t *TextReader) SplitCode(input string) {
 	whitespace := false
 	newline := false
-	for cc:=0; cc < len(input); cc++ {
+	for cc := 0; cc < len(input); cc++ {
 		chr := input[cc]
 		strchr := string(chr)
 		if has(t.StringChars, strchr) {
@@ -53,7 +53,7 @@ func (t *TextReader) SplitCode(input string) {
 			whitespace = false
 			newline = false
 		}
-		
+
 		if t.BlockStartsWith(t.InlineComments) {
 			cc = t.ReadLineComment(input, cc)
 			newline = true
@@ -103,7 +103,7 @@ func (t *TextReader) ReadString(input string, cc int, stringInit string) (*strin
 					cc++
 					b.WriteByte(input[cc])
 				} else {
-					return b, cc+1
+					return b, cc + 1
 				}
 			} else {
 				if string(input[cc-1]) != t.StringEscapeChar {

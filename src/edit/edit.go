@@ -43,7 +43,7 @@ func (e *EditorArgs) PrependRegex(rootSwitches switches.Switches) {
 	}
 
 	if len(sw) > 0 {
-		e.Regex = "(?" + strings.Join(sw, "") + ")"+e.Regex
+		e.Regex = "(?" + strings.Join(sw, "") + ")" + e.Regex
 	}
 }
 
@@ -52,13 +52,13 @@ func (e *EditorArgs) GetArguments(argDefs []Arg, args []string) {
 	for ii, arg := range args {
 		args[ii] = strings.ReplaceAll(
 			strings.ReplaceAll(
-			strings.ReplaceAll(
-			strings.ReplaceAll(
-			strings.ReplaceAll(arg,
-			"\\t", "\t"),
-			"\\r", "\r"),
-			"\\n", "\n"),
-			"\\p", "|"),
+				strings.ReplaceAll(
+					strings.ReplaceAll(
+						strings.ReplaceAll(arg,
+							"\\t", "\t"),
+						"\\r", "\r"),
+					"\\n", "\n"),
+				"\\p", "|"),
 			"\\q", "\"")
 	}
 	for ia, argDef := range argDefs {

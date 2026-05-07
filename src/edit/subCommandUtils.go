@@ -6,17 +6,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func FindCommandByName(rootCmd *cobra.Command, name string) (*cobra.Command) {
+func FindCommandByName(rootCmd *cobra.Command, name string) *cobra.Command {
 	for _, c := range rootCmd.Commands() {
 		if strings.EqualFold(c.Name(), name) {
-			return c;
+			return c
 		}
 	}
 
 	return nil
 }
 
-func FindSubCommandsByNameOrAlias(name string) (*SubCommand) {
+func FindSubCommandsByNameOrAlias(name string) *SubCommand {
 	for _, c := range SubCommands {
 		if strings.EqualFold(name, c.Name) {
 			return &c

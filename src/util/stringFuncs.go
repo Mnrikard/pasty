@@ -29,7 +29,7 @@ func IsNullOrNumber(input string) bool {
 	}
 
 	if strings.ToUpper(input) == "NULL" {
-		return true;
+		return true
 	}
 
 	_, numErr := strconv.ParseFloat(input, 64)
@@ -39,16 +39,16 @@ func IsNullOrNumber(input string) bool {
 func EscapeRegex(input string) string {
 	return strings.ReplaceAll(
 		strings.ReplaceAll(
-		strings.ReplaceAll(
-		strings.ReplaceAll(
-		strings.ReplaceAll(
-		strings.ReplaceAll(
-		strings.ReplaceAll(input,
-		"(","\\("),
-		")","\\)"),
-		"+","\\+"),
-		"*","\\*"),
-		"-","\\-"),
-		".","\\."),
-		"|","\\|");
+			strings.ReplaceAll(
+				strings.ReplaceAll(
+					strings.ReplaceAll(
+						strings.ReplaceAll(
+							strings.ReplaceAll(input,
+								"(", "\\("),
+							")", "\\)"),
+						"+", "\\+"),
+					"*", "\\*"),
+				"-", "\\-"),
+			".", "\\."),
+		"|", "\\|")
 }

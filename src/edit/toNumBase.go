@@ -29,10 +29,10 @@ func (e *EditorArgs) FromNumBase(input string) (string, error) {
 func (e *EditorArgs) getBase() int {
 	base, err := strconv.ParseInt(e.Option, 10, 0)
 
-	if(e.Option == "0x") {
+	if e.Option == "0x" {
 		base = 16
-	} else if( err != nil || base == 0){
-		base = 8;
+	} else if err != nil || base == 0 {
+		base = 8
 	}
 
 	return int(base)

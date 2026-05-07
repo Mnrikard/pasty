@@ -14,12 +14,12 @@ where x='--here''s a comment'
 and b='/* and an inline''s comment */'
 and x=y`
 
-	tr := &TextReader {
-		InlineComments: "--",
+	tr := &TextReader{
+		InlineComments:    "--",
 		StartBlockComment: "/*",
-		EndBlockComment: "*/",
-		StringChars: []string{ "'" },
-		StringEscapeChar: "'",
+		EndBlockComment:   "*/",
+		StringChars:       []string{"'"},
+		StringEscapeChar:  "'",
 	}
 
 	tr.SplitCode(testInput)

@@ -9,14 +9,14 @@ import (
 
 func TestCanPrependRegex(t *testing.T) {
 	tests := map[string]struct {
-		sw switches.Switches
+		sw             switches.Switches
 		expectedPrefix string
-	} {
-		"insensitive": { sw: switches.Switches{ CaseSensitive: false }, expectedPrefix: "i" },
-		"singleline": { sw: switches.Switches{ SingleLine: true }, expectedPrefix: "is" },
-		"multiline": { sw: switches.Switches{ MultiLine: true }, expectedPrefix: "im" },
-		"ungreedy": { sw: switches.Switches{ Ungreedy: true }, expectedPrefix: "iU" },
-		"all": { sw: switches.Switches{ CaseSensitive: false, SingleLine: true, MultiLine: true, Ungreedy: true }, expectedPrefix: "ismU" },
+	}{
+		"insensitive": {sw: switches.Switches{CaseSensitive: false}, expectedPrefix: "i"},
+		"singleline":  {sw: switches.Switches{SingleLine: true}, expectedPrefix: "is"},
+		"multiline":   {sw: switches.Switches{MultiLine: true}, expectedPrefix: "im"},
+		"ungreedy":    {sw: switches.Switches{Ungreedy: true}, expectedPrefix: "iU"},
+		"all":         {sw: switches.Switches{CaseSensitive: false, SingleLine: true, MultiLine: true, Ungreedy: true}, expectedPrefix: "ismU"},
 	}
 
 	for name, tc := range tests {

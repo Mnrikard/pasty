@@ -30,10 +30,10 @@ func defineRegexSwitches(commandName string) {
 		return
 	}
 
-	cmd.Flags().BoolVarP(&rootSwitches.MultiLine,     "multi-line",     "m", false, "regex ^ and $ matches beginning and end of lines")
-	cmd.Flags().BoolVarP(&rootSwitches.SingleLine,    "single-line",    "s", false, "regex . matches \\n")
+	cmd.Flags().BoolVarP(&rootSwitches.MultiLine, "multi-line", "m", false, "regex ^ and $ matches beginning and end of lines")
+	cmd.Flags().BoolVarP(&rootSwitches.SingleLine, "single-line", "s", false, "regex . matches \\n")
 	cmd.Flags().BoolVarP(&rootSwitches.CaseSensitive, "case-sensitive", "I", false, "regex is case sensitive")
-	cmd.Flags().BoolVarP(&rootSwitches.Ungreedy,      "un-greedy",      "U", false, "regex patterns behave ungreedily")
+	cmd.Flags().BoolVarP(&rootSwitches.Ungreedy, "un-greedy", "U", false, "regex patterns behave ungreedily")
 }
 
 func init() {
@@ -42,10 +42,10 @@ func init() {
 
 	for _, sc := range edit.SubCommands {
 		if sc.Name == "udf" {
-			sc.EditFunc = func (e *edit.EditorArgs) func(string) (string, error) { return e.ExecuteUdf }
+			sc.EditFunc = func(e *edit.EditorArgs) func(string) (string, error) { return e.ExecuteUdf }
 		}
 		if sc.Name == "plugin" {
-			sc.EditFunc = func (e *edit.EditorArgs) func(string) (string, error) { return e.HandlePlugin }
+			sc.EditFunc = func(e *edit.EditorArgs) func(string) (string, error) { return e.HandlePlugin }
 		}
 		cmd := buildCommand(sc)
 		if sc.Name == "udf" {

@@ -13,8 +13,8 @@ import (
 
 type sortEntry struct {
 	OriginalValue string
-	DateValue *time.Time
-	FloatValue *float64
+	DateValue     *time.Time
+	FloatValue    *float64
 }
 
 func (e *EditorArgs) Sort(input string) (string, error) {
@@ -84,7 +84,7 @@ func (e *EditorArgs) Sort(input string) (string, error) {
 func getSortEntries(items []string) []sortEntry {
 	output := make([]sortEntry, len(items))
 	for i, item := range items {
-		output[i] = sortEntry {
+		output[i] = sortEntry{
 			OriginalValue: item,
 		}
 
@@ -138,4 +138,3 @@ func getDateValue(input string) *time.Time {
 
 	return nil
 }
-

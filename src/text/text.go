@@ -72,7 +72,7 @@ func getStdInput() []byte {
 	return data
 }
 
-func EditText(e *edit.EditorArgs, fx func(string)(string, error)) {
+func EditText(e *edit.EditorArgs, fx func(string) (string, error)) {
 	txt, err := GetText()
 	if err != nil {
 		util.DisplayError(err)
@@ -91,4 +91,3 @@ func EditText(e *edit.EditorArgs, fx func(string)(string, error)) {
 		return
 	}
 }
-

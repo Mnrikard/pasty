@@ -8,7 +8,7 @@ import (
 )
 
 type SettingValues struct {
-	TabString string `json:"tabString"`
+	TabString   string   `json:"tabString"`
 	DateFormats []string `json:"dateFormats"`
 	TimeFormats []string `json:"timeFormats"`
 }
@@ -28,9 +28,9 @@ func Settings() *SettingValues {
 }
 
 func defaultSettings() *SettingValues {
-	return &SettingValues {
+	return &SettingValues{
 		TabString: "\t",
-		DateFormats: []string {
+		DateFormats: []string{
 			"2006-01-02",
 			"2006-1-2",
 			"01-02-2006",
@@ -40,7 +40,7 @@ func defaultSettings() *SettingValues {
 			"01/02/2006",
 			"1/2/2006",
 		},
-		TimeFormats: []string {
+		TimeFormats: []string{
 			"15:04:05",
 			"03:04:05",
 			"3:04:05",

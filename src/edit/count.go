@@ -13,10 +13,10 @@ func (e *EditorArgs) CountItem(input string) (string, error) {
 	var rx *regexp.Regexp
 
 	switch e.Option {
-	case "words","word":
+	case "words", "word":
 		rx = regexp.MustCompile(`\s+`)
 		count = len(rx.Split(strings.TrimSpace(input), -1))
-	case "lines","line":
+	case "lines", "line":
 		rx = regexp.MustCompile("\r?\n")
 		count = len(rx.Split(strings.TrimSpace(input), -1))
 	default:

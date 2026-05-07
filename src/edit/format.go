@@ -8,7 +8,6 @@ import (
 	"github.com/Mnrikard/pasty/util"
 )
 
-
 func (e *EditorArgs) FormatCode(input string) (string, error) {
 	if strings.EqualFold(e.Option, "sql") {
 		return formatSql(input)
@@ -21,18 +20,18 @@ func (e *EditorArgs) FormatCode(input string) (string, error) {
 }
 
 func formatSql(input string) (string, error) {
-	sqlReader := &reader.TextReader {
-		InlineComments: "--",
+	sqlReader := &reader.TextReader{
+		InlineComments:    "--",
 		StartBlockComment: "/*",
-		EndBlockComment: "*/",
-		StringChars: []string{"'"},
-		StringEscapeChar: "'",
+		EndBlockComment:   "*/",
+		StringChars:       []string{"'"},
+		StringEscapeChar:  "'",
 	}
 
 	sqlReader.SplitCode(input)
-	breakBefores := []string { "INNER", "OUTER", "CROSS", "WHERE", "ORDER", "HAVING", "LIMIT", "OFFSET" }
-	tabBefore := []string { "AND", "OR" } 
-	capitalize := []string { "SELECT", "FROM", "AS", "BY", "AND", "OR", "INNER", "OUTER", "CROSS", "WHERE", "ORDER", "HAVING", "LIMIT", "OFFSET", "JOIN" }
+	breakBefores := []string{"INNER", "OUTER", "CROSS", "WHERE", "ORDER", "HAVING", "LIMIT", "OFFSET"}
+	tabBefore := []string{"AND", "OR"}
+	capitalize := []string{"SELECT", "FROM", "AS", "BY", "AND", "OR", "INNER", "OUTER", "CROSS", "WHERE", "ORDER", "HAVING", "LIMIT", "OFFSET", "JOIN"}
 	output := strings.Builder{}
 
 	for i, word := range sqlReader.Words {
@@ -58,7 +57,7 @@ func formatSql(input string) (string, error) {
 		if err != nil {
 			return input, err
 		}
-		
+
 		_, err = output.WriteString(str)
 		if err != nil {
 			return input, err
@@ -69,19 +68,19 @@ func formatSql(input string) (string, error) {
 }
 
 func formatJson(input string) (string, error) {
-	jsonReader := &reader.TextReader {
-		InlineComments: "//",
+	jsonReader := &reader.TextReader{
+		InlineComments:    "//",
 		StartBlockComment: "/*",
-		EndBlockComment: "*/",
-		StringChars: []string{"'","\"", "`"},
-		StringEscapeChar: "'",
-		KeyWords: []string{":","}","{",",","[","]"},
+		EndBlockComment:   "*/",
+		StringChars:       []string{"'", "\"", "`"},
+		StringEscapeChar:  "'",
+		KeyWords:          []string{":", "}", "{", ",", "[", "]"},
 	}
 
 	jsonReader.SplitCode(input)
-	dedentBefores := []string { "}", "]" }
-	indentAfters := []string { "{", "[" }
-	breakAfters := []string { "," }
+	dedentBefores := []string{"}", "]"}
+	indentAfters := []string{"{", "["}
+	breakAfters := []string{","}
 	output := strings.Builder{}
 	tabCount := 0
 	tabStr := ""
@@ -117,7 +116,6 @@ func formatJson(input string) (string, error) {
 
 	return output.String(), nil
 }
-
 
 func has(list []string, word string) bool {
 	for _, lw := range list {

@@ -34,8 +34,8 @@ func ListPlugins() []string {
 			continue
 		}
 		name := pl.Name()
-		if len(name) > 4 && strings.EqualFold(name[len(name)-4:],".lua") {
-			prepOutput[ii] = name[0:len(name)-4]
+		if len(name) > 4 && strings.EqualFold(name[len(name)-4:], ".lua") {
+			prepOutput[ii] = name[0 : len(name)-4]
 			ii += 1
 		}
 	}
@@ -77,26 +77,26 @@ func (e *EditorArgs) executePlugin(inputText string, inputParams []string) (stri
 	}
 
 	// 1. Create the state without the default libraries
-	L := lua.NewState(lua.Options{SkipOpenLibs: true}) 
+	L := lua.NewState(lua.Options{SkipOpenLibs: true})
 	defer L.Close()
 
 	// 2. Manually open ONLY the safe libraries
 	for _, pair := range []struct {
-	    n string
-	    f lua.LGFunction
+		n string
+		f lua.LGFunction
 	}{
-	    //{lua.LoadLibName, lua.OpenPackage}, // Needed if you want 'require'
-	    {lua.BaseLibName, lua.OpenBase},    // Essential (print, assert, etc.)
-	    {lua.TabLibName, lua.OpenTable},   // Safe
-	    {lua.StringLibName, lua.OpenString},  // Safe
-	    {lua.MathLibName, lua.OpenMath},   // Safe
+		//{lua.LoadLibName, lua.OpenPackage}, // Needed if you want 'require'
+		{lua.BaseLibName, lua.OpenBase},     // Essential (print, assert, etc.)
+		{lua.TabLibName, lua.OpenTable},     // Safe
+		{lua.StringLibName, lua.OpenString}, // Safe
+		{lua.MathLibName, lua.OpenMath},     // Safe
 	} {
 		if err := L.CallByParam(lua.P{
-		    Fn:      L.NewFunction(pair.f),
-		    NRet:    0,
-		    Protect: true,
+			Fn:      L.NewFunction(pair.f),
+			NRet:    0,
+			Protect: true,
 		}, lua.LString(pair.n)); err != nil {
-		    panic(err)
+			panic(err)
 		}
 	}
 
