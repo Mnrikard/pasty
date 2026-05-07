@@ -18,9 +18,9 @@ func TestUdf(t *testing.T) {
 		return false
 	}
 
-	fakeFile := fakefileinfo.FakeFile {
-		FakeName: "testplugin.lua",
-		FakeSize: 3,
+	fakeFile := fakefileinfo.FakeFile{
+		FakeName:  "testplugin.lua",
+		FakeSize:  3,
 		FakeIsDir: false,
 	}
 	osStat = func(name string) (os.FileInfo, error) {
@@ -54,7 +54,6 @@ func TestUdf(t *testing.T) {
 			]
 		}
 	]`
-
 
 	t.Run("ListUdfs", func(t *testing.T) {
 		udfs := ListUdfs()

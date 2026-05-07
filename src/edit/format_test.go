@@ -28,7 +28,6 @@ func testSettings() *util.SettingValues {
 	}
 }
 
-
 func TestFormatCode_Sql(t *testing.T) {
 	settings = testSettings
 	input := "select * from table where id = 1 and name = 'test'"
@@ -61,11 +60,11 @@ func TestFormatCode_Json(t *testing.T) {
 	// Trace:
 	// { -> indentAfter -> {\n\t
 	// "a" -> "a"
-	// : -> : 
+	// : -> :
 	// 1 -> 1
 	// , -> breakAfter -> ,\n\t
 	// "b" -> "b"
-	// : -> : 
+	// : -> :
 	// [ -> indentAfter -> [\n\t\t
 	// 1 -> 1
 	// , -> breakAfter -> ,\n\t\t

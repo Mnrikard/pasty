@@ -6,9 +6,9 @@ import (
 )
 
 type FakeFile struct {
-	FakeName string
-	FakeSize int64
-	FakeIsDir bool
+	FakeName    string
+	FakeSize    int64
+	FakeIsDir   bool
 	FakeContent string
 }
 
@@ -16,11 +16,11 @@ func (f *FakeFile) Name() string {
 	return f.FakeName
 }
 
-func (f *FakeFile) Size() int64{
+func (f *FakeFile) Size() int64 {
 	return f.FakeSize
 }
 
-func (f *FakeFile) Mode() fs.FileMode{
+func (f *FakeFile) Mode() fs.FileMode {
 	return fs.ModeAppend
 }
 
@@ -39,4 +39,3 @@ func (f *FakeFile) Sys() any {
 func (f *FakeFile) ReadBytes(name string) ([]byte, error) {
 	return []byte(f.FakeContent), nil
 }
-

@@ -7,9 +7,9 @@ import (
 
 func TestCountItem_Words(t *testing.T) {
 	tests := []struct {
-		name   string
-		input  string
-		option string
+		name          string
+		input         string
+		option        string
 		expectedCount string
 	}{
 		{"single word", "hello", "words", "1 words"},
