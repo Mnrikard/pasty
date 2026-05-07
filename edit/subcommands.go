@@ -231,6 +231,23 @@ hello world
 		EditFunc: func(e *EditorArgs) func(string) (string, error) { return e.InsertSQL },
 	},
 	{
+		Name:    "format",
+		Use:     "format [type]",
+		Aliases: []string{"fmt"},
+		Short:   "Formats code",
+		Args:    cobra.MinimumNArgs(0),
+		ArgDefs: []Arg{
+			{
+				Position:     0,
+				Options:      []string{"sql"},
+				SetValue: func(e *EditorArgs, value string) {
+					e.Option = value
+				},
+			},
+		},
+		EditFunc: func(e *EditorArgs) func(string) (string, error) { return e.FormatCode },
+	},
+	{
 		Name:  "setText",
 		Use:   "setText",
 		Short: "Sets the text to the given string",
