@@ -6,9 +6,10 @@ type TextReader struct {
 	InlineComments string
 	StartBlockComment string
 	EndBlockComment string
-	StringChar string
+	StringChars []string
 	StringEscapeChar string
 	Words []*strings.Builder
+	KeyWords []string
 }
 
 func (t *TextReader) SplitCode(input string) {
@@ -17,11 +18,17 @@ func (t *TextReader) SplitCode(input string) {
 	for cc:=0; cc < len(input); cc++ {
 		chr := input[cc]
 		strchr := string(chr)
-		if strchr == t.StringChar {
+		if has(t.StringChars, strchr) {
 			var str *strings.Builder
-			str, cc = t.ReadString(input, cc)
+			str, cc = t.ReadString(input, cc, strchr)
 			t.AddWord(str)
 			whitespace = true
+			continue
+		}
+
+		if has(t.KeyWords, strchr) {
+			t.StartWord(chr)
+			t.Words = append(t.Words, &strings.Builder{})
 			continue
 		}
 
@@ -83,16 +90,16 @@ func (t *TextReader) AddWord(word *strings.Builder) {
 	t.Words = append(t.Words, word)
 }
 
-func (t *TextReader) ReadString(input string, cc int) (*strings.Builder, int) {
+func (t *TextReader) ReadString(input string, cc int, stringInit string) (*strings.Builder, int) {
 	b := &strings.Builder{}
 	b.WriteByte(input[cc])
 	cc++
 	for cc < len(input) {
 		b.WriteByte(input[cc])
 
-		if string(input[cc]) == t.StringChar {
-			if t.StringEscapeChar == t.StringChar {
-				if cc+1 < len(input) && string(input[cc+1]) == t.StringChar {
+		if string(input[cc]) == stringInit {
+			if t.StringEscapeChar == stringInit {
+				if cc+1 < len(input) && string(input[cc+1]) == stringInit {
 					cc++
 					b.WriteByte(input[cc])
 				} else {
@@ -172,4 +179,14 @@ func (t *TextReader) WriteByte(word int, b byte) {
 	}
 
 	t.Words[word].WriteByte(b)
+}
+
+func has(list []string, item string) bool {
+	for _, listItem := range list {
+		if strings.EqualFold(listItem, item) {
+			return true
+		}
+	}
+
+	return false
 }

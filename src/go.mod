@@ -1,4 +1,4 @@
-module github.com/mattr/pasty
+module github.com/Mnrikard/pasty
 
 go 1.24.0
 
