@@ -6,10 +6,7 @@ require (
 	github.com/spf13/cobra v1.10.2
 	github.com/tiagomelo/go-clipboard v0.1.2
 	github.com/yuin/gopher-lua v1.1.1
-	golang.org/x/term v0.39.0
 )
-
-require golang.org/x/sys v0.40.0 // indirect
 
 require (
 	github.com/google/uuid v1.6.0

@@ -15,8 +15,11 @@ type sortEntry struct {
 	FloatValue    *float64
 }
 
+var timeVal *regexp.Regexp
+
 func (e *EditorArgs) Sort(input string) (string, error) {
 	items := strings.Split(input, e.RowDelimiter)
+	timeVal = regexp.MustCompile("(?i)(pm|15:)")
 	sortable := getSortEntries(items)
 	sort.Slice(sortable, func(a, b int) bool {
 		//Sort Dates
@@ -108,7 +111,7 @@ func getDateValue(input string) *time.Time {
 		}
 
 		//if it contains time information, don't append time
-		if regexp.MustCompile("(?i)(pm|15:)").MatchString(dfmt) {
+		if timeVal.MatchString(dfmt) {
 			continue
 		}
 
