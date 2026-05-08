@@ -62,7 +62,7 @@ func init() {
 	grep := edit.FindCommandByName(rootCmd, "grep")
 	if grep != nil {
 		grep.Flags().BoolVarP(&rootSwitches.GrepOnlyMatching, "only-matching", "o", false, "Returns only the matched (non-empty) parts of a matching line, with each such part on a separate output section")
-		grep.Flags().BoolVarP(&rootSwitches.GrepInvertMatch, "invert-match", "v", false, "Invert the sense of matching, to select non-matching lines")
+		grep.Flags().BoolVarP(&rootSwitches.Invert, "invert-match", "v", false, "Invert the sense of matching, to select non-matching lines")
 	}
 
 	sorter := edit.FindCommandByName(rootCmd, "sort")

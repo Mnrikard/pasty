@@ -5,6 +5,7 @@ import (
 )
 
 func (e *EditorArgs) ReplaceText(input string) (string, error) {
+	e.PrependRegex()
 	rx, err := regexp.Compile(e.Regex)
 	if err != nil {
 		return input, err

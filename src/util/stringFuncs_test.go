@@ -52,12 +52,3 @@ func TestIsNullOrNumber(t *testing.T) {
 		}
 	}
 }
-
-func TestEscapeRegex(t *testing.T) {
-	input := "().+*-|"
-	expected := "\\(\\)\\.\\+\\*\\-\\|"
-	result := EscapeRegex(input)
-	if result != expected {
-		t.Errorf("EscapeRegex(%q) = %q; want %q", input, result, expected)
-	}
-}

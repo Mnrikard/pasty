@@ -10,6 +10,8 @@ import (
 
 func (e *EditorArgs) InsertSQL(input string) (string, error) {
 	rowOfInsert := 1000
+	e.Regexes = make(map[string]*regexp.Regexp)
+	e.Regexes["colSplitter"] = regexp.MustCompile(e.ColumnDelimiter)
 	lineSplitter := regexp.MustCompile(e.RowDelimiter)
 	lines := lineSplitter.Split(input, -1)
 	columnNames := e.getColumns(lines[0])
@@ -50,8 +52,7 @@ func (e *EditorArgs) defineInsertStatement(columns []string) string {
 }
 
 func (e *EditorArgs) getColumns(line string) []string {
-	colSplitter := regexp.MustCompile(e.ColumnDelimiter)
-	return colSplitter.Split(line, -1)
+	return e.Regexes["colSplitter"].Split(line, -1)
 }
 
 func writeSingleRow(cols []string, b *strings.Builder) {

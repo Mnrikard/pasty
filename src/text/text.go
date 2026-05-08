@@ -3,7 +3,6 @@ package text
 import (
 	"fmt"
 	"io"
-	"log"
 	"os"
 
 	"github.com/Mnrikard/pasty/edit"
@@ -31,7 +30,11 @@ func GetText() (string, error) {
 	}
 
 	if util.IsInputPiped() {
-		return string(getStdInput()), nil
+		input, err := getStdInput()
+		if err != nil {
+			return "", err
+		}
+		return string(input), nil
 	}
 
 	c := clipboard.New()
@@ -61,15 +64,15 @@ func SetText(input string) error {
 	return nil
 }
 
-func getStdInput() []byte {
+func getStdInput() ([]byte, error) {
 	if !util.IsInputPiped() {
-		return nil
+		return nil, nil
 	}
 	data, err := io.ReadAll(os.Stdin)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-	return data
+	return data, nil
 }
 
 func EditText(e *edit.EditorArgs, fx func(string) (string, error)) {

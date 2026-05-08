@@ -62,6 +62,10 @@ func getPluginPath() (string, error) {
 }
 
 func (e *EditorArgs) executePlugin(inputText string, inputParams []string) (string, error) {
+	if strings.Contains(e.Option, "..") || strings.Contains(e.Option, "/") {
+		return inputText, fmt.Errorf("Invalid file name containing illegal characters: %q", e.Option)
+	}
+
 	pluginDir, err := getPluginPath()
 	if err != nil {
 		return "", err

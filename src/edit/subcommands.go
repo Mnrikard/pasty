@@ -195,7 +195,7 @@ var SubCommands = []SubCommand{
 	input delimiter defaults to tab character
 
 	Example: cat tabDelimited.file | pasty columnAlign 2 "\t"
-	>> col1   col2             col3"+os.EOL+
+	>> col1   col2             col3
 	>> names  some other data  1234
 `,
 		Args: cobra.MinimumNArgs(0),

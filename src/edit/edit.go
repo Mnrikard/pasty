@@ -1,6 +1,7 @@
 package edit
 
 import (
+	"regexp"
 	"strings"
 
 	"github.com/Mnrikard/pasty/switches"
@@ -25,20 +26,24 @@ type EditorArgs struct {
 	Invert          bool
 	OriginalArgs    []string
 	Switches        *switches.Switches
+	Regexes         map[string]*regexp.Regexp
 }
 
-func (e *EditorArgs) PrependRegex(rootSwitches switches.Switches) {
+func (e *EditorArgs) PrependRegex() {
 	sw := make([]string, 0)
-	if !rootSwitches.CaseSensitive {
+	if e.Switches == nil {
+		return
+	}
+	if !e.Switches.CaseSensitive {
 		sw = append(sw, "i")
 	}
-	if rootSwitches.SingleLine {
+	if e.Switches.SingleLine {
 		sw = append(sw, "s")
 	}
-	if rootSwitches.MultiLine {
+	if e.Switches.MultiLine {
 		sw = append(sw, "m")
 	}
-	if rootSwitches.Ungreedy {
+	if e.Switches.Ungreedy {
 		sw = append(sw, "U")
 	}
 

@@ -6,6 +6,5 @@ type Switches struct {
 	MultiLine        bool
 	Ungreedy         bool
 	GrepOnlyMatching bool
-	GrepInvertMatch  bool
 	Invert           bool
 }

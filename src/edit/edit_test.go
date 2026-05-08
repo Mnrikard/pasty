@@ -23,7 +23,8 @@ func TestCanPrependRegex(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			e := &EditorArgs{}
 			e.Regex = "abc"
-			e.PrependRegex(tc.sw)
+			e.Switches = &tc.sw
+			e.PrependRegex()
 			expectedRegex := fmt.Sprintf("(?%s)abc", tc.expectedPrefix)
 			if e.Regex != expectedRegex {
 				t.Fatalf("expected: %v, got: %v", expectedRegex, e.Regex)

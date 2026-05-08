@@ -1,6 +1,10 @@
 package edit
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/Mnrikard/pasty/switches"
+)
 
 func TestGrep_MatchingLines(t *testing.T) {
 	tests := []struct {
@@ -92,7 +96,9 @@ func TestGrep_InvertMatch(t *testing.T) {
 			args := EditorArgs{
 				Regex:        tt.regex,
 				RowDelimiter: tt.rowDelimiter,
-				Invert:       true,
+				Switches: &switches.Switches{
+					Invert: true,
+				},
 			}
 			result, err := args.Grep(tt.input)
 			if err != nil {
@@ -132,7 +138,9 @@ func TestGrep_OnlyMatching(t *testing.T) {
 			args := EditorArgs{
 				Regex:        tt.regex,
 				RowDelimiter: tt.rowDelimiter,
-				Option:       "OnlyMatching",
+				Switches: &switches.Switches{
+					GrepOnlyMatching: true,
+				},
 			}
 			result, err := args.Grep(tt.input)
 			if err != nil {

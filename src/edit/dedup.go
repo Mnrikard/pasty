@@ -1,20 +1,20 @@
 package edit
 
 import (
-	"slices"
 	"strings"
 )
 
 func (e *EditorArgs) Deduplicate(input string) (string, error) {
 	items := strings.Split(input, e.RowDelimiter)
-	newItems := make([]string, 0)
+	set := make(map[string]bool, 0)
+	output := make([]string, 0)
 	for _, item := range items {
-		if !slices.Contains(newItems, item) {
-			newItems = append(newItems, item)
+		_, exists := set[item]
+		if !exists {
+			output = append(output, item)
 		}
+		set[item] = true
 	}
 
-	replacedText := strings.Join(newItems, e.RowDelimiter)
-
-	return replacedText, nil
+	return strings.Join(output, e.RowDelimiter), nil
 }

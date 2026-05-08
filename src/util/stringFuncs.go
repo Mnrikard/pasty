@@ -1,7 +1,6 @@
 package util
 
 import (
-	"log"
 	"regexp"
 	"strconv"
 	"strings"
@@ -9,7 +8,6 @@ import (
 
 func SplitRows(input string) []string {
 	rx, _ := regexp.Compile("\r?\n")
-	log.Printf("%v", rx)
 	return rx.Split(input, -1)
 }
 
@@ -37,18 +35,5 @@ func IsNullOrNumber(input string) bool {
 }
 
 func EscapeRegex(input string) string {
-	return strings.ReplaceAll(
-		strings.ReplaceAll(
-			strings.ReplaceAll(
-				strings.ReplaceAll(
-					strings.ReplaceAll(
-						strings.ReplaceAll(
-							strings.ReplaceAll(input,
-								"(", "\\("),
-							")", "\\)"),
-						"+", "\\+"),
-					"*", "\\*"),
-				"-", "\\-"),
-			".", "\\."),
-		"|", "\\|")
+	return regexp.QuoteMeta(input)
 }

@@ -1,6 +1,8 @@
 package edit
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -12,7 +14,14 @@ func (e *EditorArgs) FormatCode(input string) (string, error) {
 		return formatSql(input)
 	}
 	if strings.EqualFold(e.Option, "json") {
-		return formatJson(input)
+		//try to format it as valid json first
+		jsonBytes := &bytes.Buffer{}
+		if json.Indent(jsonBytes, []byte(input), "", settings().TabString) != nil {
+			//then fall back to my imperfect json parser
+			return formatJson(input)
+		}
+
+		return jsonBytes.String(), nil
 	}
 
 	return input, fmt.Errorf("No format specified")

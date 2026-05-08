@@ -35,7 +35,7 @@ The project follows standard Go conventions. It uses `cobra` for the CLI, which 
 
 ### Plugins
 
-Pasty can be extended with Lua plugins. Plugins are loaded from `~/.config/modclip/plugins/plugin.lua`. The plugin must define a function called `process` that takes the input text and a table of parameters as arguments and returns the modified text.
+Pasty can be extended with Lua plugins. Plugins are loaded from `~/.config/pasty/plugins/plugin.lua`. The plugin must define a function called `process` that takes the input text and a table of parameters as arguments and returns the modified text.
 
 Here is an example of a simple `plugin.lua` file:
 
