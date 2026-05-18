@@ -1,3 +1,4 @@
+-- The only function signature is a "process" function taking a string input and returning a string output
 function process(input)
 	local lines = splitStr(input, "\n")
 	local grid, counts = splitCols(lines)
@@ -84,7 +85,7 @@ end
 
 function splitStr(input, sep)
 	if input == nil then
-  		return {}
+		return {}
 	end
 	if sep == nil then
 		sep = "|"

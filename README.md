@@ -35,7 +35,7 @@ go install github.com/Mnrikard/pasty@latest
 
 ```sh
 git clone https://github.com/Mnrikard/pasty.git
-cd pasty/src
+cd pasty
 go install ./
 ```
 
