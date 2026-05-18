@@ -48,7 +48,7 @@ function padCells(grid, counts)
 end
 
 function trim(s)
-   return (s:gsub("^%s*(.-)%s*$", "%1"))
+	return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
 
 function splitCols(lines)
@@ -76,23 +76,22 @@ function splitCols(lines)
 
 		oi = oi + 1
 
-	    ::continue::
+		::continue::
 	end
 
 	return output, counts
 end
 
 function splitStr(input, sep)
-  if input == nil then
-  	return {}
-  end
-  if sep == nil then
-    sep = "|"
-  end
-  local output = {}
-  for str in string.gmatch(input, "([^"..sep.."]+)") do
-    table.insert(output, str)
-  end
-  return output
+	if input == nil then
+  		return {}
+	end
+	if sep == nil then
+		sep = "|"
+	end
+	local output = {}
+	for str in string.gmatch(input, "([^"..sep.."]+)") do
+		table.insert(output, str)
+	end
+	return output
 end
-
