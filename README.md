@@ -133,3 +133,10 @@ end
 
 Where the input is a string and the output is also a string. You can manipulate that string within your process
 function and create cool new text modifications.
+
+## Where is the old nodejs app? Can I still install from npm?
+
+Due to security concerns around how plugins were handled in the old nodejs app and because of the inherent slowness
+in interpreted code, it was decided to move to this app written in go and using sandboxed Lua plugins. The old nodejs
+app is still available on npm (albeit outdated) and the source code is available on the
+[LegacyNodeJs release](https://github.com/Mnrikard/pasty/releases/tag/LegacyNodeJs) on github.

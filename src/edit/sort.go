@@ -1,9 +1,11 @@
 package edit
 
 import (
+	"bufio"
+	"cmp"
 	"fmt"
 	"regexp"
-	"sort"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -12,95 +14,111 @@ import (
 type sortEntry struct {
 	OriginalValue string
 	DateValue     *time.Time
-	FloatValue    *float64
+	FloatValue    float64
 }
 
-var timeVal *regexp.Regexp
+var timeVal = regexp.MustCompile("(?i)(pm|15:)")
 
 func (e *EditorArgs) Sort(input string) (string, error) {
-	items := strings.Split(input, e.RowDelimiter)
-	timeVal = regexp.MustCompile("(?i)(pm|15:)")
-	sortable := getSortEntries(items)
-	sort.Slice(sortable, func(a, b int) bool {
-		//Sort Dates
-		if sortable[a].DateValue != nil && sortable[b].DateValue != nil {
-			if e.Switches.Invert {
-				return sortable[a].DateValue.UnixMicro() > sortable[b].DateValue.UnixMicro()
-			}
-			return sortable[a].DateValue.UnixMicro() < sortable[b].DateValue.UnixMicro()
-		}
+	nums, dates, strs := e.getSortEntries(input)
 
-		//Sort Numbers
-		if sortable[a].FloatValue != nil && sortable[b].FloatValue != nil {
-			if e.Switches.Invert {
-				return *sortable[a].FloatValue > *sortable[b].FloatValue
-			}
-			return *sortable[a].FloatValue < *sortable[b].FloatValue
+	slices.SortFunc(nums, func(a, b sortEntry) int {
+		if e.Switches.Invert {
+			return cmp.Compare(b.FloatValue, a.FloatValue)
 		}
-
-		//sort as strings
-		if sortable[a].DateValue == nil && sortable[b].DateValue == nil && sortable[a].FloatValue == nil && sortable[b].FloatValue == nil {
-			if e.Option == "i" {
-				if e.Switches.Invert {
-					return strings.ToLower(sortable[a].OriginalValue) > strings.ToLower(sortable[b].OriginalValue)
-				}
-				return strings.ToLower(sortable[a].OriginalValue) < strings.ToLower(sortable[b].OriginalValue)
-			}
-
-			if e.Switches.Invert {
-				return sortable[a].OriginalValue > sortable[b].OriginalValue
-			}
-
-			return sortable[a].OriginalValue < sortable[b].OriginalValue
-		}
-
-		//numbers go on top
-		if sortable[a].FloatValue != nil {
-			return !e.Switches.Invert
-		}
-		if sortable[b].FloatValue != nil {
-			return e.Switches.Invert
-		}
-
-		//dates go before strings
-		if sortable[a].DateValue != nil {
-			return !e.Switches.Invert
-		}
-		if sortable[b].DateValue != nil {
-			return e.Switches.Invert
-		}
-
-		//should never reach this
-		return false
+		return cmp.Compare(a.FloatValue, b.FloatValue)
 	})
 
-	output := make([]string, len(items))
-	for i := range sortable {
-		output[i] = sortable[i].OriginalValue
+	slices.SortFunc(strs, func(a, b string) int {
+		if e.Option == "i" {
+			if e.Switches.Invert {
+				return strings.Compare(strings.ToLower(b), strings.ToLower(a))
+			}
+			return strings.Compare(strings.ToLower(a), strings.ToLower(b))
+		}
+
+		if e.Switches.Invert {
+			return strings.Compare(b, a)
+		}
+
+		return strings.Compare(a, b)
+	})
+
+	slices.SortFunc(dates, func(a, b sortEntry) int {
+		if e.Switches.Invert {
+			return cmp.Compare(b.DateValue.UnixMicro(), a.DateValue.UnixMicro())
+		}
+		return cmp.Compare(a.DateValue.UnixMicro(), b.DateValue.UnixMicro())
+	})
+
+	output := make([]string, 0)
+	strdates := make([]string, len(dates))
+	for d := range dates {
+		strdates[d] = dates[d].OriginalValue
+	}
+	strnums := make([]string, len(nums))
+	for n := range nums {
+		strnums[n] = nums[n].OriginalValue
+	}
+
+	if len(strnums) > 0 {
+		output = append(output, strings.Join(strnums, e.RowDelimiter))
+	}
+
+	if len(strdates) > 0 {
+		output = append(output, strings.Join(strdates, e.RowDelimiter))
+	}
+
+	if len(strs) > 0 {
+		output = append(output, strings.Join(strs, e.RowDelimiter))
 	}
 
 	return strings.Join(output, e.RowDelimiter), nil
 }
 
-func getSortEntries(items []string) []sortEntry {
-	output := make([]sortEntry, len(items))
-	for i, item := range items {
-		output[i] = sortEntry{
-			OriginalValue: item,
-		}
-
-		date := getDateValue(item)
-		if date != nil {
-			output[i].DateValue = date
-		}
-
-		flt, err := strconv.ParseFloat(item, 64)
-		if err == nil {
-			output[i].FloatValue = &flt
-		}
+func (e *EditorArgs) bufSplit(data []byte, atEOF bool) (advance int, token []byte, err error) {
+	if atEOF && len(data) == 0 {
+		return 0, nil, nil
 	}
 
-	return output
+	if i := strings.Index(string(data), e.RowDelimiter); i >= 0 {
+		return i + 1, data[0:i], nil
+	}
+
+	if atEOF {
+		return len(data), data, nil
+	}
+
+	return
+}
+
+
+func (e *EditorArgs) getSortEntries(input string) ([]sortEntry, []sortEntry, []string){
+	lineScanner := bufio.NewScanner(strings.NewReader(input))
+	lineScanner.Split(e.bufSplit)
+	nums := make([]sortEntry, 0)
+	times := make([]sortEntry, 0)
+	strings := make([]string, 0)
+	
+	for lineScanner.Scan() {
+		originalValue := lineScanner.Text()
+
+		date := getDateValue(originalValue)
+		if date != nil {
+			times = append(times, sortEntry{ DateValue: date, OriginalValue: originalValue })
+			continue
+		}
+
+		flt, err := strconv.ParseFloat(originalValue, 64)
+		if err == nil {
+			nums = append(nums, sortEntry{ FloatValue: flt, OriginalValue: originalValue })
+			continue
+		}
+
+		strings = append(strings, originalValue)
+	}
+
+	return nums, times, strings
 }
 
 func getDateValue(input string) *time.Time {
