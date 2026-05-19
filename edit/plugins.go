@@ -8,10 +8,8 @@ import (
 	"github.com/yuin/gopher-lua"
 )
 
-var PluginArgs = make([]string, 0)
-
 func (e *EditorArgs) HandlePlugin(input string) (string, error) {
-	return e.executePlugin(input, PluginArgs)
+	return e.executePlugin(input, e.OriginalArgs)
 }
 
 func ListPlugins() []string {
@@ -115,8 +113,8 @@ func (e *EditorArgs) executePlugin(inputText string, inputParams []string) (stri
 
 	// Convert the Go string slice to a Lua table
 	paramsTable := L.NewTable()
-	for _, p := range inputParams {
-		paramsTable.Append(lua.LString(p))
+	for ip :=1; ip < len(inputParams); ip++ {
+		paramsTable.Append(lua.LString(inputParams[ip]))
 	}
 
 	// Call the lua function

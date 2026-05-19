@@ -126,8 +126,10 @@ the sandbox.
 The minimal structure of these applications is:
 
 ```lua
-function process(input)
+function process(input, params)
     return "new text"
+    -- input is the text to manipulate
+    -- params is a table with all user input params
 end
 ```
 
