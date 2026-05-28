@@ -1,0 +1,73 @@
+# .github/workflows/build.yml
+name: Build Go App for Multiple Platforms
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        # Define the platforms you want to build for
+        platform:
+          - goos: linux
+            goarch: amd64
+          - goos: linux
+            goarch: arm64
+          - goos: darwin
+            goarch: amd64
+          - goos: darwin
+            goarch: arm64
+          - goos: windows
+            goarch: amd64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Bump version and push tag
+        id: tag_version
+        uses: anothrNick/github-tag-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true          # Prefix tag with 'v' (e.g., v1.0.0)
+          DEFAULT_BUMP: patch   # Default bump if no keyword found
+          # Optional: Customize keywords
+          # MAJOR_STRING_TOKEN: "#major"
+          # MINOR_STRING_TOKEN: "#minor"
+          # PATCH_STRING_TOKEN: "#patch"
+
+      - name: Build for ${{ matrix.platform.goos }}/${{ matrix.platform.goarch }}
+        env:
+          GOOS: ${{ matrix.platform.goos }}
+          GOARCH: ${{ matrix.platform.goarch }}
+          CGO_ENABLED: 0
+        run: |
+          go build -o ./bin/pasty-${{ matrix.platform.goos }}-${{ matrix.platform.goarch }} ./
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pasty-${{ matrix.platform.goos }}-${{ matrix.platform.goarch }}
+          path: ./bin/pasty-${{ matrix.platform.goos }}-${{ matrix.platform.goarch }}
+      - name: Test
+        run: go test -v ./...
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          generate_release_notes: true
+          files: |
+            dist/app-linux
+            dist/app-windows.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
