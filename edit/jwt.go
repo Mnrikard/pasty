@@ -23,22 +23,25 @@ func (e *EditorArgs) JwtDecode(input string) (string, error) {
 			return input, fmt.Errorf("Token malformed")
 		}
 
-		if !token.Valid {
-			return input, fmt.Errorf("Invalid token")
+		claimsJson, jsonerr := getTokenJson(token)
+		if jsonerr != nil {
+			return input, fmt.Errorf("Error serializing claims: %v", jsonerr)
 		}
-
-		claimsJson, err := getTokenJson(token)
 
 		if errors.Is(err, jwt.ErrTokenSignatureInvalid) {
 			return claimsJson, fmt.Errorf("Invalid signature")
 		}
 
-		if errors.Is(err, jwt.ErrTokenExpired) || errors.Is(err, jwt.ErrTokenNotValidYet) {
+		if errors.Is(err, jwt.ErrTokenExpired) {
 			return claimsJson, fmt.Errorf("Token expired")
 		}
 
 		if errors.Is(err, jwt.ErrTokenNotValidYet) {
 			return claimsJson, fmt.Errorf("Token not valid yet")
+		}
+
+		if !token.Valid {
+			return input, fmt.Errorf("Invalid token %v", err)
 		}
 
 		return claimsJson, nil
@@ -55,6 +58,22 @@ func (e *EditorArgs) JwtDecode(input string) (string, error) {
 
 		return claimsJson, nil
 	}
+}
+
+func (e *EditorArgs) JwtEncode(input string) (string, error) {
+	claims := &jwt.MapClaims{}
+	err := json.Unmarshal([]byte(input), claims)
+	if err != nil {
+		return input, fmt.Errorf("Error converting JSON input to claims: %v", err)
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	tokenStr, err := token.SignedString([]byte(e.Option))
+	if err != nil {
+		return input, fmt.Errorf("Error signing token: %v", err)
+	}
+
+	return tokenStr, nil
 }
 
 func getTokenJson(token *jwt.Token) (string, error) {
