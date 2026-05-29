@@ -163,6 +163,46 @@ var SubCommands = []SubCommand{
 		EditFunc: func(e *EditorArgs) func(string) (string, error) { return e.DecodeFromXml },
 	},
 	{
+		Name:  "jwtdecode",
+		Use:   "jwtdecode",
+		Short: "Decodes a JWT token",
+		Long: `Syntax: pasty jwtdecode [key]
+
+	Passing in a key will validate the signature and the expiration
+`,
+		Args:     cobra.MinimumNArgs(0),
+		ArgDefs: []Arg{
+			{
+				Position:     0,
+				HelpText:     "Key",
+				DefaultValue: "",
+				SetValue: func(e *EditorArgs, value string) {
+					e.Option = value
+				},
+			},
+		},
+		EditFunc: func(e *EditorArgs) func(string) (string, error) { return e.JwtDecode },
+	},
+	{
+		Name:  "jwtencode",
+		Use:   "jwtencode",
+		Short: "Encodes a JWT token",
+		Long: `Syntax: pasty jwtencode <key>
+`,
+		Args:     cobra.MinimumNArgs(1),
+		ArgDefs: []Arg{
+			{
+				Position:     0,
+				HelpText:     "Key",
+				DefaultValue: "",
+				SetValue: func(e *EditorArgs, value string) {
+					e.Option = value
+				},
+			},
+		},
+		EditFunc: func(e *EditorArgs) func(string) (string, error) { return e.JwtEncode },
+	},
+	{
 		Name:  "math",
 		Use:   "math",
 		Short: "Evaluates simple math equations",
