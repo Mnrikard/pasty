@@ -23,6 +23,7 @@ type EditorArgs struct {
 	RowDelimiter    string
 	NumSpaces       int
 	Option          string
+	Key             string
 	Invert          bool
 	OriginalArgs    []string
 	Switches        *switches.Switches

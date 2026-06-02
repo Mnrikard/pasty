@@ -48,6 +48,15 @@ func ListPlugins() []string {
 	return output
 }
 
+func getPluginList() map[string]string {
+	output := make(map[string]string)
+	for _, pl := range ListPlugins() {
+		output[strings.ToLower(pl)] = pl
+	}
+
+	return output
+}
+
 func getPluginPath() (string, error) {
 	homeDir, err := osUserHomeDir()
 	if err != nil {
@@ -69,8 +78,15 @@ func (e *EditorArgs) executePlugin(inputText string, inputParams []string) (stri
 		return "", err
 	}
 
+	//get the plugins
+	keyName := strings.ToLower(strings.Trim(e.Option, " \t\r\n"))
+	pluginName, ok := getPluginList()[keyName]
+	if !ok {
+		return "", fmt.Errorf("No user defined function named %q found", keyName)
+	}
+
 	// Construct the plugin path
-	pluginPath := filepath.Join(pluginDir, fmt.Sprintf("%s.lua", strings.Trim(e.Option, " \t\r\n")))
+	pluginPath := filepath.Join(pluginDir, fmt.Sprintf("%s.lua", pluginName))
 
 	// Check if the plugin file exists
 	if _, err := osStat(pluginPath); osIsNotExist(err) {
