@@ -4,17 +4,18 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/golang-jwt/jwt/v5"
 )
 
 func (e *EditorArgs) JwtDecode(input string) (string, error) {
-	key := e.Option
+	key := e.Key
 	if len(key) == 0 {
 		key = "x"
 	}
 
-	if len(e.Option) > 0 {
+	if len(e.Key) > 0 {
 		token, err := jwt.Parse(input, func(token *jwt.Token) (any, error) {
 			return []byte(key), nil
 		})
@@ -66,14 +67,53 @@ func (e *EditorArgs) JwtEncode(input string) (string, error) {
 	if err != nil {
 		return input, fmt.Errorf("Error converting JSON input to claims: %v", err)
 	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	alg, err := getAlgorithm(e.Option)
+	if err != nil {
+		return input, err
+	}
 
-	tokenStr, err := token.SignedString([]byte(e.Option))
+	token := jwt.NewWithClaims(alg, claims)
+
+	tokenStr, err := token.SignedString([]byte(e.Key))
 	if err != nil {
 		return input, fmt.Errorf("Error signing token: %v", err)
 	}
 
 	return tokenStr, nil
+}
+
+func getAlgorithm(agName string) (jwt.SigningMethod, error) {
+	algs := map[string]jwt.SigningMethod {
+		"HMAC": jwt.SigningMethodHS256,
+		"HS256": jwt.SigningMethodHS256,
+		"HS384": jwt.SigningMethodHS384,
+		"HS512": jwt.SigningMethodHS512,
+		"ECDSA": jwt.SigningMethodES256,
+		"ES256": jwt.SigningMethodES256,
+		"ES384": jwt.SigningMethodES384,
+		"ES512": jwt.SigningMethodES512,
+		"RSA": jwt.SigningMethodRS256,
+		"RS256": jwt.SigningMethodRS256,
+		"RS384": jwt.SigningMethodRS384,
+		"RS512": jwt.SigningMethodRS512,
+	}
+
+	if strings.Trim(agName, " ") == "" {
+		agName = "HMAC"
+	}
+
+	alg, ok := algs[strings.ToUpper(agName)]
+	if !ok {
+		algKeys := make([]string, len(algs))
+		i := 0
+		for k := range algs {
+			algKeys[i] = k
+			i++
+		}
+		return jwt.SigningMethodHS256, fmt.Errorf("No signing algorithm %s, use one of:\n%v", agName, algKeys)
+	}
+
+	return alg, nil
 }
 
 func getTokenJson(token *jwt.Token) (string, error) {

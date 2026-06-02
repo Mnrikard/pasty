@@ -177,7 +177,7 @@ var SubCommands = []SubCommand{
 				HelpText:     "Key",
 				DefaultValue: "",
 				SetValue: func(e *EditorArgs, value string) {
-					e.Option = value
+					e.Key = value
 				},
 			},
 		},
@@ -195,6 +195,14 @@ var SubCommands = []SubCommand{
 				Position:     0,
 				HelpText:     "Key",
 				DefaultValue: "",
+				SetValue: func(e *EditorArgs, value string) {
+					e.Key = value
+				},
+			},
+			{
+				Position:     1,
+				HelpText:     "JWT signing algorithm",
+				DefaultValue: "HS256",
 				SetValue: func(e *EditorArgs, value string) {
 					e.Option = value
 				},
