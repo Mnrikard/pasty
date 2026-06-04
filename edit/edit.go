@@ -12,6 +12,7 @@ type Arg struct {
 	Position     int
 	HelpText     string
 	Options      []string
+	GetOptions   func() []string
 	SetValue     func(*EditorArgs, string)
 	DefaultValue string
 }
@@ -80,15 +81,23 @@ func BuildArguments(cargs []Arg) func(cmd *cobra.Command, args []string, toCompl
 	return func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
 		for _, carg := range cargs {
 			if carg.Position == len(args) {
+				if len(carg.Options) > 0 {
+					return carg.Options, cobra.ShellCompDirectiveNoFileComp
+				}
+
+				if carg.GetOptions != nil {
+					opts := carg.GetOptions()
+					if len(opts) > 0 {
+						return opts, cobra.ShellCompDirectiveNoFileComp
+					}
+				}
+
 				if carg.HelpText != "" {
 					return cobra.AppendActiveHelp(
 						nil,
 						carg.HelpText), cobra.ShellCompDirectiveNoFileComp
 				}
 
-				if len(carg.Options) > 0 {
-					return carg.Options, cobra.ShellCompDirectiveNoFileComp
-				}
 			}
 		}
 

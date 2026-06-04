@@ -1,12 +1,12 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/Mnrikard/pasty/edit"
 	"github.com/Mnrikard/pasty/switches"
 	"github.com/Mnrikard/pasty/text"
+	"github.com/Mnrikard/pasty/util"
 	"github.com/spf13/cobra"
 )
 
@@ -17,7 +17,7 @@ var rootCmd = &cobra.Command{
 
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
+		util.Notify(err.Error())
 		os.Exit(1)
 	}
 }

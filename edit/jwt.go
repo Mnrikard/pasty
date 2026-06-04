@@ -82,8 +82,8 @@ func (e *EditorArgs) JwtEncode(input string) (string, error) {
 	return tokenStr, nil
 }
 
-func getAlgorithm(agName string) (jwt.SigningMethod, error) {
-	algs := map[string]jwt.SigningMethod {
+func allowedAlgorithms() (map[string]jwt.SigningMethod) {
+	return map[string]jwt.SigningMethod {
 		"HMAC": jwt.SigningMethodHS256,
 		"HS256": jwt.SigningMethodHS256,
 		"HS384": jwt.SigningMethodHS384,
@@ -97,19 +97,29 @@ func getAlgorithm(agName string) (jwt.SigningMethod, error) {
 		"RS384": jwt.SigningMethodRS384,
 		"RS512": jwt.SigningMethodRS512,
 	}
+}
 
+func JwtSigningMethods() []string {
+	i := 0;
+	sm := allowedAlgorithms()
+	output := make([]string, len(sm))
+	for k := range sm {
+		output[i] = k
+		i++
+	}
+
+	return output
+}
+
+func getAlgorithm(agName string) (jwt.SigningMethod, error) {
+	algs := allowedAlgorithms()
 	if strings.Trim(agName, " ") == "" {
 		agName = "HMAC"
 	}
 
 	alg, ok := algs[strings.ToUpper(agName)]
 	if !ok {
-		algKeys := make([]string, len(algs))
-		i := 0
-		for k := range algs {
-			algKeys[i] = k
-			i++
-		}
+		algKeys := JwtSigningMethods()
 		return jwt.SigningMethodHS256, fmt.Errorf("No signing algorithm %s, use one of:\n%v", agName, algKeys)
 	}
 
