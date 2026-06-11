@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"github.com/Mnrikard/pasty/switches"
 )
 
 type UDF struct {
@@ -16,8 +18,9 @@ type UDF struct {
 }
 
 type UdfSubCommand struct {
-	Name string   `json:"name"`
-	Args []string `json:"args"`
+	Name     string   `json:"name"`
+	Args     []string `json:"args"`
+	Switches []string `json:"switches"`
 }
 
 type UdfParameter struct {
@@ -66,6 +69,7 @@ func (e *EditorArgs) ExecuteUdf(input string) (string, error) {
 
 		subEditArgs := &EditorArgs{}
 		subEditArgs.GetArguments(editor.ArgDefs, subCmd.Args)
+		registerSwitches(subCmd, subEditArgs)
 		editFunc := editor.EditFunc(subEditArgs)
 		input, err = editFunc(input)
 		if err != nil {
@@ -125,6 +129,29 @@ func registerParameters(udf *UDF, args []string) error {
 	}
 
 	return nil
+}
+
+func registerSwitches(udf UdfSubCommand, e *EditorArgs)  {
+	sw := &switches.Switches{}
+	for _, s := range udf.Switches {
+		switch s {
+		case "m":
+			sw.MultiLine = true
+		case "s":
+			sw.SingleLine = true
+		case "I":
+			sw.CaseSensitive = true
+		case "U":
+			sw.Ungreedy = true
+		case "o":
+			sw.GrepOnlyMatching = true
+		case "v":
+			sw.Invert = true
+		}
+	}
+
+	e.Switches = sw
+	e.PrependRegex()
 }
 
 func replaceParameters(udf *UDF) {
