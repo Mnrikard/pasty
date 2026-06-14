@@ -8,10 +8,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var existingFlagsRx = regexp.MustCompile("^\\(\\?([sUmi]+)(-([sUmi]+))?\\)")
+
 type Arg struct {
 	Position     int
 	HelpText     string
 	Options      []string
+	GetOptions   func() []string
 	SetValue     func(*EditorArgs, string)
 	DefaultValue string
 }
@@ -31,6 +34,7 @@ type EditorArgs struct {
 }
 
 func (e *EditorArgs) PrependRegex() {
+	readExistingFlags(e)
 	sw := make([]string, 0)
 	if e.Switches == nil {
 		return
@@ -50,6 +54,42 @@ func (e *EditorArgs) PrependRegex() {
 
 	if len(sw) > 0 {
 		e.Regex = "(?" + strings.Join(sw, "") + ")" + e.Regex
+	}
+}
+
+func readExistingFlags(e *EditorArgs) {
+	existingFlags := existingFlagsRx.FindStringSubmatch(e.Regex)
+	if existingFlags == nil {
+		return
+	}
+	e.Regex = existingFlagsRx.ReplaceAllString(e.Regex, "")
+
+	onFlags := existingFlags[1]
+	offFlags := existingFlags[3]
+
+	if strings.Contains(onFlags, "i") {
+		e.Switches.CaseSensitive = false
+	}
+	if strings.Contains(onFlags, "s") {
+		e.Switches.SingleLine = true
+	}
+	if strings.Contains(onFlags, "m") {
+		e.Switches.MultiLine = true
+	}
+	if strings.Contains(onFlags, "U") {
+		e.Switches.Ungreedy = true
+	}
+	if strings.Contains(offFlags, "i") {
+		e.Switches.CaseSensitive = true
+	}
+	if strings.Contains(offFlags, "s") {
+		e.Switches.SingleLine = false
+	}
+	if strings.Contains(offFlags, "m") {
+		e.Switches.MultiLine = false
+	}
+	if strings.Contains(offFlags, "U") {
+		e.Switches.Ungreedy = false
 	}
 }
 
@@ -80,15 +120,23 @@ func BuildArguments(cargs []Arg) func(cmd *cobra.Command, args []string, toCompl
 	return func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
 		for _, carg := range cargs {
 			if carg.Position == len(args) {
+				if len(carg.Options) > 0 {
+					return carg.Options, cobra.ShellCompDirectiveNoFileComp
+				}
+
+				if carg.GetOptions != nil {
+					opts := carg.GetOptions()
+					if len(opts) > 0 {
+						return opts, cobra.ShellCompDirectiveNoFileComp
+					}
+				}
+
 				if carg.HelpText != "" {
 					return cobra.AppendActiveHelp(
 						nil,
 						carg.HelpText), cobra.ShellCompDirectiveNoFileComp
 				}
 
-				if len(carg.Options) > 0 {
-					return carg.Options, cobra.ShellCompDirectiveNoFileComp
-				}
 			}
 		}
 

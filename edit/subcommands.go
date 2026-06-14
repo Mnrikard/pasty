@@ -193,7 +193,7 @@ var SubCommands = []SubCommand{
 		ArgDefs: []Arg{
 			{
 				Position:     0,
-				HelpText:     "Key",
+				HelpText:     "Signing Key",
 				DefaultValue: "",
 				SetValue: func(e *EditorArgs, value string) {
 					e.Key = value
@@ -203,6 +203,7 @@ var SubCommands = []SubCommand{
 				Position:     1,
 				HelpText:     "JWT signing algorithm",
 				DefaultValue: "HS256",
+				GetOptions: JwtSigningMethods,
 				SetValue: func(e *EditorArgs, value string) {
 					e.Option = value
 				},
@@ -328,7 +329,7 @@ var SubCommands = []SubCommand{
 	Example: pasty insert mydb.dbo.mytable
 	>> insert into [mydb].[dbo].[mytable] (col1, col2) values ('val1','val2');
 `,
-		Args: cobra.MinimumNArgs(2),
+		Args: cobra.MinimumNArgs(1),
 		ArgDefs: []Arg{
 			{
 				Position: 0,
@@ -370,7 +371,7 @@ var SubCommands = []SubCommand{
 	>>   'name':'value;
 	>> }
 `,
-		Args: cobra.MinimumNArgs(0),
+		Args: cobra.MinimumNArgs(1),
 		ArgDefs: []Arg{
 			{
 				Position: 0,
