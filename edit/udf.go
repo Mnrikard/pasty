@@ -66,6 +66,12 @@ func (e *EditorArgs) ExecuteUdf(input string) (string, error) {
 		if editor == nil {
 			return "", fmt.Errorf("Sub Command %q not found", subCmd.Name)
 		}
+		if editor.Name == "udf" {
+			editor.EditFunc = func(e *EditorArgs) func(string) (string, error) { return e.ExecuteUdf }
+		}
+		if editor.Name == "plugin" {
+			editor.EditFunc = func(e *EditorArgs) func(string) (string, error) { return e.HandlePlugin }
+		}
 
 		subEditArgs := &EditorArgs{}
 		subEditArgs.GetArguments(editor.ArgDefs, subCmd.Args)

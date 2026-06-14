@@ -8,6 +8,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var existingFlagsRx = regexp.MustCompile("^\\(\\?([sUmi]+)(-([sUmi]+))?\\)")
+
 type Arg struct {
 	Position     int
 	HelpText     string
@@ -32,6 +34,7 @@ type EditorArgs struct {
 }
 
 func (e *EditorArgs) PrependRegex() {
+	readExistingFlags(e)
 	sw := make([]string, 0)
 	if e.Switches == nil {
 		return
@@ -51,6 +54,41 @@ func (e *EditorArgs) PrependRegex() {
 
 	if len(sw) > 0 {
 		e.Regex = "(?" + strings.Join(sw, "") + ")" + e.Regex
+	}
+}
+
+func readExistingFlags(e *EditorArgs) {
+	existingFlags := existingFlagsRx.FindStringSubmatch(e.Regex)
+	if existingFlags == nil {
+		return
+	}
+
+	onFlags := existingFlags[1]
+	offFlags := existingFlags[3]
+
+	if strings.Contains(onFlags, "i") {
+		e.Switches.CaseSensitive = false
+	}
+	if strings.Contains(onFlags, "s") {
+		e.Switches.SingleLine = true
+	}
+	if strings.Contains(onFlags, "m") {
+		e.Switches.MultiLine = true
+	}
+	if strings.Contains(onFlags, "u") {
+		e.Switches.Ungreedy = true
+	}
+	if strings.Contains(offFlags, "i") {
+		e.Switches.CaseSensitive = true
+	}
+	if strings.Contains(offFlags, "s") {
+		e.Switches.SingleLine = false
+	}
+	if strings.Contains(offFlags, "m") {
+		e.Switches.MultiLine = false
+	}
+	if strings.Contains(offFlags, "u") {
+		e.Switches.Ungreedy = false
 	}
 }
 
