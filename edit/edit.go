@@ -1,7 +1,6 @@
 package edit
 
 import (
-	"log"
 	"regexp"
 	"strings"
 
@@ -35,7 +34,6 @@ type EditorArgs struct {
 }
 
 func (e *EditorArgs) PrependRegex() {
-	log.Printf("regex sss: %v\n", e.Regex)
 	readExistingFlags(e)
 	sw := make([]string, 0)
 	if e.Switches == nil {
@@ -57,7 +55,6 @@ func (e *EditorArgs) PrependRegex() {
 	if len(sw) > 0 {
 		e.Regex = "(?" + strings.Join(sw, "") + ")" + e.Regex
 	}
-	log.Printf("regex eee: %v\n", e.Regex)
 }
 
 func readExistingFlags(e *EditorArgs) {
