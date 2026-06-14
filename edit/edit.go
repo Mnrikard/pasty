@@ -1,6 +1,7 @@
 package edit
 
 import (
+	"log"
 	"regexp"
 	"strings"
 
@@ -34,6 +35,7 @@ type EditorArgs struct {
 }
 
 func (e *EditorArgs) PrependRegex() {
+	log.Printf("regex sss: %v\n", e.Regex)
 	readExistingFlags(e)
 	sw := make([]string, 0)
 	if e.Switches == nil {
@@ -55,6 +57,7 @@ func (e *EditorArgs) PrependRegex() {
 	if len(sw) > 0 {
 		e.Regex = "(?" + strings.Join(sw, "") + ")" + e.Regex
 	}
+	log.Printf("regex eee: %v\n", e.Regex)
 }
 
 func readExistingFlags(e *EditorArgs) {
@@ -62,6 +65,7 @@ func readExistingFlags(e *EditorArgs) {
 	if existingFlags == nil {
 		return
 	}
+	e.Regex = existingFlagsRx.ReplaceAllString(e.Regex, "")
 
 	onFlags := existingFlags[1]
 	offFlags := existingFlags[3]
@@ -75,7 +79,7 @@ func readExistingFlags(e *EditorArgs) {
 	if strings.Contains(onFlags, "m") {
 		e.Switches.MultiLine = true
 	}
-	if strings.Contains(onFlags, "u") {
+	if strings.Contains(onFlags, "U") {
 		e.Switches.Ungreedy = true
 	}
 	if strings.Contains(offFlags, "i") {
@@ -87,7 +91,7 @@ func readExistingFlags(e *EditorArgs) {
 	if strings.Contains(offFlags, "m") {
 		e.Switches.MultiLine = false
 	}
-	if strings.Contains(offFlags, "u") {
+	if strings.Contains(offFlags, "U") {
 		e.Switches.Ungreedy = false
 	}
 }
