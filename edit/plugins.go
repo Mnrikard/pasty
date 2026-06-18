@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/yuin/gluare"
 	"github.com/yuin/gopher-lua"
 )
 
@@ -116,6 +117,8 @@ func (e *EditorArgs) executePlugin(inputText string, inputParams []string) (stri
 			panic(err)
 		}
 	}
+
+	L.PreloadModule("re", gluare.Loader)
 
 	// 3. (Optional) Explicitly remove dangerous functions from Base
 	// Even 'OpenBase' contains 'loadfile' and 'dofile'.
