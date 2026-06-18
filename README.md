@@ -116,6 +116,9 @@ for new UDFs is:
 
 ## Plugins
 
+Many thanks to [github.com/yuin/gopher-lua/](github.com/yuin/gopher-lua/) for their work in making Lua accessible
+from within a go application!
+
 If User Defined Functions don't solve your problem and you need more control over how to manipulate your text, you can
 create your own plugin. 
 
@@ -135,6 +138,17 @@ end
 
 Where the input is a string and the output is also a string. You can manipulate that string within your process
 function and create cool new text modifications.
+
+### Regex library for plugins
+
+You cannot import libraries in your Lua scripts, but pasty has included Go style regex patterns by using `re`. This
+is provided with thanks from [https://github.com/yuin/gluare](https://github.com/yuin/gluare)
+
+It does not need to be imported, simply call one of:
+* `re.find`
+* `re.gsub`
+* `re.match`
+* `re.gmatch`
 
 ## Where is the old nodejs app? Can I still install from npm?
 

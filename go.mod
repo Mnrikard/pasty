@@ -8,7 +8,10 @@ require (
 	github.com/yuin/gopher-lua v1.1.1
 )
 
-require github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
+require (
+	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
+	github.com/yuin/gluare v0.0.0-20170607022532-d7c94f1a80ed // indirect
+)
 
 require (
 	github.com/google/uuid v1.6.0

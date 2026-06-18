@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/yuin/gluare"
 	"github.com/yuin/gopher-lua"
 )
 
@@ -107,13 +108,20 @@ func (e *EditorArgs) executePlugin(inputText string, inputParams []string) (stri
 		{lua.TabLibName, lua.OpenTable},     // Safe
 		{lua.StringLibName, lua.OpenString}, // Safe
 		{lua.MathLibName, lua.OpenMath},     // Safe
+		{"re", gluare.Loader},               // Regexes
 	} {
 		if err := L.CallByParam(lua.P{
 			Fn:      L.NewFunction(pair.f),
-			NRet:    0,
+			NRet:    1,
 			Protect: true,
 		}, lua.LString(pair.n)); err != nil {
 			panic(err)
+		}
+
+		if pair.n == "re" {
+			// global "re" available, but remove it from the Lua env
+			L.SetGlobal("re", L.Get(-1))
+			L.Pop(1)
 		}
 	}
 
