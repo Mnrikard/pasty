@@ -212,6 +212,15 @@ var SubCommands = []SubCommand{
 		EditFunc: func(e *EditorArgs) func(string) (string, error) { return e.JwtEncode },
 	},
 	{
+		Name:  "urlParse",
+		Use:   "urlParse",
+		Short: "Splits a url into its parts for inspection",
+		Long: `Syntax: pasty urlParse
+`,
+		Args:     cobra.MinimumNArgs(0),
+		EditFunc: func(e *EditorArgs) func(string) (string, error) { return e.ParseUrl },
+	},
+	{
 		Name:  "math",
 		Use:   "math",
 		Short: "Evaluates simple math equations",
