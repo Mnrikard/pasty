@@ -15,5 +15,5 @@ require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/spf13/pflag v1.0.9 // indirect
-	golang.org/x/text v0.43.0
+	golang.org/x/text v0.44.0
 )
