@@ -1,4 +1,4 @@
-# .github/workflows/build.yml
+# .github/workflows/build.yaml
 name: Build Go App for Multiple Platforms
 
 on:
@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Bump version and push tag
         id: tag_version
@@ -60,11 +62,17 @@ jobs:
           GOARCH: ${{ matrix.platform.goarch }}
           CGO_ENABLED: 0
         run: |
-          BINARY_NAME=pasty-${{ matrix.platform.goos }}-${{ matrix.platform.goarch }}
+          BASE_NAME=pasty-${{ matrix.platform.goos }}-${{ matrix.platform.goarch }}
+          BINARY_NAME=$BASE_NAME
           if [ "${{ matrix.platform.goos }}" = "windows" ]; then
             BINARY_NAME="${BINARY_NAME}.exe"
           fi
           go build -o ./bin/$BINARY_NAME ./
+
+          # Scoop's autoupdate expects a file containing just the hash,
+          # named <base>.sha256 (e.g. pasty-windows-amd64.sha256)
+          cd bin
+          sha256sum "$BINARY_NAME" | cut -d' ' -f1 > "${BASE_NAME}.sha256"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -91,3 +99,41 @@ jobs:
             ./dist/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  scoop:
+    needs: [tag, release]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pasty-windows-amd64
+          path: ./dist
+
+      - name: Checkout scoop bucket
+        uses: actions/checkout@v4
+        with:
+          repository: Mnrikard/scoop-bucket
+          token: ${{ secrets.SCOOP_BUCKET_TOKEN }}
+          path: bucket
+
+      - name: Patch manifest
+        env:
+          TAG: ${{ needs.tag.outputs.new_tag }}
+        run: |
+          VERSION="${TAG#v}"
+          HASH="$(tr -d '[:space:]' < ./dist/pasty-windows-amd64.sha256)"
+          URL="https://github.com/Mnrikard/pasty/releases/download/${TAG}/pasty-windows-amd64.exe"
+
+          cd bucket
+          jq --arg v "$VERSION" --arg h "$HASH" --arg u "$URL" \
+            '.version = $v
+             | .architecture."64bit".url = $u
+             | .architecture."64bit".hash = $h' \
+            bucket/pasty.json > tmp && mv tmp bucket/pasty.json
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "Update pasty to $VERSION"
+          git push
